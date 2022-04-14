@@ -22,8 +22,8 @@ public class EntryPoint extends Application {
         Fg01ControllerPWD controller = loader.getController() ;
         
         
-        Model model = new Model();
-        controller.setModel(model);  
+        //Model model = new Model();
+        //controller.setModel(model);  
         controller.setStage(stage);
 
         Scene scene = new Scene(root);

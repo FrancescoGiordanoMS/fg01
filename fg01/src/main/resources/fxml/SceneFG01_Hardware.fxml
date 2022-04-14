@@ -15,14 +15,14 @@
                <children>
                   <HBox>
                      <children>
-                        <TableView>
+                        <TableView fx:id="TVHardware">
                           <columns>
                             <TableColumn fx:id="col_matricola" prefWidth="75.0" text="Matricola" />
                             <TableColumn fx:id="col_tipohw" prefWidth="75.0" text="Tipo hw" />
                               <TableColumn fx:id="col_marca" prefWidth="75.0" text="Marca" />
                               <TableColumn fx:id="col_modello" prefWidth="75.0" text="Modello" />
                               <TableColumn fx:id="col_dataacquisto" prefWidth="75.0" text="Data Acquisto" />
-                              <TableColumn fx:id="col_prezzo" prefWidth="75.0" text="Prezzo Acquisto" />
+                              <TableColumn fx:id="col_prezzoacquisto" prefWidth="75.0" text="Prezzo Acquisto" />
                           </columns>
                         </TableView>
                      </children>

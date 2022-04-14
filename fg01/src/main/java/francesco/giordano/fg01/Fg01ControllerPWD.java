@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import francesco.giordano.fg01.model.Model;
+import francesco.giordano.fg01.model.ModelHardware;
+//import francesco.giordano.fg01.model.ModelHardware;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,7 +47,7 @@ public class Fg01ControllerPWD {
 
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
-	private Model model=null;
+	private ModelHardware model=null;
 	private Stage stage = null;
 	
     @FXML
@@ -55,10 +56,11 @@ public class Fg01ControllerPWD {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SceneFG01_Hardware.fxml")) ;
 		root = loader.load();
         Fg01ControllerHardware controller = loader.getController() ;
-        Model model = new Model();
-        //controller.setModel(model);  
+        ModelHardware model = new ModelHardware();
+        controller.setModel(model);  
         controller.setStage(stage);
         controller.setParentScene(stage.getScene());
+        controller.setTableView();
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");        
         stage.setTitle("JavaFX and Maven");
@@ -67,29 +69,10 @@ public class Fg01ControllerPWD {
     }
 
 	@FXML
-	void handleConferma(ActionEvent event) {
-			try {
-		        BorderPane root;
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SceneFG01_Hardware.fxml")) ;
-				root = loader.load();
-		        Fg01ControllerHardware controller = loader.getController() ;
-		        Model model = new Model();
+	void handleConferma(ActionEvent event) throws IOException {
 		        Grid.setVisible(false);
 		        _mMenu.setDisable(false);
-		        
-		        //controller.setModel(model);  
-		        //controller.setStage(stage);
-//		        Scene scene = new Scene(root);
-//		        scene.getStylesheets().add("/styles/Styles.css");        
-//		        stage.setTitle("JavaFX and Maven");
-//		        stage.setScene(scene);
 		        stage.show();
-		        
-	
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	        
 
 	}
@@ -100,7 +83,7 @@ public class Fg01ControllerPWD {
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
-	public void setModel(Model m) {
+	public void setModel(ModelHardware m) {
 		this.model = m;
 	}
 
