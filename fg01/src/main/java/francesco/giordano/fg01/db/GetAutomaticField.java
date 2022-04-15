@@ -42,6 +42,11 @@ public class GetAutomaticField {
 					m=c.getMethod(setMethod,cArg);
 					rv = m.invoke(sig, res2.getInt(ix));
 					break;
+				case "FLOAT":
+					cArg[0] = float.class;
+					m=c.getMethod(setMethod,cArg);
+					rv = m.invoke(sig, res2.getFloat(ix));
+					break;
 				case "DATETIME":
 					cArg[0] = LocalDate.class;
 					m=c.getMethod(setMethod,cArg);
@@ -58,7 +63,7 @@ public class GetAutomaticField {
 		catch (SQLException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {

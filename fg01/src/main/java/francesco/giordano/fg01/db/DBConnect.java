@@ -9,14 +9,14 @@ public class DBConnect {
 	private static Connection conn;
 	
 	public static Connection getConnection() throws SQLException {
-		String jdbcURL = "jdbc:mysql://localhost/ufo_sightings?user=root&password=pwdMySql60@";
+		String jdbcURL = "jdbc:mysql://localhost/giordano?user=root&password=pwdMySql60@";
 		conn=DriverManager.getConnection(jdbcURL) ;
 		//return DriverManager.getConnection(jdbcURL) ;
 		return conn ;
 	}
 	
 	public static Connection getConnectMaria() throws SQLException {
-		String jdbcURL = "jdbc:mariadb://localhost:3306/ufo_sightings?user=root&password=pwdMySql60@";
+		String jdbcURL = "jdbc:mariadb://localhost:3306/giordano?user=root&password=pwdMySql60@";
 		conn=DriverManager.getConnection(jdbcURL) ;
 		//return DriverManager.getConnection(jdbcURL) ;
 		return conn ;

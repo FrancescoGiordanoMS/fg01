@@ -13,18 +13,21 @@ private LocalDate dataacquisto;
 private float prezzoacquisto;
 private Blob immagine;
 
-public Hardware(String matricola, String tipohw, String marca, String modello, LocalDate dataacquisto,
-		float prezzoacquisto, Blob immagine) {
-	super();
-	this.matricola = matricola;
-	this.tipohw = tipohw;
-	this.marca = marca;
-	this.modello = modello;
-	this.dataacquisto = dataacquisto;
-	this.prezzoacquisto = prezzoacquisto;
-	this.immagine = immagine;
-}
+//public Hardware(String matricola, String tipohw, String marca, String modello, LocalDate dataacquisto,
+//		float prezzoacquisto, Blob immagine) {
+//	super();
+//	this.matricola = matricola;
+//	this.tipohw = tipohw;
+//	this.marca = marca;
+//	this.modello = modello;
+//	this.dataacquisto = dataacquisto;
+//	this.prezzoacquisto = prezzoacquisto;
+//	this.immagine = immagine;
+//}
 
+public Hardware() {
+	super();
+}
 
 
 

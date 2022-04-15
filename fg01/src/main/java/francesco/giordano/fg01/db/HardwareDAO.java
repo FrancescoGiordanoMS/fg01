@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import francesco.giordano.fg01.db.DBConnect;
 import francesco.giordano.fg01.db.GetAutomaticField;
@@ -18,7 +19,7 @@ public class HardwareDAO {
 		Hardware sig;
 		GetAutomaticField ga = new GetAutomaticField();
 		try {
-			String sql2 = "SELECT id,city,shape, datetime, BinaryField, TypeBinary FROM Hardware";
+			String sql2 = "SELECT * FROM Hardware";
 			Connection conn = DBConnect.getConnection();
 			PreparedStatement st2 = conn.prepareStatement(sql2);
 			ResultSet res = st2.executeQuery() ;
@@ -42,4 +43,36 @@ public class HardwareDAO {
 		}
 		return(obs);
 	}
+
+	public boolean DBModify(Hardware Record) {
+		boolean ret=true;
+		try {
+			Connection conn = DBConnect.getConnection();
+
+			String sql = "update hardware set "+
+						"tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
+						"prezzoacquisto = ? where matricola = ?";
+
+			PreparedStatement st2 = conn.prepareStatement(sql);
+			st2.setString(1, Record.getTipohw());
+			st2.setString(2,Record.getMarca());
+			st2.setString(3,Record.getModello());
+			st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
+			st2.setFloat(5, Record.getPrezzoacquisto());
+			st2.setString(6, Record.getMatricola());
+			ret = st2.execute() ;
+
+			st2.close();
+			conn.close();
+			return(ret);
+
+		} catch(SQLException e) {
+			throw new RuntimeException("Database Error updating Hardware table", e);
+			//return(false);
+		}
+		//return(false);
+	}
+
 }
+
+
