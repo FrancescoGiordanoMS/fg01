@@ -1,8 +1,11 @@
 package francesco.giordano.fg01;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 //import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.TypeVariable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +13,7 @@ import java.util.List;
 import fglib.setFormFields;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.ModelHardware;
+import it.polito.tdp.ufo.FXMLController.StatoButtonSave;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -95,23 +99,26 @@ public class Fg01ControllerHardware extends setFormFields{
 	@FXML
 	private MenuItem MenuItem_Close;
 
-	private Scene parentScene;
-	private Stage stage;
-	private ObservableList<Hardware> obs = FXCollections.observableArrayList();
+	//--------------------------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------------------------
+
+//	private ObservableList<Hardware> obs = FXCollections.observableArrayList();
+
 	private ModelHardware model;
-
-
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
-
-	@FXML
-	void handleClose(ActionEvent event) {
-		this.stage.setScene(parentScene);
-		this.stage.show();
-	}
-
-	@FXML
-	void handleModifica(ActionEvent event) {
+//	@FXML
+//	void handleClose(ActionEvent event) {
+//		this.stage.setScene(parentScene);
+//		this.stage.show();
+//	}
+	
+	@Override
+	protected void SalvaModifiche() {
+		
+		test();
+		
+		
 		int index = TVHardware.getSelectionModel().getSelectedIndex();
 		if (index >= 0) {
 			Hardware rec = TVHardware.getSelectionModel().getSelectedItem();
@@ -123,21 +130,96 @@ public class Fg01ControllerHardware extends setFormFields{
 			//rec.setImage(IMV.getImage());
 			model.DBModify(rec);
 			TVHardware.refresh();
+		}		
+	}
+	
+	protected void test() {
+		String setMethod="", nomeField="", typeField="";
+		int index = TVHardware.getSelectionModel().getSelectedIndex();
+		if (index >= 0) {
+			Hardware rec = TVHardware.getSelectionModel().getSelectedItem();
+			Class<?> c = rec.getClass();
+			Class[] cArg = new Class[1];
+			Method m = null;
+			Object rv = null;
+			List<Field> privateFields = new ArrayList<>();
+			Field[] allFields = this.getClass().getDeclaredFields();
+			for (Field field : allFields) {
+		        field.setAccessible(true);
+				if (Modifier.isPrivate(field.getModifiers()) && 
+						(field.getName().substring(0,2).equals("_m") ) ||
+						(field.getName().substring(0,2).equals("_k") )){
+					
+					nomeField=field.getName();
+					setMethod = "set" + nomeField.substring(2, 3).toUpperCase() + nomeField.substring(3, nomeField.length());
+	
+					// questa mi restituisce array con variabili e tipi del bean
+					//Field[] ff = rec.getClass().getDeclaredFields();
+					Field ff;
+					try {
+						ff = rec.getClass().getDeclaredField("marca");
+						//System.out.println(ff.getType().getTypeName());
+						typeField = ff.getType().getTypeName();
+
+					} catch (NoSuchFieldException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SecurityException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}							
+					
+					switch(typeField) {
+					case "java.lang.String":
+						cArg[0] = String.class;
+						try {
+							TextField tf = (TextField)field.get(this);
+							m=c.getMethod(setMethod,cArg);
+							rv = m.invoke(rec, tf.getText());
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (NoSuchMethodException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (SecurityException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						break;
+					}
+
+				}
+		        field.setAccessible(false);
+			}
+
 		}
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
-	public void setParentScene(Scene scene) {
-		this.parentScene=scene;
-	}
-	public void setStage(Stage s) {
-		this.stage=s;
-	}
-
 	public void setModel(ModelHardware m) {
 		this.model=m;
 	}
+		
 	public void setTableView() {
 		ObservableList<Hardware> obs;
 		obs=model.getRighe();
@@ -174,17 +256,9 @@ public class Fg01ControllerHardware extends setFormFields{
 			if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
 				_mPrezzo.setText(oldValue);	
 			};
-		});
-		
+		});		
 		disabilitaControlli();  // super: setFormField Class
-		//disableControl();
-		System.out.println("Vedi lista variabili _m*");
 		
-//		for (Field field : privateFields) {
-//			field.setReadonly(false);
-//		}
-//		_kMatricola.setDisable(false);
-//		
 		//------------------------------------------------------------------------------
 
 		// vedi http://dgimenes.com/blog/2014/03/06/javafx-formatting-data-in-tableview.html
@@ -202,46 +276,5 @@ public class Fg01ControllerHardware extends setFormFields{
 
 
 	}
-	
-	
-//		private void disableControl() {
-//			List<Field> privateFields = new ArrayList<>();
-//			Field[] allFields = this.getClass().getDeclaredFields();
-//			for (Field field : allFields) {
-//			    if (Modifier.isPrivate(field.getModifiers()) && 
-//			    		(field.getName().substring(0,2).equals("_m") ) ||
-//			    		(field.getName().substring(0,2).equals("_k") ))
-//			    		{
-//			        Class<?> clazz = field.getType();
-//		        	try {
-//			        switch (clazz.getName()) {
-//			        case "javafx.scene.control.TextField":
-//						TextField tf = (TextField)field.get(this);
-//						tf.setEditable(false);
-//			        	break;
-//			        case "javafx.scene.control.DatePicker":
-//			        	DatePicker dp = (DatePicker)field.get(this);
-//			        	//dp.setEditable(false);
-//			        	dp.setDisable(true);
-//			        	dp.setStyle("-fx-opacity: 1.0;");
-//			        	dp.getEditor().setStyle("-fx-opacity: 1.0;");
-//			        	break;        
-//			        }
-//					} catch (IllegalArgumentException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					} catch (IllegalAccessException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}     
-//			        //privateFields.add(field);
-//			        
-//			        
-//			    }
-//			}
-//		}
-//		
-//		private void enableControl() {
-//			
-//		}
+
 }
