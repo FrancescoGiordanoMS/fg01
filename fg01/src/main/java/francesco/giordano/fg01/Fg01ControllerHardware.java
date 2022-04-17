@@ -1,11 +1,13 @@
 package francesco.giordano.fg01;
 
 import java.lang.reflect.Field;
+//import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import fglib.setFormFields;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.ModelHardware;
 import javafx.beans.binding.Bindings;
@@ -17,7 +19,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,8 +31,13 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class Fg01ControllerHardware {
+public class Fg01ControllerHardware extends setFormFields{
 
+//	public Fg01ControllerHardware() {
+//		super();
+//		// TODO Auto-generated constructor stub
+//	}
+	
 	@FXML
 	private TableView<Hardware> TVHardware;
 
@@ -60,13 +69,22 @@ public class Fg01ControllerHardware {
 	private TextField _mModello;
 
 	@FXML
-	private TextField _mMatricola;
+	private TextField _kMatricola;
 
 	@FXML
 	private TextField _mPrezzo;
 
 	@FXML
 	private TextField _mTipoHw;
+
+	@FXML
+	private Label labelErrore;
+	
+	@FXML
+	private Button btnSave;
+	
+	@FXML
+	private Button btnCancel;
 
 	@FXML
 	private DatePicker _mDataAcquisto;
@@ -76,8 +94,6 @@ public class Fg01ControllerHardware {
 
 	@FXML
 	private MenuItem MenuItem_Close;
-
-
 
 	private Scene parentScene;
 	private Stage stage;
@@ -140,7 +156,7 @@ public class Fg01ControllerHardware {
 
 		TVHardware.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newVal) -> {
 			if (newVal != null) {
-				_mMatricola.setText(newVal.getMatricola());
+				_kMatricola.setText(newVal.getMatricola());
 				_mTipoHw.setText(newVal.getTipohw());
 				_mMarca.setText(newVal.getMarca());
 				_mModello.setText(newVal.getModello());
@@ -160,15 +176,15 @@ public class Fg01ControllerHardware {
 			};
 		});
 		
-		List<Field> privateFields = new ArrayList<>();
-		Field[] allFields = this.getClass().getDeclaredFields();
-		for (Field field : allFields) {
-		    if (Modifier.isPrivate(field.getModifiers()) && field.getName().substring(0,2).equals("_m") ) {
-		        privateFields.add(field);
-		    }
-		}
+		disabilitaControlli();  // super: setFormField Class
+		//disableControl();
 		System.out.println("Vedi lista variabili _m*");
 		
+//		for (Field field : privateFields) {
+//			field.setReadonly(false);
+//		}
+//		_kMatricola.setDisable(false);
+//		
 		//------------------------------------------------------------------------------
 
 		// vedi http://dgimenes.com/blog/2014/03/06/javafx-formatting-data-in-tableview.html
@@ -186,4 +202,46 @@ public class Fg01ControllerHardware {
 
 
 	}
+	
+	
+//		private void disableControl() {
+//			List<Field> privateFields = new ArrayList<>();
+//			Field[] allFields = this.getClass().getDeclaredFields();
+//			for (Field field : allFields) {
+//			    if (Modifier.isPrivate(field.getModifiers()) && 
+//			    		(field.getName().substring(0,2).equals("_m") ) ||
+//			    		(field.getName().substring(0,2).equals("_k") ))
+//			    		{
+//			        Class<?> clazz = field.getType();
+//		        	try {
+//			        switch (clazz.getName()) {
+//			        case "javafx.scene.control.TextField":
+//						TextField tf = (TextField)field.get(this);
+//						tf.setEditable(false);
+//			        	break;
+//			        case "javafx.scene.control.DatePicker":
+//			        	DatePicker dp = (DatePicker)field.get(this);
+//			        	//dp.setEditable(false);
+//			        	dp.setDisable(true);
+//			        	dp.setStyle("-fx-opacity: 1.0;");
+//			        	dp.getEditor().setStyle("-fx-opacity: 1.0;");
+//			        	break;        
+//			        }
+//					} catch (IllegalArgumentException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (IllegalAccessException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}     
+//			        //privateFields.add(field);
+//			        
+//			        
+//			    }
+//			}
+//		}
+//		
+//		private void enableControl() {
+//			
+//		}
 }

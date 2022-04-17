@@ -27,6 +27,15 @@
                         </TableView>
                      </children>
                   </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="LabelErrore" text="Messaggi di errore">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
                   <HBox prefHeight="167.0" prefWidth="452.0">
                      <children>
                         <GridPane fx:id="Grid" hgap="5.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="215.0" prefWidth="402.0" vgap="5.0">
@@ -48,13 +57,16 @@
                               <Label text="Marca" GridPane.rowIndex="2" />
                               <Label text="Modello" GridPane.rowIndex="3" />
                               <Label text="Data Acquisto" GridPane.rowIndex="4" />
-                              <TextField fx:id="_mMatricola" GridPane.columnIndex="1" />
+                              <TextField fx:id="_kMatricola" editable="false" GridPane.columnIndex="1" />
                               <TextField fx:id="_mTipoHw" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <TextField fx:id="_mMarca" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <TextField fx:id="_mPrezzo" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                               <Label text="Prezzo" GridPane.rowIndex="5" />
                               <TextField fx:id="_mModello" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <DatePicker fx:id="_mDataAcquisto" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <DatePicker fx:id="_mDataAcquisto" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets></DatePicker>
                            </children>
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -105,4 +117,25 @@
         </menus>
       </MenuBar>
    </top>
+   <bottom>
+      <HBox prefWidth="799.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="41.0" prefWidth="813.0" />
+            <HBox prefHeight="41.0">
+               <children>
+                  <Button fx:id="btnSave" mnemonicParsing="false" text="Save">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnCancel" alignment="BOTTOM_RIGHT" mnemonicParsing="false" text="Cancel">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>
