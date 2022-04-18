@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import fglib.ReadModifiedFields;
 import fglib.setFormFields;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.ModelHardware;
@@ -117,7 +118,11 @@ public class Fg01ControllerHardware extends setFormFields{
 	protected void SalvaModifiche() {
 		Hardware rec=null;
 		int index = TVHardware.getSelectionModel().getSelectedIndex(); // indice di riga tableView correntemente selezionata
-		rec=(Hardware)test(index, TVHardware.getSelectionModel().getSelectedItem());
+		
+		ReadModifiedFields rmf = new ReadModifiedFields(index, TVHardware.getSelectionModel().getSelectedItem());
+		rec=(Hardware)rmf.Read();
+		
+		//rec=(Hardware)LeggiCampiFormModificati(index, TVHardware.getSelectionModel().getSelectedItem());
 		model.DBModify(rec);
 		TVHardware.refresh();
 
@@ -141,7 +146,7 @@ public class Fg01ControllerHardware extends setFormFields{
 	 * @param rec	- Il record della classe bean interessata in cui ci sono i valori da modificare prima delle modifiche utente
 	 * @return		- Il record della classe bean interessata in cui ci sono i valori modificati da salvare
 	 */
-	protected Object test(int index, Object rec) {
+	protected Object LeggiCampiFormModificati(int index, Object rec) {
 		//Hardware rec = null;
 		DatePicker dp = null;
 		String setMethod="", nomeField="", typeField="",nomeFieldBean="";
