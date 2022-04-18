@@ -10,11 +10,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import fglib.ReadModifiedFields;
 import fglib.setFormFields;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.ModelHardware;
-//import it.polito.tdp.ufo.FXMLController.StatoButtonSave;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -37,11 +35,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class Fg01ControllerHardware extends setFormFields{
-
-	//	public Fg01ControllerHardware() {
-	//		super();
-	//		// TODO Auto-generated constructor stub
-	//	}
 
 	@FXML
 	private TableView<Hardware> TVHardware;
@@ -92,7 +85,7 @@ public class Fg01ControllerHardware extends setFormFields{
 	private Button btnCancel;
 
 	@FXML
-	private DatePicker _mDataAcquisto;
+	private DatePicker _mDataacquisto;
 
 	@FXML
 	private MenuItem MenuItem_Modifica;
@@ -102,139 +95,16 @@ public class Fg01ControllerHardware extends setFormFields{
 
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
-
-	//	private ObservableList<Hardware> obs = FXCollections.observableArrayList();
-
 	private ModelHardware model;
-	//--------------------------------------------------------------------------------------------------------------
-	//--------------------------------------------------------------------------------------------------------------
-	//	@FXML
-	//	void handleClose(ActionEvent event) {
-	//		this.stage.setScene(parentScene);
-	//		this.stage.show();
-	//	}
 
 	@Override
 	protected void SalvaModifiche() {
 		Hardware rec=null;
-		int index = TVHardware.getSelectionModel().getSelectedIndex(); // indice di riga tableView correntemente selezionata
-		
-		ReadModifiedFields rmf = new ReadModifiedFields(index, TVHardware.getSelectionModel().getSelectedItem());
-		rec=(Hardware)rmf.Read();
-		
-		//rec=(Hardware)LeggiCampiFormModificati(index, TVHardware.getSelectionModel().getSelectedItem());
+		Field[] allFields = this.getClass().getDeclaredFields();
+		rec=(Hardware) ReadModifiedFields(TVHardware.getSelectionModel().getSelectedItem(), allFields);
 		model.DBModify(rec);
 		TVHardware.refresh();
-
-
-		//		int index = TVHardware.getSelectionModel().getSelectedIndex();
-		//		if (index >= 0) {
-		//			Hardware rec = TVHardware.getSelectionModel().getSelectedItem();
-		//			rec.setModello(_mModello.getText());
-		//			rec.setTipohw(_mTipoHw.getText());
-		//			rec.setMarca(_mMarca.getText());
-		//			rec.setPrezzoacquisto(Float.valueOf(_mPrezzoacquisto.getText()));
-		//			rec.setDataacquisto(_mDataAcquisto.getValue());
-		//			//rec.setImage(IMV.getImage());
-		//			model.DBModify(rec);
-		//			TVHardware.refresh();
-		//		}		
 	}
-
-	/**
-	 * @param index - Indice di riga della tableView correntemente selezionata
-	 * @param rec	- Il record della classe bean interessata in cui ci sono i valori da modificare prima delle modifiche utente
-	 * @return		- Il record della classe bean interessata in cui ci sono i valori modificati da salvare
-	 */
-	protected Object LeggiCampiFormModificati(int index, Object rec) {
-		//Hardware rec = null;
-		DatePicker dp = null;
-		String setMethod="", nomeField="", typeField="",nomeFieldBean="";
-		if (index >= 0) {
-//			rec = TVHardware.getSelectionModel().getSelectedItem();
-			Class<?> c = rec.getClass();
-			Class[] cArg = new Class[1];
-			Method m = null;
-			Object rv = null;
-			TextField tf = null;
-			List<Field> privateFields = new ArrayList<>();
-			Field[] allFields = this.getClass().getDeclaredFields();
-			for (Field field : allFields) {
-				field.setAccessible(true);
-				if (Modifier.isPrivate(field.getModifiers()) && 
-						(field.getName().substring(0,2).equals("_m") ) ||
-						(field.getName().substring(0,2).equals("_k") )){
-
-					nomeField=field.getName();
-					nomeFieldBean = nomeField.substring(2, nomeField.length()).toLowerCase();
-					setMethod = "set" + nomeField.substring(2, 3).toUpperCase() + nomeField.substring(3, nomeField.length()).toLowerCase();
-
-					Field declaredFieldBean;
-					try {
-						declaredFieldBean = rec.getClass().getDeclaredField(nomeFieldBean);
-						typeField = declaredFieldBean.getType().getTypeName();
-					} catch (NoSuchFieldException e1) {
-						e1.printStackTrace();
-					} catch (SecurityException e1) {
-						e1.printStackTrace();
-					}							
-
-					try {			
-						switch(typeField) {
-						case "java.lang.String":
-							cArg[0] = String.class;
-							tf = (TextField)field.get(this);
-							m=c.getMethod(setMethod,cArg);
-							rv = m.invoke(rec, tf.getText());		
-							break;
-						case "float":
-							cArg[0] = float.class;
-							tf = (TextField)field.get(this);
-							m=c.getMethod(setMethod,cArg);
-							rv = m.invoke(rec, Float.parseFloat(tf.getText()));		
-							break;
-						case "java.time.LocalDate":
-							cArg[0] = LocalDate.class;
-							dp = (DatePicker)field.get(this);
-							m=c.getMethod(setMethod,cArg);
-							rv = m.invoke(rec, dp.getValue());		
-							break;
-						}
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (NoSuchMethodException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-				}
-				field.setAccessible(false);
-			}
-
-		}
-		return rec;
-	}
-
-
-
-
-
-
-
-
-
-
-
 
 
 	//--------------------------------------------------------------------------------------------------------------
@@ -266,8 +136,9 @@ public class Fg01ControllerHardware extends setFormFields{
 				_mMarca.setText(newVal.getMarca());
 				_mModello.setText(newVal.getModello());
 				_mPrezzoacquisto.setText(String.valueOf(newVal.getPrezzoacquisto()));
-				_mDataAcquisto.setValue(newVal.getDataacquisto());
+				_mDataacquisto.setValue(newVal.getDataacquisto());
 				//IMV.setImage(newVal.getImage());
+				indexTableView=TVHardware.getSelectionModel().getSelectedIndex();
 			}
 		});
 		//------------------------------------------------------------------------------
@@ -281,6 +152,7 @@ public class Fg01ControllerHardware extends setFormFields{
 			};
 		});		
 		disabilitaControlli();  // super: setFormField Class
+		indexTableView=-1;
 
 		//------------------------------------------------------------------------------
 
