@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import francesco.giordano.fg01.Fg01ControllerHardware.StatoButtonSave;
+//import francesco.giordano.fg01.Fg01ControllerHardware.StatoButtonSave;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.ModelHardware;
 import javafx.collections.FXCollections;
