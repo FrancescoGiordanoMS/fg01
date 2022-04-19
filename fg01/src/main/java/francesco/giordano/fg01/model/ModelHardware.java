@@ -1,15 +1,18 @@
 package francesco.giordano.fg01.model;
 
+import java.util.HashMap;
+
+import fglib.RiferimentoCampi;
 import francesco.giordano.fg01.db.HardwareDAO;
 import javafx.collections.ObservableList;
 
 public class ModelHardware {
 //private ObservableList<Hardware> obs;
 	
-public ObservableList<Hardware> getRighe() {
+public ObservableList<Hardware> getRighe(HashMap<String, RiferimentoCampi> MapFieldValue) {
 	ObservableList<Hardware> obs = null;	
 	HardwareDAO dao=new HardwareDAO();
-	obs=dao.getRighe();
+	obs=dao.getRighe(MapFieldValue);
 	return obs;
 }
 

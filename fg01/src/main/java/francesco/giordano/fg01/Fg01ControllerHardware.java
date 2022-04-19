@@ -115,7 +115,7 @@ public class Fg01ControllerHardware extends setFormFields{
 
 	public void setTableView() {
 		ObservableList<Hardware> obs;
-		obs=model.getRighe();
+		obs=model.getRighe(MapFieldValue);
 		this.TVHardware.setItems(obs);
 	}
 
@@ -153,6 +153,9 @@ public class Fg01ControllerHardware extends setFormFields{
 		});		
 		disabilitaControlli();  // super: setFormField Class
 		indexTableView=-1;
+//		MapFieldValue.put("Marca", "HP");
+//		MapFieldValue.put("Prezzo", 230.12);
+		
 
 		//------------------------------------------------------------------------------
 

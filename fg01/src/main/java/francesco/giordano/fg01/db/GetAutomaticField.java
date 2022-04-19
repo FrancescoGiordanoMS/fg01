@@ -1,5 +1,6 @@
 package francesco.giordano.fg01.db;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Blob;
@@ -7,6 +8,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
+
+import fglib.RiferimentoCampi;
 
 public class GetAutomaticField {
 
@@ -14,7 +18,8 @@ public class GetAutomaticField {
 		
 	}
 	
-	public Object getField(Object sig, ResultSet res2) {
+	// CaricaSingoloBeanDaDB
+	public Object getField(Object sig, ResultSet res2, HashMap<String, RiferimentoCampi> MapFieldValue) throws NoSuchFieldException {
 		Class<?> c = sig.getClass();
 		ResultSetMetaData rsmd;
 		Object rv = null;
@@ -25,12 +30,13 @@ public class GetAutomaticField {
 			int columnsNumber = rsmd.getColumnCount();
 			String nameCol, setMethod="", typeField;
 			Class[] cArg = new Class[1];
+			RiferimentoCampi rc = null;
+			Field declaredFieldBean=null;
 
 			for(int ix=1; ix <= columnsNumber; ix++) {
 				nameCol=res2.getMetaData().getColumnName(ix);
 				typeField=res2.getMetaData().getColumnTypeName(ix);
 				setMethod = "set" + nameCol.substring(0, 1).toUpperCase() + nameCol.substring(1, nameCol.length());		
-
 				switch(typeField) {
 				case "VARCHAR":
 					cArg[0] = String.class;
@@ -57,6 +63,14 @@ public class GetAutomaticField {
 					m=c.getMethod(setMethod,cArg);
 					rv = m.invoke(sig, res2.getBlob(ix));
 				}
+				//-----------------------------------------------------------
+				declaredFieldBean = sig.getClass().getDeclaredField(nameCol);
+				rc = new RiferimentoCampi();
+				rc.setFieldType(typeField);
+				rc.setBeanType(declaredFieldBean.getType().getTypeName());
+				rc.setValue(res2.getString(ix));	
+				MapFieldValue.put(nameCol,rc);				
+				//-----------------------------------------------------------
  			} 
 		
 		}

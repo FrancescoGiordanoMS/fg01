@@ -4,8 +4,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.sql.Blob;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import fglib.setFormFields.StatoButtonSave;
@@ -24,6 +29,7 @@ import javafx.stage.Stage;
 
 public class setFormFields {
 
+	protected HashMap<String, RiferimentoCampi> MapFieldValue = new HashMap<>();
 	protected int indexTableView;
 	protected Scene parentScene;
 	protected Stage stage;
@@ -167,53 +173,47 @@ public class setFormFields {
 	 */
 	public Object ReadModifiedFields(Object rec, Field[] allFields) { 
 		DatePicker dp = null;
-		String setMethod="", nomeField="", typeField="",nomeFieldBean="";
+		String setMethod="", nomeField="", typeField="";
 		Class<?> c = rec.getClass();
 		Class[] cArg = new Class[1];
 		Method m = null;
-		Object rv = null;
+		Object rv = null, newValue=null;
+		RiferimentoCampi rc;
 		TextField tf = null;
-		Field declaredFieldBean;
 		for (Field field : allFields) {
 			field.setAccessible(true);
 			if (Modifier.isPrivate(field.getModifiers()) && 
 					(field.getName().substring(0,2).equals("_m") ) ||
 					(field.getName().substring(0,2).equals("_k") )){
 
-				nomeField=field.getName();
-				nomeFieldBean = nomeField.substring(2, nomeField.length()).toLowerCase();
-				setMethod = "set" + nomeField.substring(2, 3).toUpperCase() + nomeField.substring(3, nomeField.length()).toLowerCase();
-
-				try {
-					declaredFieldBean = rec.getClass().getDeclaredField(nomeFieldBean);
-					typeField = declaredFieldBean.getType().getTypeName();
-				} catch (NoSuchFieldException e1) {
-					e1.printStackTrace();
-				} catch (SecurityException e1) {
-					e1.printStackTrace();
-				}							
+				nomeField=field.getName().substring(2, field.getName().length());
+				setMethod = "set" + nomeField.substring(0, 1).toUpperCase() + nomeField.substring(1, nomeField.length()).toLowerCase();
+				rc=MapFieldValue.get(nomeField.toLowerCase());
+				typeField = rc.getBeanType();
 
 				try {			
 					switch(typeField) {
 					case "java.lang.String":
 						cArg[0] = String.class;
 						tf = (TextField)field.get(this);
-						m=c.getMethod(setMethod,cArg);
-						rv = m.invoke(rec, tf.getText());		
+						newValue=tf.getText();
 						break;
 					case "float":
 						cArg[0] = float.class;
 						tf = (TextField)field.get(this);
-						m=c.getMethod(setMethod,cArg);
-						rv = m.invoke(rec, Float.parseFloat(tf.getText()));		
+						newValue=Float.parseFloat(tf.getText());
 						break;
 					case "java.time.LocalDate":
 						cArg[0] = LocalDate.class;
 						dp = (DatePicker)field.get(this);
-						m=c.getMethod(setMethod,cArg);
-						rv = m.invoke(rec, dp.getValue());		
+						newValue=dp.getValue();
 						break;
 					}
+					m=c.getMethod(setMethod,cArg);
+					rv = m.invoke(rec, newValue);		
+					rc.setValue(newValue);
+					MapFieldValue.put(nomeField.toLowerCase(),rc);
+					
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -236,4 +236,6 @@ public class setFormFields {
 		}
 		return rec;
 	}	
+
+
 }
