@@ -58,7 +58,8 @@ public class GetAutomaticField {
 				case "DATETIME":
 					cArg[0] = LocalDate.class;
 					m=c.getMethod(setMethod,cArg);
-					rv = m.invoke(sig, res2.getDate(ix).toLocalDate());
+					if (res2.getDate(ix) != null)
+						rv = m.invoke(sig, res2.getDate(ix).toLocalDate());
 					break;
 				case "BLOB", "LONGBLOB":
 					cArg[0] = Blob.class;

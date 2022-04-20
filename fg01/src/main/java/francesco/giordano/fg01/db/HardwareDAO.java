@@ -92,7 +92,7 @@ public class HardwareDAO {
 			st.setString(2, Record.getTipohw());
 			st.setString(3,Record.getMarca());
 			st.setString(4,Record.getModello());
-			st.setDate(5,java.sql.Date.valueOf(Record.getDataacquisto()));
+			st.setDate(5,(Record.getDataacquisto()==null?null:java.sql.Date.valueOf(Record.getDataacquisto())));
 			st.setFloat(6, Record.getPrezzoacquisto());
 			st.setInt(7, Record.hashCode());
 			ret = st.execute() ;

@@ -238,6 +238,9 @@ public class MyController {
 					case "float":
 						cArg[0] = float.class;
 						tf = (TextField)field.get(this);
+						if (tf.getText().equals("") || tf.getText().equals(null)) {
+							tf.setText("0.0");
+						}
 						newValue=Float.parseFloat(tf.getText());
 						break;
 					case "java.time.LocalDate":
