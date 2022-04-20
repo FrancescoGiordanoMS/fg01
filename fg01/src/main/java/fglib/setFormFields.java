@@ -179,7 +179,8 @@ public class setFormFields {
 		Method m = null;
 		Object rv = null, newValue=null;
 		RiferimentoCampi rc;
-		TextField tf = null;
+		TextField tf = null;	
+
 		for (Field field : allFields) {
 			field.setAccessible(true);
 			if (Modifier.isPrivate(field.getModifiers()) && 
@@ -213,7 +214,7 @@ public class setFormFields {
 					rv = m.invoke(rec, newValue);		
 					rc.setValue(newValue);
 					MapFieldValue.put(nomeField.toLowerCase(),rc);
-					
+
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -237,5 +238,42 @@ public class setFormFields {
 		return rec;
 	}	
 
+
+
+
+
+	public HashMap CreaHashMap(Field[] allFields, Field[] allBean) {
+		HashMap<String, RiferimentoCampi> MapFieldValue = new HashMap<>();
+		String nomeFieldBean=null;
+		RiferimentoCampi rc;
+		for (Field field : allFields) {
+			rc = new RiferimentoCampi();
+			field.setAccessible(true);
+			if (Modifier.isPrivate(field.getModifiers()) && 
+					(field.getName().substring(0,2).equals("_m") ) ||
+					(field.getName().substring(0,2).equals("_k") )){
+				nomeFieldBean=field.getName().substring(2, field.getName().length()).toLowerCase();
+
+				rc.setKey((field.getName().substring(0,2)));		// -k se è un campo chiave della tabella, _m altrimenti
+				//rc.setBeanType(null);
+				//rc.setFieldType(null);
+				rc.setValue(null);
+				MapFieldValue.put(nomeFieldBean, rc);
+			}
+		}
+		Class<?> classeTipo;
+		String stringTipo;
+		for (int s1=0; s1 < allBean.length; s1++) {
+			nomeFieldBean=allBean[s1].getName();
+			classeTipo = allBean[s1].getType();
+			stringTipo = classeTipo.getName();	// type della variabile del bean
+			rc=MapFieldValue.get(nomeFieldBean);
+			if (rc != null) {
+				rc.setBeanType(stringTipo);
+				MapFieldValue.put(nomeFieldBean, rc);
+			}
+		}
+		return MapFieldValue;
+	}
 
 }

@@ -157,6 +157,11 @@ public class Fg01ControllerHardware extends setFormFields{
 //		MapFieldValue.put("Prezzo", 230.12);
 		
 
+			Field[] allFields = this.getClass().getDeclaredFields();
+			Field[] allBean = Hardware.class.getDeclaredFields();
+			MapFieldValue=CreaHashMap(allFields, allBean);
+		System.out.println(MapFieldValue+"\n");
+		
 		//------------------------------------------------------------------------------
 
 		// vedi http://dgimenes.com/blog/2014/03/06/javafx-formatting-data-in-tableview.html

@@ -64,12 +64,12 @@ public class GetAutomaticField {
 					rv = m.invoke(sig, res2.getBlob(ix));
 				}
 				//-----------------------------------------------------------
-				declaredFieldBean = sig.getClass().getDeclaredField(nameCol);
-				rc = new RiferimentoCampi();
-				rc.setFieldType(typeField);
-				rc.setBeanType(declaredFieldBean.getType().getTypeName());
-				rc.setValue(res2.getString(ix));	
-				MapFieldValue.put(nameCol,rc);				
+//				declaredFieldBean = sig.getClass().getDeclaredField(nameCol);
+//				rc = new RiferimentoCampi();
+//				rc.setFieldType(typeField);
+//				rc.setBeanType(declaredFieldBean.getType().getTypeName());
+//				rc.setValue(res2.getString(ix));	
+//				MapFieldValue.put(nameCol,rc);				
 				//-----------------------------------------------------------
  			} 
 		
