@@ -12,27 +12,29 @@ import java.util.HashMap;
 
 import fglib.RiferimentoCampi;
 
+
+/**
+ * @author francesco
+ *
+ */
 public class GetAutomaticField {
 
 	public GetAutomaticField() {
 		
 	}
 	
-	// CaricaSingoloBeanDaDB
-	public Object getField(Object sig, ResultSet res2, HashMap<String, RiferimentoCampi> MapFieldValue) throws NoSuchFieldException {
+	public Object caricaSingoloBean(Object sig, ResultSet res2) {
 		Class<?> c = sig.getClass();
 		ResultSetMetaData rsmd;
 		Object rv = null;
+		Method m = null;
+		String nameCol, setMethod="", typeField;
+		Class[] cArg = new Class[1];
+		//Field declaredFieldBean=null;
 
 		try {
-			Method m = null;
 			rsmd = res2.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
-			String nameCol, setMethod="", typeField;
-			Class[] cArg = new Class[1];
-			RiferimentoCampi rc = null;
-			Field declaredFieldBean=null;
-
 			for(int ix=1; ix <= columnsNumber; ix++) {
 				nameCol=res2.getMetaData().getColumnName(ix);
 				typeField=res2.getMetaData().getColumnTypeName(ix);
@@ -63,14 +65,6 @@ public class GetAutomaticField {
 					m=c.getMethod(setMethod,cArg);
 					rv = m.invoke(sig, res2.getBlob(ix));
 				}
-				//-----------------------------------------------------------
-//				declaredFieldBean = sig.getClass().getDeclaredField(nameCol);
-//				rc = new RiferimentoCampi();
-//				rc.setFieldType(typeField);
-//				rc.setBeanType(declaredFieldBean.getType().getTypeName());
-//				rc.setValue(res2.getString(ix));	
-//				MapFieldValue.put(nameCol,rc);				
-				//-----------------------------------------------------------
  			} 
 		
 		}

@@ -23,4 +23,10 @@ public boolean DBModify(Hardware Record) {
 	return ret;
 }
 
+public boolean DBInsert(Hardware Record) {
+	boolean ret = true;
+	HardwareDAO dao=new HardwareDAO();
+	ret = dao.DBInsert(Record);
+	return ret;
+}
 }

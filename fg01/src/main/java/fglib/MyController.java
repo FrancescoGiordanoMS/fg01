@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import fglib.setFormFields.StatoButtonSave;
+import fglib.MyController.StatoButtonSave;
 //import francesco.giordano.fg01.Fg01ControllerHardware.StatoButtonSave;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.ModelHardware;
@@ -24,12 +24,15 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class setFormFields {
+public class MyController {
 
 	protected HashMap<String, RiferimentoCampi> MapFieldValue = new HashMap<>();
+	protected Field[] allFields; // elenco dei campi della form
 	protected int indexTableView;
 	protected Scene parentScene;
 	protected Stage stage;
@@ -63,6 +66,13 @@ public class setFormFields {
 		}
 	}
 	@FXML
+	void handleMenuItemInserisci(ActionEvent event) {
+		abilitaControlli();
+		ButtonSave=StatoButtonSave.INSERT;	
+		ClearFields(allFields);
+	}
+
+	@FXML
 	void handlebtnCancel(ActionEvent event) {
 		disabilitaControlli();
 		ButtonSave=StatoButtonSave.INDEFINITO;  
@@ -70,10 +80,12 @@ public class setFormFields {
 	@FXML
 	void handlebtnSave(ActionEvent event) {
 		if (ButtonSave==StatoButtonSave.MODIFY) SalvaModifiche();
+		if (ButtonSave==StatoButtonSave.INSERT) SalvaInserimento();
 		disabilitaControlli();
 		ButtonSave=StatoButtonSave.INDEFINITO;	 
 	}
 	protected void SalvaModifiche() {}
+	protected void SalvaInserimento() {}
 
 	protected void disabilitaControlli() {		
 		List<Field> privateFields = new ArrayList<>();
@@ -82,6 +94,8 @@ public class setFormFields {
 			if (Modifier.isPrivate(field.getModifiers()) && 
 					(field.getName().substring(0,2).equals("_m") ) ||
 					(field.getName().substring(0,2).equals("_k") ) ||
+					(field.getName().substring(0,2).equals("TV") ) ||
+					(field.getName().equals("MyMenuBar") ) ||
 					(field.getName().equals("btnSave")) ||
 					(field.getName().equals("btnCancel")) 
 					){
@@ -107,6 +121,15 @@ public class setFormFields {
 					case "javafx.scene.control.Button":
 						Button bt = (Button)field.get(this);
 						bt.setDisable(true);
+						break;
+					case "javafx.scene.control.TableView":
+						TableView tv = (TableView)field.get(this);
+						tv.setDisable(false);
+						break;
+					case "javafx.scene.control.MenuBar":
+						MenuBar mb= (MenuBar)field.get(this);
+						mb.setDisable(false);
+						break;
 					}
 					field.setAccessible(false); 
 				} catch (IllegalArgumentException e) {
@@ -128,6 +151,8 @@ public class setFormFields {
 			if (Modifier.isPrivate(field.getModifiers()) && 
 					(field.getName().substring(0,2).equals("_m") ) ||
 					(field.getName().substring(0,2).equals("_k") ) ||
+					(field.getName().substring(0,2).equals("TV") ) ||
+					(field.getName().equals("MyMenuBar") ) ||
 					(field.getName().equals("btnSave")) ||
 					(field.getName().equals("btnCancel")) 
 					){
@@ -152,6 +177,15 @@ public class setFormFields {
 					case "javafx.scene.control.Button":
 						Button bt = (Button)field.get(this);
 						bt.setDisable(false);
+						break;
+					case "javafx.scene.control.TableView":
+						TableView tv = (TableView)field.get(this);
+						tv.setDisable(true);
+						break;
+					case "javafx.scene.control.MenuBar":
+						MenuBar mb= (MenuBar)field.get(this);
+						mb.setDisable(true);
+						break;
 					}
 					field.setAccessible(false); 
 				} catch (IllegalArgumentException e) {
@@ -167,6 +201,8 @@ public class setFormFields {
 
 	//--------------------------------------------------------------------------------------------
 	/**
+	 * Legge il contenuto dei campi prima di salvarli nel  db e li registra all'interno del bean
+	 * 
 	 * @param 	rec=il bean dei campi da modificare
 	 * @param 	allFields=l'insieme dei campi dichiarati nella form con i valori da modificare	
 	 * @return	rec=il bean con i campi modificati da salvare
@@ -238,6 +274,48 @@ public class setFormFields {
 		return rec;
 	}	
 
+	public void ClearFields(Field[] allFields) { 
+		DatePicker dp = null;
+		String typeField="";
+		TextField tf = null;	
+
+		for (Field field : allFields) {
+			field.setAccessible(true);
+			if (Modifier.isPrivate(field.getModifiers()) && 
+					(field.getName().substring(0,2).equals("_m") ) ||
+					(field.getName().substring(0,2).equals("_k") )){
+				typeField = field.getType().getName();
+				try {			
+					switch(typeField) {
+					case "javafx.scene.control.TextField":
+						tf = (TextField)field.get(this);
+						tf.clear();
+						if(field.getName().substring(0,2).equals("_k")) {
+							tf.setDisable(false);
+							tf.setStyle("-fx-opacity: 1.0;");
+							tf.setStyle("-fx-font-weight: bold;");
+						}
+						break;
+					case "javafx.scene.control.DatePicker":
+						dp = (DatePicker)field.get(this);
+						dp.setValue(null);
+						break;
+					}
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			field.setAccessible(false);
+		}
+	}	
 
 
 

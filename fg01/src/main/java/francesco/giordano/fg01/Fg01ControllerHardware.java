@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import fglib.setFormFields;
+import fglib.MyController;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.ModelHardware;
 import javafx.beans.binding.Bindings;
@@ -25,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,7 +35,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class Fg01ControllerHardware extends setFormFields{
+public class Fg01ControllerHardware extends MyController{
 
 	@FXML
 	private TableView<Hardware> TVHardware;
@@ -88,8 +89,14 @@ public class Fg01ControllerHardware extends setFormFields{
 	private DatePicker _mDataacquisto;
 
 	@FXML
+	private MenuBar MyMenuBar;
+
+	@FXML
 	private MenuItem MenuItem_Modifica;
 
+	@FXML
+	private MenuItem MenuItem_Inserisci;
+	
 	@FXML
 	private MenuItem MenuItem_Close;
 
@@ -106,6 +113,15 @@ public class Fg01ControllerHardware extends setFormFields{
 		TVHardware.refresh();
 	}
 
+	@Override
+	protected void SalvaInserimento() {
+		Hardware rec=null;
+		Field[] allFields = this.getClass().getDeclaredFields();
+		rec=(Hardware) ReadModifiedFields(new Hardware(), allFields);
+		model.DBInsert(rec);
+		TVHardware.refresh();
+	}
+	
 
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
@@ -153,15 +169,15 @@ public class Fg01ControllerHardware extends setFormFields{
 		});		
 		disabilitaControlli();  // super: setFormField Class
 		indexTableView=-1;
-//		MapFieldValue.put("Marca", "HP");
-//		MapFieldValue.put("Prezzo", 230.12);
-		
+		//		MapFieldValue.put("Marca", "HP");
+		//		MapFieldValue.put("Prezzo", 230.12);
 
-			Field[] allFields = this.getClass().getDeclaredFields();
-			Field[] allBean = Hardware.class.getDeclaredFields();
-			MapFieldValue=CreaHashMap(allFields, allBean);
+
+		allFields = this.getClass().getDeclaredFields();
+		Field[] allBean = Hardware.class.getDeclaredFields();
+		MapFieldValue=CreaHashMap(allFields, allBean);
 		System.out.println(MapFieldValue+"\n");
-		
+
 		//------------------------------------------------------------------------------
 
 		// vedi http://dgimenes.com/blog/2014/03/06/javafx-formatting-data-in-tableview.html

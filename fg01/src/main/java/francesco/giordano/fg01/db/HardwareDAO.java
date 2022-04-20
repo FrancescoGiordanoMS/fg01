@@ -21,7 +21,7 @@ public class HardwareDAO {
 	public ObservableList<Hardware> getRighe(HashMap<String, RiferimentoCampi> MapFieldValue) {
 		ObservableList<Hardware> obs = FXCollections.observableArrayList();
 		Hardware sig;
-		GetAutomaticField ga = new GetAutomaticField();
+		GetAutomaticField ga; //= new GetAutomaticField();
 		try {
 			String sql2 = "SELECT * FROM Hardware";
 			Connection conn = DBConnect.getConnection();
@@ -30,7 +30,7 @@ public class HardwareDAO {
 
 			while(res.next()) {
 				ga = new GetAutomaticField();
-				sig=(Hardware)ga.getField(new Hardware(), res,MapFieldValue);
+				sig=(Hardware)ga.caricaSingoloBean(new Hardware(), res);
 				obs.add(sig);
 				}
 			
@@ -42,9 +42,6 @@ public class HardwareDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -80,26 +77,57 @@ public class HardwareDAO {
 		//return(false);
 	}
 
-	public boolean DBModifyNew(Hardware Record) {
+	public boolean DBInsert(Hardware Record) {
 		boolean ret=true;
-		String TableName=Record.getClass().getName();
-		String sql="update "+TableName+" set ";
-		Field[] allFields = Record.getClass().getDeclaredFields();
-		for (Field field : allFields) {
-			if (Modifier.isPrivate(field.getModifiers()) && 
-					(field.getName().substring(0,2).equals("_m") ) ||
-					(field.getName().substring(0,2).equals("_k") )
-					){
-				
-				sql += "tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
-						"prezzoacquisto = ? where matricola = ?";
+		try {
+			Connection conn = DBConnect.getConnection();
 
-			}
-			}
-	
-		
-		return ret;
+			String sql = "INSERT INTO hardware "+
+					"(	 matricola,		tipohw,			marca,			modello, "+
+						"dataacquisto, 	prezzoacquisto,	hashcodehw ) "+
+						"VALUES (?,?,?,?,?,?,?)";
+					
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, Record.getMatricola());
+			st.setString(2, Record.getTipohw());
+			st.setString(3,Record.getMarca());
+			st.setString(4,Record.getModello());
+			st.setDate(5,java.sql.Date.valueOf(Record.getDataacquisto()));
+			st.setFloat(6, Record.getPrezzoacquisto());
+			st.setInt(7, Record.hashCode());
+			ret = st.execute() ;
+
+			st.close();
+			conn.close();
+			return(ret);
+
+		} catch(SQLException e) {
+			throw new RuntimeException("Database Error insert Hardware table", e);
+			//return(false);
+		}
+		//return(false);
 	}
+	
+//	public boolean DBModifyNew(Hardware Record) {
+//		boolean ret=true;
+//		String TableName=Record.getClass().getName();
+//		String sql="update "+TableName+" set ";
+//		Field[] allFields = Record.getClass().getDeclaredFields();
+//		for (Field field : allFields) {
+//			if (Modifier.isPrivate(field.getModifiers()) && 
+//					(field.getName().substring(0,2).equals("_m") ) ||
+//					(field.getName().substring(0,2).equals("_k") )
+//					){
+//				
+//				sql += "tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
+//						"prezzoacquisto = ? where matricola = ?";
+//
+//			}
+//			}
+//	
+//		
+//		return ret;
+//	}
 	
 	
 }
