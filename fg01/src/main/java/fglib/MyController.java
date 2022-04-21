@@ -79,13 +79,21 @@ public class MyController {
 	}	
 	@FXML
 	void handlebtnSave(ActionEvent event) {
-		if (ButtonSave==StatoButtonSave.MODIFY) SalvaModifiche();
-		if (ButtonSave==StatoButtonSave.INSERT) SalvaInserimento();
-		disabilitaControlli();
-		ButtonSave=StatoButtonSave.INDEFINITO;	 
+		if (ButtonSave==StatoButtonSave.MODIFY) {
+			SalvaModifiche();
+			disabilitaControlli();
+			ButtonSave=StatoButtonSave.INDEFINITO;	 
+		}
+		if (ButtonSave==StatoButtonSave.INSERT) {
+			if (SalvaInserimento()) {
+				disabilitaControlli();
+				ButtonSave=StatoButtonSave.INDEFINITO;	 
+			}
+		}
 	}
+	
 	protected void SalvaModifiche() {}
-	protected void SalvaInserimento() {}
+	protected boolean SalvaInserimento() {return true;}
 
 	protected void disabilitaControlli() {		
 		List<Field> privateFields = new ArrayList<>();

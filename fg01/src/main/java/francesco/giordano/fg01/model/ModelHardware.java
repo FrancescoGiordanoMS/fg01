@@ -23,10 +23,11 @@ public boolean DBModify(Hardware Record) {
 	return ret;
 }
 
-public boolean DBInsert(Hardware Record) {
-	boolean ret = true;
+public String DBInsert(Hardware Record) {
+	//boolean ret = true;
+	String msgErrore;
 	HardwareDAO dao=new HardwareDAO();
-	ret = dao.DBInsert(Record);
-	return ret;
+	msgErrore = dao.DBInsert(Record);
+	return msgErrore;
 }
 }

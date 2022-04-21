@@ -77,8 +77,9 @@ public class HardwareDAO {
 		//return(false);
 	}
 
-	public boolean DBInsert(Hardware Record) {
+	public String DBInsert(Hardware Record) {
 		boolean ret=true;
+		String msgErrore = null;
 		try {
 			Connection conn = DBConnect.getConnection();
 
@@ -95,18 +96,49 @@ public class HardwareDAO {
 			st.setDate(5,(Record.getDataacquisto()==null?null:java.sql.Date.valueOf(Record.getDataacquisto())));
 			st.setFloat(6, Record.getPrezzoacquisto());
 			st.setInt(7, Record.hashCode());
-			ret = st.execute() ;
+			st.execute() ;
 
 			st.close();
+			conn.close();
+			return (msgErrore);
+
+		} catch(SQLException e) {
+			msgErrore=e.getMessage();
+			return msgErrore;
+			//throw new RuntimeException("Database Error insert Hardware table", e);
+		}
+		//return(false);
+	}
+	
+	public boolean DBDelete(Hardware Record) {
+		boolean ret=true;
+		try {
+			Connection conn = DBConnect.getConnection();
+
+//			String sql = "update hardware set "+
+//						"tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
+//						"prezzoacquisto = ? where matricola = ?";
+
+			PreparedStatement st2 = conn.prepareStatement(sql);
+			st2.setString(1, Record.getTipohw());
+			st2.setString(2,Record.getMarca());
+			st2.setString(3,Record.getModello());
+			st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
+			st2.setFloat(5, Record.getPrezzoacquisto());
+			st2.setString(6, Record.getMatricola());
+		//	ret = st2.execute() ;
+
+			st2.close();
 			conn.close();
 			return(ret);
 
 		} catch(SQLException e) {
-			throw new RuntimeException("Database Error insert Hardware table", e);
+			throw new RuntimeException("Database Error updating Hardware table", e);
 			//return(false);
 		}
 		//return(false);
 	}
+	
 	
 //	public boolean DBModifyNew(Hardware Record) {
 //		boolean ret=true;

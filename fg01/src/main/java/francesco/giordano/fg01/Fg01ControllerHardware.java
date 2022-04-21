@@ -103,6 +103,8 @@ public class Fg01ControllerHardware extends MyController{
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private ModelHardware model;
+	private ObservableList<Hardware> obs;
+
 
 	@Override
 	protected void SalvaModifiche() {
@@ -114,12 +116,21 @@ public class Fg01ControllerHardware extends MyController{
 	}
 
 	@Override
-	protected void SalvaInserimento() {
+	protected boolean SalvaInserimento() {
 		Hardware rec=null;
+		String msgErrore;
 		Field[] allFields = this.getClass().getDeclaredFields();
 		rec=(Hardware) ReadModifiedFields(new Hardware(), allFields);
-		model.DBInsert(rec);
-		TVHardware.refresh();
+		msgErrore=model.DBInsert(rec);
+		if (msgErrore == null) {
+			obs.add(rec);
+			TVHardware.refresh();
+			return true;
+		}
+		else {
+			labelErrore.setText(msgErrore);
+			return false;
+		}
 	}
 	
 
@@ -130,7 +141,7 @@ public class Fg01ControllerHardware extends MyController{
 	}
 
 	public void setTableView() {
-		ObservableList<Hardware> obs;
+		//ObservableList<Hardware> obs;
 		obs=model.getRighe(MapFieldValue);
 		this.TVHardware.setItems(obs);
 	}
