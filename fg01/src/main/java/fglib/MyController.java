@@ -121,13 +121,6 @@ public class MyController {
 		//if root.getStyleableNode()==
 		((BorderPane) root).setTop(myMenuBar.getMenuBar());
  
-		
-//		myMenuBar.getMenuItem_Inserisci().setOnAction(new EventHandler<ActionEvent>() {
-//		    public void handle(ActionEvent t) {
-//		    	System.out.println("Menu Item 1 Selected");;
-//		    }
-//		});
-		
 		myMenuBar.getMenuItem_Inserisci().setOnAction((event) -> {
 //		    System.out.println("Menu Item 1 Selected");
 			abilitaControlli();

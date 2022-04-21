@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.j02ControllerSoftware">
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <HBox>
+               <children>
+                  <VBox prefHeight="200.0">
+                     <children>
+                        <TableView fx:id="TVSoftware">
+                          <columns>
+                            <TableColumn fx:id="col_codice" prefWidth="75.0" text="Codice" />
+                            <TableColumn fx:id="col_tiposw" prefWidth="75.0" text="Tipo sw" />
+                              <TableColumn fx:id="col_nomesw" prefWidth="75.0" text="Nome sw" />
+                              <TableColumn fx:id="col_versione" prefWidth="75.0" text="Versione" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" />
+               </children>
+            </HBox>
+            <HBox layoutY="200.0">
+               <children>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <TextField fx:id="_kcodice" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="_mtiposw" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="_mnomesw" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="_mversione" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label text="Codice sw" GridPane.rowIndex="1" />
+                        <Label text="Tipo sw" GridPane.rowIndex="2" />
+                        <Label text="Nome sw" GridPane.rowIndex="3" />
+                        <Label text="Versione" GridPane.rowIndex="4" />
+                     </children>
+                  </GridPane>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </center>
+   <bottom>
+      <HBox prefHeight="32.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="32.0" prefWidth="472.0" />
+            <Button mnemonicParsing="false" text="Button">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="Button" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
