@@ -20,13 +20,16 @@ import francesco.giordano.fg01.model.ModelHardware;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class MyController {
@@ -37,11 +40,21 @@ public class MyController {
 	protected Scene parentScene;
 	protected Stage stage;
 	protected StatoButtonSave ButtonSave;
-	protected enum StatoButtonSave {
+  	//protected MenuBar myStandardMenu; //= new MyMenuBar().StandardMenu();
+  	protected MyMenuBar myMenuBar = new MyMenuBar();
+  	protected enum StatoButtonSave {
 		INSERT,
 		MODIFY,
 		INDEFINITO
 	}
+  	
+  	protected Node root;
+  	public void setRoot(Node rt) {
+  		root=rt;
+ 	}
+  	
+  	
+  	
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------		
 	public void setParentScene(Scene scene) {
@@ -49,6 +62,9 @@ public class MyController {
 	}
 	public void setStage(Stage s) {
 		this.stage=s;
+//		Scene sc = stage.getScene();
+//		BorderPane bp = (BorderPane)sc.getRoot();
+//		bp.setTop(myStandardMenu);
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------	
@@ -71,12 +87,20 @@ public class MyController {
 		ButtonSave=StatoButtonSave.INSERT;	
 		ClearFields(allFields);
 	}
+	
+	@FXML
+	void handleMenuItemDelete(ActionEvent event) {
+		if (indexTableView > -1) {
+		DeleteRecord();
+		}
+		}
 
 	@FXML
 	void handlebtnCancel(ActionEvent event) {
 		disabilitaControlli();
 		ButtonSave=StatoButtonSave.INDEFINITO;  
 	}	
+	
 	@FXML
 	void handlebtnSave(ActionEvent event) {
 		if (ButtonSave==StatoButtonSave.MODIFY) {
@@ -92,6 +116,27 @@ public class MyController {
 		}
 	}
 	
+	//@Override
+	public void init() {
+		//if root.getStyleableNode()==
+		((BorderPane) root).setTop(myMenuBar.getMenuBar());
+ 
+		
+//		myMenuBar.getMenuItem_Inserisci().setOnAction(new EventHandler<ActionEvent>() {
+//		    public void handle(ActionEvent t) {
+//		    	System.out.println("Menu Item 1 Selected");;
+//		    }
+//		});
+		
+		myMenuBar.getMenuItem_Inserisci().setOnAction((event) -> {
+//		    System.out.println("Menu Item 1 Selected");
+			abilitaControlli();
+			ButtonSave=StatoButtonSave.INSERT;	
+            }
+        );		
+	};
+	
+	protected void DeleteRecord() {}
 	protected void SalvaModifiche() {}
 	protected boolean SalvaInserimento() {return true;}
 

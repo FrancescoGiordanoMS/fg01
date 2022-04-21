@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fglib.MyMenuBar;
 import francesco.giordano.fg01.model.ModelHardware;
+import francesco.giordano.fg01.model.j02ModelSoftware;
 //import francesco.giordano.fg01.model.ModelHardware;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +46,8 @@ public class Fg01ControllerPWD {
 	
 	 @FXML
 	 private MenuItem MenuItem_hardware;
-
+	 @FXML
+	 private MenuItem MenuItem_software;
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private ModelHardware model=null;
@@ -60,7 +63,7 @@ public class Fg01ControllerPWD {
         controller.setModel(model);  
         controller.setStage(stage);
         controller.setParentScene(stage.getScene());
-        controller.setTableView();
+        controller.popolaTableView();
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");        
         stage.setTitle("JavaFX and Maven");
@@ -68,6 +71,27 @@ public class Fg01ControllerPWD {
         stage.show();
     }
 
+    @FXML
+    void handleMenuItem_software(ActionEvent event) throws IOException {
+    	BorderPane root;
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j02_software.fxml")) ;
+    	root = loader.load();
+    	j02ControllerSoftware controller = loader.getController() ;
+    	j02ModelSoftware model = new j02ModelSoftware();
+    	controller.setStage(stage);
+    	controller.setModel(model);  
+    	controller.popolaTableView();
+    	Scene scene = new Scene(root);
+    	controller.setRoot(root);	
+    	controller.init();
+    	scene.getStylesheets().add("/styles/Styles.css");        
+    	stage.setTitle("JavaFX and Maven");
+    	stage.setScene(scene);
+    	controller.setParentScene(stage.getScene());
+    	//controller.setMenu();
+    	stage.show();
+    }
+    
 	@FXML
 	void handleConferma(ActionEvent event) throws IOException {
 		        Grid.setVisible(false);

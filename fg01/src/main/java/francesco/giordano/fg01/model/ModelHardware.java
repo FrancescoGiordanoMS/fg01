@@ -30,4 +30,17 @@ public String DBInsert(Hardware Record) {
 	msgErrore = dao.DBInsert(Record);
 	return msgErrore;
 }
+
+public boolean DBDelete(Hardware Record) {
+	boolean ret = true;
+	//String msgErrore;
+	HardwareDAO dao=new HardwareDAO();
+	ret = dao.DBDelete(Record);
+	return ret;
+}
+
+
+
+
+
 }

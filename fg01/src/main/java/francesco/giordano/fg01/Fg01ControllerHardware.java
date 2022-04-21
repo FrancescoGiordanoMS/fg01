@@ -96,6 +96,9 @@ public class Fg01ControllerHardware extends MyController{
 
 	@FXML
 	private MenuItem MenuItem_Inserisci;
+
+	@FXML
+	private MenuItem MenuItemDelete;
 	
 	@FXML
 	private MenuItem MenuItem_Close;
@@ -105,6 +108,14 @@ public class Fg01ControllerHardware extends MyController{
 	private ModelHardware model;
 	private ObservableList<Hardware> obs;
 
+	@Override
+	protected void DeleteRecord() {
+		Hardware rec=TVHardware.getSelectionModel().getSelectedItem();
+		if (model.DBDelete(rec)) {
+			obs.remove(rec);
+			TVHardware.refresh();
+		}
+	}
 
 	@Override
 	protected void SalvaModifiche() {
@@ -124,6 +135,7 @@ public class Fg01ControllerHardware extends MyController{
 		msgErrore=model.DBInsert(rec);
 		if (msgErrore == null) {
 			obs.add(rec);
+			TVHardware.getSelectionModel().selectLast();
 			TVHardware.refresh();
 			return true;
 		}
@@ -133,15 +145,13 @@ public class Fg01ControllerHardware extends MyController{
 		}
 	}
 	
-
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	public void setModel(ModelHardware m) {
 		this.model=m;
 	}
 
-	public void setTableView() {
-		//ObservableList<Hardware> obs;
+	public void popolaTableView() {
 		obs=model.getRighe(MapFieldValue);
 		this.TVHardware.setItems(obs);
 	}
@@ -180,8 +190,6 @@ public class Fg01ControllerHardware extends MyController{
 		});		
 		disabilitaControlli();  // super: setFormField Class
 		indexTableView=-1;
-		//		MapFieldValue.put("Marca", "HP");
-		//		MapFieldValue.put("Prezzo", 230.12);
 
 
 		allFields = this.getClass().getDeclaredFields();
