@@ -81,13 +81,13 @@ public class Fg01ControllerPWD {
     	controller.setStage(stage);
     	controller.setModel(model);  
     	controller.popolaTableView();
+    	controller.setParentScene(stage.getScene());
     	Scene scene = new Scene(root);
     	controller.setRoot(root);	
     	controller.init();
     	scene.getStylesheets().add("/styles/Styles.css");        
     	stage.setTitle("JavaFX and Maven");
     	stage.setScene(scene);
-    	controller.setParentScene(stage.getScene());
     	//controller.setMenu();
     	stage.show();
     }

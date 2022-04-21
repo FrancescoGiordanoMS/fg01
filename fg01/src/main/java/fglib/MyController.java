@@ -40,21 +40,21 @@ public class MyController {
 	protected Scene parentScene;
 	protected Stage stage;
 	protected StatoButtonSave ButtonSave;
-  	//protected MenuBar myStandardMenu; //= new MyMenuBar().StandardMenu();
-  	protected MyMenuBar myMenuBar = new MyMenuBar();
-  	protected enum StatoButtonSave {
+	//protected MenuBar myStandardMenu; //= new MyMenuBar().StandardMenu();
+	protected MyMenuBar myMenuBar = new MyMenuBar();
+	protected enum StatoButtonSave {
 		INSERT,
 		MODIFY,
 		INDEFINITO
 	}
-  	
-  	protected Node root;
-  	public void setRoot(Node rt) {
-  		root=rt;
- 	}
-  	
-  	
-  	
+
+	protected Node root;
+	public void setRoot(Node rt) {
+		root=rt;
+	}
+
+
+
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------		
 	public void setParentScene(Scene scene) {
@@ -62,9 +62,9 @@ public class MyController {
 	}
 	public void setStage(Stage s) {
 		this.stage=s;
-//		Scene sc = stage.getScene();
-//		BorderPane bp = (BorderPane)sc.getRoot();
-//		bp.setTop(myStandardMenu);
+		//		Scene sc = stage.getScene();
+		//		BorderPane bp = (BorderPane)sc.getRoot();
+		//		bp.setTop(myStandardMenu);
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------	
@@ -87,20 +87,20 @@ public class MyController {
 		ButtonSave=StatoButtonSave.INSERT;	
 		ClearFields(allFields);
 	}
-	
+
 	@FXML
 	void handleMenuItemDelete(ActionEvent event) {
 		if (indexTableView > -1) {
-		DeleteRecord();
+			DeleteRecord();
 		}
-		}
+	}
 
 	@FXML
 	void handlebtnCancel(ActionEvent event) {
 		disabilitaControlli();
 		ButtonSave=StatoButtonSave.INDEFINITO;  
 	}	
-	
+
 	@FXML
 	void handlebtnSave(ActionEvent event) {
 		if (ButtonSave==StatoButtonSave.MODIFY) {
@@ -115,20 +115,37 @@ public class MyController {
 			}
 		}
 	}
-	
-	//@Override
+	//------------------------------------------------------------------------------------------------------------
+	// Eventi inserimento - Modifica - Cancellazione
+	//------------------------------------------------------------------------------------------------------------
 	public void init() {
 		//if root.getStyleableNode()==
 		((BorderPane) root).setTop(myMenuBar.getMenuBar());
- 
+
 		myMenuBar.getMenuItem_Inserisci().setOnAction((event) -> {
-//		    System.out.println("Menu Item 1 Selected");
 			abilitaControlli();
 			ButtonSave=StatoButtonSave.INSERT;	
-            }
-        );		
+		});	
+		myMenuBar.getMenuItem_Modifica().setOnAction((event) -> {
+			if (indexTableView > -1) {
+				abilitaControlli();
+				ButtonSave=StatoButtonSave.MODIFY;			
+			}
+		});	
+		myMenuBar.getMenuItem_Delete().setOnAction((event) -> {
+			if (indexTableView > -1) {
+				DeleteRecord();
+			}
+			ButtonSave=StatoButtonSave.INDEFINITO;	
+		});	
+		myMenuBar.getMenuItem_Close().setOnAction((event) -> {
+			this.stage.setScene(parentScene);
+			this.stage.show();
+		});
 	};
-	
+	//------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------
+
 	protected void DeleteRecord() {}
 	protected void SalvaModifiche() {}
 	protected boolean SalvaInserimento() {return true;}

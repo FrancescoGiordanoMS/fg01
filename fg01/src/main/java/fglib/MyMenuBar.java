@@ -10,8 +10,44 @@ public class MyMenuBar  extends MenuBar {
 
 	private MenuBar menuBar;
 	private MenuItem MenuItem_Inserisci;
+	private MenuItem MenuItem_Modifica;
+	private MenuItem MenuItem_Delete;
+	private MenuItem MenuItem_Close;
 
+	public MyMenuBar() {
+		menuBar = new MenuBar();
+		Menu file = new Menu("File");
+		//Creating file menu items
+		MenuItem_Close = new MenuItem("Chiudi");
+		file.getItems().addAll(MenuItem_Close);
+		
+		Menu Edit = new Menu("Edit");
+		MenuItem_Inserisci = new MenuItem("Inserisci");
+		MenuItem_Modifica = new MenuItem("Modifica");
+		MenuItem_Delete = new MenuItem("Elimina");
+		Edit.getItems().addAll(MenuItem_Inserisci,MenuItem_Modifica,MenuItem_Delete);
+		menuBar.getMenus().addAll(file, Edit);	
+	}
 	
+	
+	public MenuItem getMenuItem_Close() {
+		return MenuItem_Close;
+	}
+	public void setMenuItem_Close(MenuItem menuItem_Close) {
+		MenuItem_Close = menuItem_Close;
+	}
+	public MenuItem getMenuItem_Modifica() {
+		return MenuItem_Modifica;
+	}
+	public void setMenuItem_Modifica(MenuItem menuItem_Modifica) {
+		MenuItem_Modifica = menuItem_Modifica;
+	}
+	public MenuItem getMenuItem_Delete() {
+		return MenuItem_Delete;
+	}
+	public void setMenuItem_Delete(MenuItem menuItem_Delete) {
+		MenuItem_Delete = menuItem_Delete;
+	}
 	public MenuBar getMenuBar() {
 		return menuBar;
 	}
@@ -25,44 +61,4 @@ public class MyMenuBar  extends MenuBar {
 		MenuItem_Inserisci = menuItem_Inserisci;
 	}
 	
-	public MyMenuBar() {
-		menuBar = new MenuBar();
-		Menu file = new Menu("File");
-		//Creating file menu items
-		MenuItem item1 = new MenuItem("Chiudi");
-		file.getItems().addAll(item1);
-		
-		Menu Edit = new Menu("Edit");
-		MenuItem_Inserisci = new MenuItem("Inserisci");
-		MenuItem itemEdit2 = new MenuItem("Modifica");
-		MenuItem itemEdit3 = new MenuItem("Elimina");
-		Edit.getItems().addAll(MenuItem_Inserisci,itemEdit2,itemEdit3);
-		menuBar.getMenus().addAll(file, Edit);	
-	}
-	
-	
-	
-
-//	public MenuBar StandardMenu() {
-//		MenuBar mb = new MenuBar();
-//		Menu file = new Menu("File");
-//		//Creating file menu items
-//		MenuItem item1 = new MenuItem("Chiudi");
-//		file.getItems().addAll(item1);
-//		
-//		Menu Edit = new Menu("Edit");
-//		MenuItem MenuItem_Inserisci = new MenuItem("Inserisci");
-//		MenuItem itemEdit2 = new MenuItem("Modifica");
-//		MenuItem itemEdit3 = new MenuItem("Elimina");
-//		Edit.getItems().addAll(MenuItem_Inserisci,itemEdit2,itemEdit3);
-//		mb.getMenus().addAll(file, Edit);	
-//
-////		MenuItem_Inserisci.setOnAction(e -> {
-////			//MenuInserisci();
-////		    System.out.println("Menu Item 1 Selected");
-////            }
-////        ); 
-//		return mb;
-//	}
-
 }

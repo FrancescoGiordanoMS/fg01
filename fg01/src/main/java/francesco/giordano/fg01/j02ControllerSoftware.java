@@ -105,10 +105,10 @@ public class j02ControllerSoftware extends MyController {
 	@FXML
 	void initialize() {
 		
-		col_codice.setCellValueFactory(new PropertyValueFactory<j02Software,String>("matricola"));
-		col_tiposw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("tipohw"));
-		col_nomesw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("marca"));
-		col_versione.setCellValueFactory(new PropertyValueFactory<j02Software,String>("modello"));
+		col_codice.setCellValueFactory(new PropertyValueFactory<j02Software,String>("codice"));
+		col_tiposw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("tiposw"));
+		col_nomesw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("nomesw"));
+		col_versione.setCellValueFactory(new PropertyValueFactory<j02Software,String>("versione"));
 
 		TVSoftware.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newVal) -> {
 			if (newVal != null) {
