@@ -133,7 +133,8 @@ public class MyController {
 	protected void SalvaModifiche() {}
 	protected boolean SalvaInserimento() {return true;}
 
-	protected void disabilitaControlli() {		
+	protected void disabilitaControlli() {			
+		myMenuBar.getMenuBar().setDisable(false);
 		List<Field> privateFields = new ArrayList<>();
 		Field[] allFields = this.getClass().getDeclaredFields();
 		for (Field field : allFields) {
@@ -190,7 +191,7 @@ public class MyController {
 	}
 
 	protected void abilitaControlli() {
-
+		myMenuBar.getMenuBar().setDisable(true);
 		List<Field> privateFields = new ArrayList<>();
 		Field[] allFields = this.getClass().getDeclaredFields();
 		for (Field field : allFields) {

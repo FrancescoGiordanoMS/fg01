@@ -9,6 +9,7 @@ import francesco.giordano.fg01.model.ModelHardware;
 import francesco.giordano.fg01.model.j02ModelSoftware;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -42,6 +43,12 @@ public class j02ControllerSoftware extends MyController {
 
     @FXML
     private TableColumn<j02Software, String> col_codice;
+    
+    @FXML
+	private Button btnSave;
+
+	@FXML
+	private Button btnCancel;
 	
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------

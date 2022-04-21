@@ -56,7 +56,7 @@ public class Fg01ControllerPWD {
     @FXML
     void handleMenuItem_hardware(ActionEvent event) throws IOException {
         BorderPane root;
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SceneFG01_Hardware.fxml")) ;
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j01_Hardware.fxml")) ;
 		root = loader.load();
         Fg01ControllerHardware controller = loader.getController() ;
         ModelHardware model = new ModelHardware();

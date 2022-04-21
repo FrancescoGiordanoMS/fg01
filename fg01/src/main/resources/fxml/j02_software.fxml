@@ -60,12 +60,12 @@
       <HBox prefHeight="32.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="32.0" prefWidth="472.0" />
-            <Button mnemonicParsing="false" text="Button">
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handlebtnSave" text="Save">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Button" />
+            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#handlebtnCancel" text="Cancel" />
          </children>
       </HBox>
    </bottom>
