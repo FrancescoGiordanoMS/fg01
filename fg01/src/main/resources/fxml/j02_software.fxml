@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -14,15 +19,15 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.j02ControllerSoftware">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.j02ControllerSoftware">
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <HBox>
+            <HBox prefHeight="300.0">
                <children>
                   <VBox prefHeight="200.0">
                      <children>
-                        <TableView fx:id="TVSoftware">
+                        <TableView fx:id="TVSoftware" prefHeight="300.0" prefWidth="500.0">
                           <columns>
                             <TableColumn fx:id="col_codice" prefWidth="75.0" text="Codice" />
                             <TableColumn fx:id="col_tiposw" prefWidth="75.0" text="Tipo sw" />
@@ -41,12 +46,12 @@
                   <VBox prefHeight="200.0" prefWidth="100.0" />
                </children>
             </HBox>
-            <HBox layoutY="200.0">
+            <HBox layoutY="295.0" prefHeight="175.0" prefWidth="510.0">
                <children>
-                  <GridPane prefHeight="154.0" prefWidth="302.0">
+                  <GridPane prefHeight="165.0" prefWidth="377.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="146.0" minWidth="10.0" prefWidth="66.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="289.0" minWidth="10.0" prefWidth="289.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -64,6 +69,11 @@
                         <Label text="Tipo sw" GridPane.rowIndex="2" />
                         <Label text="Nome sw" GridPane.rowIndex="3" />
                         <Label text="Versione" GridPane.rowIndex="4" />
+                        <Label text="Dettaglio" textFill="#da2121" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="27.0" />
+                           </font>
+                        </Label>
                      </children>
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -74,17 +84,4 @@
          </children>
       </AnchorPane>
    </center>
-   <bottom>
-      <HBox prefHeight="32.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="32.0" prefWidth="472.0" />
-            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handlebtnSave" text="Save">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#handlebtnCancel" text="Cancel" />
-         </children>
-      </HBox>
-   </bottom>
 </BorderPane>

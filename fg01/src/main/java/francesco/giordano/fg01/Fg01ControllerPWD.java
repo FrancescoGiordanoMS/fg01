@@ -56,39 +56,61 @@ public class Fg01ControllerPWD {
     @FXML
     void handleMenuItem_hardware(ActionEvent event) throws IOException {
         BorderPane root;
+    	Scene currentScene;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j01_Hardware.fxml")) ;
 		root = loader.load();
         Fg01ControllerHardware controller = loader.getController() ;
         ModelHardware model = new ModelHardware();
-        controller.setModel(model);  
-        controller.setStage(stage);
-        controller.setParentScene(stage.getScene());
-        controller.popolaTableView();
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");        
-        stage.setTitle("JavaFX and Maven");
-        stage.setScene(scene);
-        stage.show();
+   
+        
+//    	controller.setStage(stage);
+//    	controller.setModel(model);  
+//    	controller.popolaTableView();
+//    	controller.setParentScene(stage.getScene());
+//    	Scene scene = new Scene(root);
+//    	controller.init();
+//    	stage.show();	
+    	
+    	currentScene=stage.getScene();
+    	Scene scene = new Scene(root);
+    	scene.getStylesheets().add("/styles/Styles.css");        
+    	stage.setTitle("JavaFX and Maven");
+    	stage.setScene(scene);
+ 	   	
+    	controller.setParentScene(currentScene);
+    	controller.setStage(stage);
+    	controller.setModel(model);  
+    	controller.popolaTableView();
+    	controller.init();
+    	stage.show();
+ 
     }
 
     @FXML
     void handleMenuItem_software(ActionEvent event) throws IOException {
     	BorderPane root;
+    	Scene currentScene;
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j02_software.fxml")) ;
     	root = loader.load();
     	j02ControllerSoftware controller = loader.getController() ;
     	j02ModelSoftware model = new j02ModelSoftware();
-    	controller.setStage(stage);
-    	controller.setModel(model);  
-    	controller.popolaTableView();
-    	controller.setParentScene(stage.getScene());
+
+    	currentScene=stage.getScene();
     	Scene scene = new Scene(root);
-    	controller.setRoot(root);	
-    	controller.init();
     	scene.getStylesheets().add("/styles/Styles.css");        
     	stage.setTitle("JavaFX and Maven");
     	stage.setScene(scene);
-    	//controller.setMenu();
+ 	   	
+    	controller.setParentScene(currentScene);
+    	controller.setStage(stage);
+    	controller.setModel(model);  
+    	controller.popolaTableView();
+    	//controller.setRoot(root);	
+    	controller.init();
+//    	scene.getStylesheets().add("/styles/Styles.css");        
+//    	stage.setTitle("JavaFX and Maven");
+//    	stage.setScene(scene);
+//    	//controller.setMenu();
     	stage.show();
     }
     

@@ -100,7 +100,7 @@ public class j02SoftwareDAO {
 	
 	public boolean DBDelete(j02Software Record) {
 		//boolean ret=false;
-		String sql = "DELETE FROM Hardware WHERE matricola = ?";
+		String sql = "DELETE FROM SOFTWARE WHERE CODICE = ?";
 		try {
 			Connection conn = DBConnect.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);

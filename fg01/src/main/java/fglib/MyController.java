@@ -39,19 +39,20 @@ public class MyController {
 	protected int indexTableView;
 	protected Scene parentScene;
 	protected Stage stage;
+	protected Node root;
 	protected StatoButtonSave ButtonSave;
 	//protected MenuBar myStandardMenu; //= new MyMenuBar().StandardMenu();
 	protected MyMenuBar myMenuBar = new MyMenuBar();
+	protected MyButton mybutton = new MyButton();
 	protected enum StatoButtonSave {
 		INSERT,
 		MODIFY,
 		INDEFINITO
 	}
 
-	protected Node root;
-	public void setRoot(Node rt) {
-		root=rt;
-	}
+//	public void setRoot(Node rt) {
+//		root=rt;
+//	}
 
 
 
@@ -62,68 +63,74 @@ public class MyController {
 	}
 	public void setStage(Stage s) {
 		this.stage=s;
-		//		Scene sc = stage.getScene();
-		//		BorderPane bp = (BorderPane)sc.getRoot();
-		//		bp.setTop(myStandardMenu);
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------	
-	@FXML
-	void handleClose(ActionEvent event) {
-		this.stage.setScene(parentScene);
-		this.stage.show();
-	}
-	@FXML
-	void handleModifica(ActionEvent event) {
-		//int index = TVHardware.getSelectionModel().getSelectedIndex(); // indice di riga tableView correntemente selezionata
-		if (indexTableView > -1) {
-			abilitaControlli();
-			ButtonSave=StatoButtonSave.MODIFY;			
-		}
-	}
-	@FXML
-	void handleMenuItemInserisci(ActionEvent event) {
-		abilitaControlli();
-		ButtonSave=StatoButtonSave.INSERT;	
-		ClearFields(allFields);
-	}
+//	@FXML
+//	void handleClose(ActionEvent event) {
+//		this.stage.setScene(parentScene);
+//		this.stage.show();
+//	}
+//	@FXML
+//	void handleModifica(ActionEvent event) {
+//		//int index = TVHardware.getSelectionModel().getSelectedIndex(); // indice di riga tableView correntemente selezionata
+//		if (indexTableView > -1) {
+//			abilitaControlli();
+//			ButtonSave=StatoButtonSave.MODIFY;			
+//		}
+//	}
+//	@FXML
+//	void handleMenuItemInserisci(ActionEvent event) {
+//		abilitaControlli();
+//		ButtonSave=StatoButtonSave.INSERT;	
+//		ClearFields(allFields);
+//	}
+//
+//	@FXML
+//	void handleMenuItemDelete(ActionEvent event) {
+//		if (indexTableView > -1) {
+//			DeleteRecord();
+//		}
+//	}
 
-	@FXML
-	void handleMenuItemDelete(ActionEvent event) {
-		if (indexTableView > -1) {
-			DeleteRecord();
-		}
-	}
-
-	@FXML
-	void handlebtnCancel(ActionEvent event) {
-		disabilitaControlli();
-		ButtonSave=StatoButtonSave.INDEFINITO;  
-	}	
-
-	@FXML
-	void handlebtnSave(ActionEvent event) {
-		if (ButtonSave==StatoButtonSave.MODIFY) {
-			SalvaModifiche();
-			disabilitaControlli();
-			ButtonSave=StatoButtonSave.INDEFINITO;	 
-		}
-		if (ButtonSave==StatoButtonSave.INSERT) {
-			if (SalvaInserimento()) {
-				disabilitaControlli();
-				ButtonSave=StatoButtonSave.INDEFINITO;	 
-			}
-		}
-	}
+//	@FXML
+//	void handlebtnCancel(ActionEvent event) {
+//		disabilitaControlli();
+//		ButtonSave=StatoButtonSave.INDEFINITO;  
+//	}	
+//
+//	@FXML
+//	void handlebtnSave(ActionEvent event) {
+//		if (ButtonSave==StatoButtonSave.MODIFY) {
+//			SalvaModifiche();
+//			disabilitaControlli();
+//			ButtonSave=StatoButtonSave.INDEFINITO;	 
+//		}
+//		if (ButtonSave==StatoButtonSave.INSERT) {
+//			if (SalvaInserimento()) {
+//				disabilitaControlli();
+//				ButtonSave=StatoButtonSave.INDEFINITO;	 
+//			}
+//		}
+//	}
 	//------------------------------------------------------------------------------------------------------------
 	// Eventi inserimento - Modifica - Cancellazione
 	//------------------------------------------------------------------------------------------------------------
 	public void init() {
+		root=stage.getScene().getRoot();
+			
+		mybutton.getAnchorpane().setMaxHeight(40);
+		mybutton.getAnchorpane().setMaxWidth(stage.getWidth());
+		
 		//if root.getStyleableNode()==
+		if (root.getClass().getName().equals("javafx.scene.layout.BorderPane")) {
+		((BorderPane) root).setBottom(mybutton.getAnchorpane());
 		((BorderPane) root).setTop(myMenuBar.getMenuBar());
-
+		}
+		
 		myMenuBar.getMenuItem_Inserisci().setOnAction((event) -> {
 			abilitaControlli();
+			ClearFields(allFields);
 			ButtonSave=StatoButtonSave.INSERT;	
 		});	
 		myMenuBar.getMenuItem_Modifica().setOnAction((event) -> {
@@ -141,6 +148,23 @@ public class MyController {
 		myMenuBar.getMenuItem_Close().setOnAction((event) -> {
 			this.stage.setScene(parentScene);
 			this.stage.show();
+		});
+		mybutton.getBtnCancel().setOnAction((event) -> {
+			disabilitaControlli();
+			ButtonSave=StatoButtonSave.INDEFINITO;  
+		});
+		mybutton.getBtnSave().setOnAction((event) -> {
+			if (ButtonSave==StatoButtonSave.MODIFY) {
+				SalvaModifiche();
+				disabilitaControlli();
+				ButtonSave=StatoButtonSave.INDEFINITO;	 
+			}
+			if (ButtonSave==StatoButtonSave.INSERT) {
+				if (SalvaInserimento()) {
+					disabilitaControlli();
+					ButtonSave=StatoButtonSave.INDEFINITO;	 
+				}
+			}
 		});
 	};
 	//------------------------------------------------------------------------------------------------------------
@@ -183,16 +207,19 @@ public class MyController {
 						//dp.setStyle("-fx-text-inner-color: black;");
 						break;
 					case "javafx.scene.control.Button":
-						Button bt = (Button)field.get(this);
-						bt.setDisable(true);
+						//Button bt = (Button)field.get(this);
+						//if (bt != null) bt.setDisable(true);   // al caricamento del controller non esiste ancora...
+						if (mybutton.getBtnSave() != null) mybutton.getBtnSave().setDisable(true);
+						if (mybutton.getBtnCancel() != null) mybutton.getBtnCancel().setDisable(true);
 						break;
 					case "javafx.scene.control.TableView":
 						TableView tv = (TableView)field.get(this);
 						tv.setDisable(false);
 						break;
 					case "javafx.scene.control.MenuBar":
-						MenuBar mb= (MenuBar)field.get(this);
-						mb.setDisable(false);
+						//MenuBar mb= (MenuBar)field.get(this);
+						//mb.setDisable(false);
+						if (myMenuBar != null) myMenuBar.setDisable(true);
 						break;
 					}
 					field.setAccessible(false); 
@@ -239,16 +266,18 @@ public class MyController {
 						dp.setStyle("-fx-font-weight: bold;");
 						break;        
 					case "javafx.scene.control.Button":
-						Button bt = (Button)field.get(this);
-						bt.setDisable(false);
+						//Button bt = (Button)field.get(this);
+						mybutton.getBtnSave().setDisable(false);
+						mybutton.getBtnCancel().setDisable(false);
 						break;
 					case "javafx.scene.control.TableView":
 						TableView tv = (TableView)field.get(this);
 						tv.setDisable(true);
 						break;
 					case "javafx.scene.control.MenuBar":
-						MenuBar mb= (MenuBar)field.get(this);
-						mb.setDisable(true);
+						//MenuBar mb= (MenuBar)field.get(this);
+						//mb.setDisable(true);
+						myMenuBar.setDisable(true);
 						break;
 					}
 					field.setAccessible(false); 

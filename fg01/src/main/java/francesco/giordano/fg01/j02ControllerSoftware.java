@@ -103,13 +103,12 @@ public class j02ControllerSoftware extends MyController {
 	}
 
 	@FXML
-	void initialize() {
-		
+	void initialize() {		
 		col_codice.setCellValueFactory(new PropertyValueFactory<j02Software,String>("codice"));
 		col_tiposw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("tiposw"));
 		col_nomesw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("nomesw"));
 		col_versione.setCellValueFactory(new PropertyValueFactory<j02Software,String>("versione"));
-
+		
 		TVSoftware.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newVal) -> {
 			if (newVal != null) {
 				_kcodice.setText(newVal.getCodice());
@@ -124,12 +123,10 @@ public class j02ControllerSoftware extends MyController {
 		disabilitaControlli();  // super: setFormField Class
 		indexTableView=-1;
 
-
 		allFields = this.getClass().getDeclaredFields();
 		Field[] allBean = j02Software.class.getDeclaredFields();
 		MapFieldValue=CreaHashMap(allFields, allBean);
-		System.out.println(MapFieldValue+"\n");
-
+	//	System.out.println(MapFieldValue+"\n");
 
 	}
 

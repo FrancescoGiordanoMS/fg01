@@ -3,6 +3,7 @@ package francesco.giordano.fg01.db;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,6 +51,7 @@ public class HardwareDAO {
 
 	public boolean DBModify(Hardware Record) {
 		boolean ret=true;
+		//Date dataAcq  = java.sql.Date.valueOf(Record.getDataacquisto()); 
 		try {
 			Connection conn = DBConnect.getConnection();
 
@@ -61,7 +63,9 @@ public class HardwareDAO {
 			st2.setString(1, Record.getTipohw());
 			st2.setString(2,Record.getMarca());
 			st2.setString(3,Record.getModello());
-			st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
+			//st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
+			if (Record.getDataacquisto() == null) st2.setNull(4, java.sql.Types.DATE);
+			else st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
 			st2.setFloat(5, Record.getPrezzoacquisto());
 			st2.setString(6, Record.getMatricola());
 			ret = st2.execute() ;

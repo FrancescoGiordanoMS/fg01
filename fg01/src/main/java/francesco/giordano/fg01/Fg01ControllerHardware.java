@@ -195,7 +195,7 @@ public class Fg01ControllerHardware extends MyController{
 		allFields = this.getClass().getDeclaredFields();
 		Field[] allBean = Hardware.class.getDeclaredFields();
 		MapFieldValue=CreaHashMap(allFields, allBean);
-		System.out.println(MapFieldValue+"\n");
+	//	System.out.println(MapFieldValue+"\n");
 
 		//------------------------------------------------------------------------------
 

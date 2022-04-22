@@ -25,11 +25,92 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="970.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.Fg01ControllerHardware">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.Fg01ControllerHardware">
    <center>
-      <AnchorPane BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="534.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="495.0" AnchorPane.topAnchor="5.0">
+            <TabPane prefHeight="535.0" prefWidth="517.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+              <tabs>
+                <Tab text="Untitled Tab 1">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="C1" />
+                                  <TableColumn prefWidth="75.0" text="C2" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Untitled Tab 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Pane layoutX="14.0" layoutY="14.0" prefHeight="301.0" prefWidth="360.0" style="-fx-border-color: black;">
+                                 <children>
+                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </AnchorPane>
+   </center>
+   <top>
+      <MenuBar fx:id="MyMenuBar" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="MenuItem_Close" mnemonicParsing="false" onAction="#handleClose" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+                  <MenuItem fx:id="MenuItemInserisci" mnemonicParsing="false" onAction="#handleMenuItemInserisci" text="Inserisci" />
+                  <MenuItem fx:id="MenuItem_Modifica" mnemonicParsing="false" onAction="#handleModifica" text="Modifica" />
+              <MenuItem fx:id="MenuItemDelete" mnemonicParsing="false" onAction="#handleMenuItemDelete" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <bottom>
+      <HBox prefWidth="799.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="41.0" prefWidth="813.0" />
+            <HBox prefHeight="41.0">
+               <children>
+                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handlebtnSave" text="Save">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnCancel" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#handlebtnCancel" text="Cancel">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </bottom>
+   <left>
+      <AnchorPane prefHeight="534.0" prefWidth="478.0" BorderPane.alignment="CENTER_LEFT">
+         <children>
+            <VBox prefHeight="524.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                <children>
                   <HBox>
                      <children>
@@ -45,7 +126,7 @@
                         </TableView>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="100.0">
                      <children>
                         <Label fx:id="labelErrore" text="Messaggi di errore">
                            <HBox.margin>
@@ -54,7 +135,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="167.0" prefWidth="452.0">
+                  <HBox prefHeight="167.0">
                      <children>
                         <GridPane fx:id="Grid" hgap="5.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="215.0" prefWidth="402.0" vgap="5.0">
                           <columnConstraints>
@@ -97,63 +178,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox layoutX="463.0" prefHeight="315.0" prefWidth="370.0">
-               <children>
-                  <Pane prefHeight="301.0" prefWidth="360.0" style="-fx-border-color: black;">
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </VBox.margin>
-                     <children>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </Pane>
-               </children>
-            </VBox>
          </children>
       </AnchorPane>
-   </center>
-   <top>
-      <MenuBar fx:id="MyMenuBar" BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem fx:id="MenuItem_Close" mnemonicParsing="false" onAction="#handleClose" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-                  <MenuItem fx:id="MenuItemInserisci" mnemonicParsing="false" onAction="#handleMenuItemInserisci" text="Inserisci" />
-                  <MenuItem fx:id="MenuItem_Modifica" mnemonicParsing="false" onAction="#handleModifica" text="Modifica" />
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <bottom>
-      <HBox prefWidth="799.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefHeight="41.0" prefWidth="813.0" />
-            <HBox prefHeight="41.0">
-               <children>
-                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handlebtnSave" text="Save">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="btnCancel" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#handlebtnCancel" text="Cancel">
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
-      </HBox>
-   </bottom>
+   </left>
 </BorderPane>
