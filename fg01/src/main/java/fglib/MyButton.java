@@ -57,4 +57,7 @@ public class MyButton {
 	}
 
 
+	public void setVisible(boolean v) {
+		this.anchorpane.setVisible(v);
+	}
 }

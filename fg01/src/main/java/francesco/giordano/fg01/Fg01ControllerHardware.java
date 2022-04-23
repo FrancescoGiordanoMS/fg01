@@ -1,5 +1,6 @@
 package francesco.giordano.fg01;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,6 +18,7 @@ import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.J03HwSw;
 import francesco.giordano.fg01.model.J03ModelHwSw;
 import francesco.giordano.fg01.model.ModelHardware;
+import francesco.giordano.fg01.model.j02ModelSoftware;
 import francesco.giordano.fg01.model.j02Software;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
@@ -26,6 +28,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -36,6 +39,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -127,8 +131,31 @@ public class Fg01ControllerHardware extends MyController{
 
 
 	@FXML
-    void handle_btnNuoviSoftware(ActionEvent event) {
+    void handle_btnNuoviSoftware(ActionEvent event) throws IOException {
 
+    	BorderPane root;
+    	//Scene currentScene;
+    	Stage stage = new Stage();
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j02_software.fxml")) ;
+    	root = loader.load();
+    	j02ControllerSoftware controller = loader.getController() ;
+    	j02ModelSoftware model = new j02ModelSoftware();
+
+    	//currentScene=stage.getScene();
+    	Scene scene = new Scene(root);
+    	scene.getStylesheets().add("/styles/Styles.css");        
+    	stage.setTitle("Elenco dei software disponibili");
+    	stage.setScene(scene);
+ 	   	
+    	//controller.setParentScene(currentScene);
+    	controller.setStage(stage);
+    	controller.setModel(model);  
+    	controller.popolaTableView();
+    	controller.HideControls();
+    	controller.init();
+    	stage.show();
+    	//System.out.println("Dopo lo show");
+		
     }
 	
 	

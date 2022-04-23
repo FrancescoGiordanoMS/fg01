@@ -90,6 +90,10 @@ public class j02ControllerSoftware extends MyController {
 			return false;
 		}
 	}
+	public void HideControls() {
+		myMenuBar.setVisible(false);
+		mybutton.setVisible(false);
+	}
 	
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
