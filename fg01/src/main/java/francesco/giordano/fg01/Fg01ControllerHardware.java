@@ -84,12 +84,15 @@ public class Fg01ControllerHardware extends MyController{
 	@FXML
 	private Label labelErrore;
 
-	@FXML
-	private Button btnSave;
+//	@FXML
+//	private Button btnSave;
+//
+//	@FXML
+//	private Button btnCancel;
 
 	@FXML
-	private Button btnCancel;
-
+	private Button btnNuoviSoftware;
+	
 	@FXML
 	private DatePicker _mDataacquisto;
 
@@ -123,6 +126,12 @@ public class Fg01ControllerHardware extends MyController{
 	private TableColumn<j02Software, String> col_nomesw;
 
 
+	@FXML
+    void handle_btnNuoviSoftware(ActionEvent event) {
+
+    }
+	
+	
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private ModelHardware model;
@@ -130,7 +139,6 @@ public class Fg01ControllerHardware extends MyController{
 	private ObservableList<Hardware> obs;
 	private ObservableList<j02Software> obsSw;
 	private HashMap<String, ObservableList<j02Software>> MapHwSw = new HashMap<>();
-
 
 	@Override
 	protected void DeleteRecord() {

@@ -241,7 +241,6 @@ public class MyController {
 		for (Field field : allFields) {
 			if (Modifier.isPrivate(field.getModifiers()) && 
 					(field.getName().substring(0,2).equals("_m") ) ||
-					(field.getName().substring(0,2).equals("_k") ) ||
 					(field.getName().substring(0,2).equals("TV") ) ||
 					(field.getName().equals("MyMenuBar") ) ||
 					(field.getName().equals("btnSave")) ||

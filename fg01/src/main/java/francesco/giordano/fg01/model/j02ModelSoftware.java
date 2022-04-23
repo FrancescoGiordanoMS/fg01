@@ -11,7 +11,7 @@ public class j02ModelSoftware {
 	public ObservableList<j02Software> getRighe() {
 		ObservableList<j02Software> obs = null;	
 		j02SoftwareDAO dao=new j02SoftwareDAO();
-		obs=dao.getRighe(Hrec);
+		obs=dao.getRighe();
 		return obs;
 	}
 

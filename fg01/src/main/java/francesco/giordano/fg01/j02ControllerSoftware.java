@@ -98,7 +98,7 @@ public class j02ControllerSoftware extends MyController {
 	}
 
 	public void popolaTableView() {
-		obs=model.getRighe(MapFieldValue);
+		obs=model.getRighe();
 		this.TVSoftware.setItems(obs);
 	}
 

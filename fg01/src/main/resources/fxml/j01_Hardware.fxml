@@ -43,6 +43,7 @@
                                     <TableColumn fx:id="col_versione" prefWidth="89.0" text="Versione" />
                                 </columns>
                               </TableView>
+                              <Button fx:id="btnNuoviSoftware" layoutX="385.0" layoutY="308.0" mnemonicParsing="false" onAction="#handle_btnNuoviSoftware" text="Aggiungi nuovi sw" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -114,16 +115,16 @@
                               <Label text="Marca" GridPane.rowIndex="2" />
                               <Label text="Modello" GridPane.rowIndex="3" />
                               <Label text="Data Acquisto" GridPane.rowIndex="4" />
+                              <Label text="Prezzo" GridPane.rowIndex="5" />
                               <TextField fx:id="_kMatricola" GridPane.columnIndex="1" />
                               <TextField fx:id="_mTipoHw" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <TextField fx:id="_mMarca" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField fx:id="_mPrezzoacquisto" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <Label text="Prezzo" GridPane.rowIndex="5" />
                               <TextField fx:id="_mModello" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <DatePicker fx:id="_mDataacquisto" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <DatePicker fx:id="_mDataacquisto" prefHeight="25.0" prefWidth="192.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets></DatePicker>
+                              <TextField fx:id="_mPrezzoacquisto" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                            </children>
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
