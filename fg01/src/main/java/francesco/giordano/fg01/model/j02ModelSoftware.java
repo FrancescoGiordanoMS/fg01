@@ -8,10 +8,10 @@ import javafx.collections.ObservableList;
 
 public class j02ModelSoftware {
 
-	public ObservableList<j02Software> getRighe(HashMap<String, RiferimentoCampi> MapFieldValue) {
+	public ObservableList<j02Software> getRighe() {
 		ObservableList<j02Software> obs = null;	
 		j02SoftwareDAO dao=new j02SoftwareDAO();
-		obs=dao.getRighe(MapFieldValue);
+		obs=dao.getRighe(Hrec);
 		return obs;
 	}
 
@@ -37,4 +37,5 @@ public class j02ModelSoftware {
 		ret = dao.DBDelete(Record);
 		return ret;
 	}
+	
 }

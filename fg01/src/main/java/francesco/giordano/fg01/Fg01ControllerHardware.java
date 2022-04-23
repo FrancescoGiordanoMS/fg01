@@ -8,11 +8,16 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.TypeVariable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import fglib.MyController;
+import fglib.RiferimentoCampi;
 import francesco.giordano.fg01.model.Hardware;
+import francesco.giordano.fg01.model.J03HwSw;
+import francesco.giordano.fg01.model.J03ModelHwSw;
 import francesco.giordano.fg01.model.ModelHardware;
+import francesco.giordano.fg01.model.j02Software;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -99,14 +104,33 @@ public class Fg01ControllerHardware extends MyController{
 
 	@FXML
 	private MenuItem MenuItemDelete;
-	
+
 	@FXML
 	private MenuItem MenuItem_Close;
+
+	//------------------------------------------------------------------------------------------------------
+	// Tabella software
+	//------------------------------------------------------------------------------------------------------
+	@FXML
+	private TableView<j02Software> TabViewSoftware;
+	@FXML
+	private TableColumn<j02Software, String> col_tiposw;
+	@FXML
+	private TableColumn<j02Software, String> col_versione;
+	@FXML
+	private TableColumn<j02Software, String> col_codice;
+	@FXML
+	private TableColumn<j02Software, String> col_nomesw;
+
 
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private ModelHardware model;
+	private J03ModelHwSw modelHwSw=new J03ModelHwSw();
 	private ObservableList<Hardware> obs;
+	private ObservableList<j02Software> obsSw;
+	private HashMap<String, ObservableList<j02Software>> MapHwSw = new HashMap<>();
+
 
 	@Override
 	protected void DeleteRecord() {
@@ -144,7 +168,7 @@ public class Fg01ControllerHardware extends MyController{
 			return false;
 		}
 	}
-	
+
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	public void setModel(ModelHardware m) {
@@ -166,6 +190,11 @@ public class Fg01ControllerHardware extends MyController{
 		col_dataacquisto.setCellValueFactory(new PropertyValueFactory<Hardware,LocalDate>("dataacquisto"));
 		col_prezzoacquisto.setCellValueFactory(new PropertyValueFactory<Hardware,Float>("prezzoacquisto"));
 
+		col_codice.setCellValueFactory(new PropertyValueFactory<j02Software,String>("codice"));
+		col_tiposw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("tiposw"));
+		col_nomesw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("nomesw"));
+		col_versione.setCellValueFactory(new PropertyValueFactory<j02Software,String>("versione"));
+
 		TVHardware.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newVal) -> {
 			if (newVal != null) {
 				_kMatricola.setText(newVal.getMatricola());
@@ -176,6 +205,7 @@ public class Fg01ControllerHardware extends MyController{
 				_mDataacquisto.setValue(newVal.getDataacquisto());
 				//IMV.setImage(newVal.getImage());
 				indexTableView=TVHardware.getSelectionModel().getSelectedIndex();
+				SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());
 			}
 		});
 		//------------------------------------------------------------------------------
@@ -195,7 +225,7 @@ public class Fg01ControllerHardware extends MyController{
 		allFields = this.getClass().getDeclaredFields();
 		Field[] allBean = Hardware.class.getDeclaredFields();
 		MapFieldValue=CreaHashMap(allFields, allBean);
-	//	System.out.println(MapFieldValue+"\n");
+		//	System.out.println(MapFieldValue+"\n");
 
 		//------------------------------------------------------------------------------
 
@@ -211,8 +241,13 @@ public class Fg01ControllerHardware extends MyController{
 		//			return str;
 		//		}
 		//	});
+	}
 
-
+	private void SelezionaRecordSoftware(Hardware selectedItem) {
+		//if (obsSw != null) obsSw.clear();
+		obsSw=modelHwSw.getRighe(selectedItem,MapHwSw);
+		this.TabViewSoftware.setItems(obsSw);
+		this.TabViewSoftware.refresh();
 	}
 
 }

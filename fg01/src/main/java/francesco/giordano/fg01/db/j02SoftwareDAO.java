@@ -7,13 +7,15 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import fglib.RiferimentoCampi;
+import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.j02Software;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class j02SoftwareDAO {
 
-	public ObservableList<j02Software> getRighe(HashMap<String, RiferimentoCampi> MapFieldValue) {
+	//public ObservableList<j02Software> getRighe(HashMap<String, RiferimentoCampi> MapFieldValue) {
+	public ObservableList<j02Software> getRighe() {
 		ObservableList<j02Software> obs = FXCollections.observableArrayList();
 		j02Software sig;
 		GetAutomaticField ga; //= new GetAutomaticField();

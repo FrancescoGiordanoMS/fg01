@@ -31,14 +31,16 @@
          <children>
             <TabPane prefHeight="535.0" prefWidth="517.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
               <tabs>
-                <Tab text="Untitled Tab 1">
+                <Tab text="Software montati">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView layoutX="14.0" layoutY="14.0" prefHeight="288.0" prefWidth="200.0">
+                              <TableView fx:id="TabViewSoftware" layoutX="14.0" layoutY="14.0" prefHeight="288.0" prefWidth="486.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="C1" />
-                                  <TableColumn prefWidth="75.0" text="C2" />
+                                    <TableColumn fx:id="col_codice" prefWidth="75.0" text="Codice" />
+                                  <TableColumn fx:id="col_tiposw" prefWidth="92.0" text="Tipo sw" />
+                                  <TableColumn fx:id="col_nomesw" prefWidth="155.0" text="Nome sw" />
+                                    <TableColumn fx:id="col_versione" prefWidth="89.0" text="Versione" />
                                 </columns>
                               </TableView>
                            </children>
