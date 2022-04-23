@@ -151,11 +151,10 @@ public class Fg01ControllerHardware extends MyController{
     	controller.setStage(stage);
     	controller.setModel(model);  
     	controller.popolaTableView();
-    	controller.HideControls();
     	controller.init();
+    	controller.HideControls();
     	stage.show();
-    	//System.out.println("Dopo lo show");
-		
+    	//System.out.println("Dopo lo show");	
     }
 	
 	

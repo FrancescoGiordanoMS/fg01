@@ -40,6 +40,8 @@ public class MyController {
 	protected Scene parentScene;
 	protected Stage stage;
 	protected Node root;
+	protected Button btnSave;
+	protected Button btnCancel;
 	protected StatoButtonSave ButtonSave;
 	//protected MenuBar myStandardMenu; //= new MyMenuBar().StandardMenu();
 	protected MyMenuBar myMenuBar = new MyMenuBar();
@@ -139,6 +141,8 @@ public class MyController {
 				ButtonSave=StatoButtonSave.MODIFY;			
 			}
 		});	
+		
+		
 		myMenuBar.getMenuItem_Delete().setOnAction((event) -> {
 			if (indexTableView > -1) {
 				DeleteRecord();
@@ -206,12 +210,12 @@ public class MyController {
 						dp.getEditor().setStyle("-fx-opacity: 1.0;");
 						//dp.setStyle("-fx-text-inner-color: black;");
 						break;
-					case "javafx.scene.control.Button":
-						//Button bt = (Button)field.get(this);
-						//if (bt != null) bt.setDisable(true);   // al caricamento del controller non esiste ancora...
-						if (mybutton.getBtnSave() != null) mybutton.getBtnSave().setDisable(true);
-						if (mybutton.getBtnCancel() != null) mybutton.getBtnCancel().setDisable(true);
-						break;
+//					case "javafx.scene.control.Button":
+//						//Button bt = (Button)field.get(this);
+//						//if (bt != null) bt.setDisable(true);   // al caricamento del controller non esiste ancora...
+//						if (mybutton.getBtnSave() != null) mybutton.getBtnSave().setDisable(true);
+//						if (mybutton.getBtnCancel() != null) mybutton.getBtnCancel().setDisable(true);
+//						break;
 					case "javafx.scene.control.TableView":
 						TableView tv = (TableView)field.get(this);
 						tv.setDisable(false);
@@ -223,6 +227,8 @@ public class MyController {
 						break;
 					}
 					field.setAccessible(false); 
+					mybutton.getBtnSave().setDisable(true);
+					mybutton.getBtnCancel().setDisable(true);
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -264,11 +270,11 @@ public class MyController {
 						//dp.setStyle("-fx-text-inner-color: blue;");
 						dp.setStyle("-fx-font-weight: bold;");
 						break;        
-					case "javafx.scene.control.Button":
-						//Button bt = (Button)field.get(this);
-						mybutton.getBtnSave().setDisable(false);
-						mybutton.getBtnCancel().setDisable(false);
-						break;
+//					case "javafx.scene.control.Button":
+//						//Button bt = (Button)field.get(this);
+//						mybutton.getBtnSave().setDisable(false);
+//						mybutton.getBtnCancel().setDisable(false);
+//						break;
 					case "javafx.scene.control.TableView":
 						TableView tv = (TableView)field.get(this);
 						tv.setDisable(true);
@@ -280,6 +286,8 @@ public class MyController {
 						break;
 					}
 					field.setAccessible(false); 
+					mybutton.getBtnSave().setDisable(false);
+					mybutton.getBtnCancel().setDisable(false);
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

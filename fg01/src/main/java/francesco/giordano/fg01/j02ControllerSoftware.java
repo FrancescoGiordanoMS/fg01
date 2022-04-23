@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 
 public class j02ControllerSoftware extends MyController {
 
@@ -43,13 +44,18 @@ public class j02ControllerSoftware extends MyController {
 
     @FXML
     private TableColumn<j02Software, String> col_codice;
-    
-    @FXML
-	private Button btnSave;
 
+    //--------------------------------------------------------------------------------------------------------------
+	// Controlli per la selezione dei sw da aggiungere all'hardware
+    //--------------------------------------------------------------------------------------------------------------    
+  @FXML
+	private Button btnSelezionaSw;
 	@FXML
-	private Button btnCancel;
-	
+	private Button btnAnnullaSelezionaSw;
+	@FXML
+	private HBox HBoxButtons;
+	@FXML
+	private HBox HBoxDettaglio; 	
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private j02ModelSoftware model;
@@ -91,7 +97,7 @@ public class j02ControllerSoftware extends MyController {
 		}
 	}
 	public void HideControls() {
-		myMenuBar.setVisible(false);
+		myMenuBar.getMenuBar().setVisible(false);
 		mybutton.setVisible(false);
 	}
 	
@@ -125,6 +131,7 @@ public class j02ControllerSoftware extends MyController {
 		});
 	
 		disabilitaControlli();  // super: setFormField Class
+		HBoxButtons.setVisible(false);
 		indexTableView=-1;
 
 		allFields = this.getClass().getDeclaredFields();
