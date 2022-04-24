@@ -25,6 +25,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -88,15 +89,15 @@ public class Fg01ControllerHardware extends MyController{
 	@FXML
 	private Label labelErrore;
 
-//	@FXML
-//	private Button btnSave;
-//
-//	@FXML
-//	private Button btnCancel;
+	//	@FXML
+	//	private Button btnSave;
+	//
+	//	@FXML
+	//	private Button btnCancel;
 
 	@FXML
 	private Button btnNuoviSoftware;
-	
+
 	@FXML
 	private DatePicker _mDataacquisto;
 
@@ -131,33 +132,36 @@ public class Fg01ControllerHardware extends MyController{
 
 
 	@FXML
-    void handle_btnNuoviSoftware(ActionEvent event) throws IOException {
+	void handle_btnNuoviSoftware(ActionEvent event) throws IOException {
 
-    	BorderPane root;
-    	//Scene currentScene;
-    	Stage stage = new Stage();
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j02_software.fxml")) ;
-    	root = loader.load();
-    	j02ControllerSoftware controller = loader.getController() ;
-    	j02ModelSoftware model = new j02ModelSoftware();
+		if (indexTableView ==-1) return;
+		BorderPane root;
+		Stage stage = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j02_software.fxml")) ;
+		root = loader.load();
+		j02ControllerSoftware controller = loader.getController() ;
+		j02ModelSoftware model = new j02ModelSoftware();
 
-    	//currentScene=stage.getScene();
-    	Scene scene = new Scene(root);
-    	scene.getStylesheets().add("/styles/Styles.css");        
-    	stage.setTitle("Elenco dei software disponibili");
-    	stage.setScene(scene);
- 	   	
-    	//controller.setParentScene(currentScene);
-    	controller.setStage(stage);
-    	controller.setModel(model);  
-    	controller.popolaTableView();
-    	controller.init();
-    	controller.HideControls();
-    	stage.show();
-    	//System.out.println("Dopo lo show");	
-    }
-	
-	
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add("/styles/Styles.css");        
+		stage.setTitle("Elenco dei software disponibili");
+		stage.setScene(scene);
+
+		controller.setStage(stage);
+		controller.setModel(model);  
+		controller.setElementiListaDaNascondere(obsSw);
+		controller.popolaTableViewSoftwareDaSelezionare();
+		controller.init();
+		controller.HideControls();
+		// Questo listener controlla se la lista dei software legati all'hardware è stata variata
+		controller.getControlloRecordAggiunti().addListener((Change<? extends j02Software> c) -> {
+			System.out.println("Element at position"  );
+		});	
+		stage.show();
+		//System.out.println("Dopo lo show");	
+	}
+
+
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private ModelHardware model;
@@ -212,7 +216,12 @@ public class Fg01ControllerHardware extends MyController{
 	public void popolaTableView() {
 		obs=model.getRighe(MapFieldValue);
 		this.TVHardware.setItems(obs);
+
+//		obs.addListener((Change<? extends Hardware> c) -> {
+//			System.out.println("Element at position"  );
+//		});	
 	}
+
 
 	@FXML
 	void initialize() {
@@ -242,6 +251,9 @@ public class Fg01ControllerHardware extends MyController{
 				SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());
 			}
 		});
+
+
+
 		//------------------------------------------------------------------------------
 		// addListener ha come parametro una interfaccia ChangeListener che ha
 		// al suo interno un solo abstract method: 
@@ -260,6 +272,7 @@ public class Fg01ControllerHardware extends MyController{
 		Field[] allBean = Hardware.class.getDeclaredFields();
 		MapFieldValue=CreaHashMap(allFields, allBean);
 		//	System.out.println(MapFieldValue+"\n");
+
 
 		//------------------------------------------------------------------------------
 

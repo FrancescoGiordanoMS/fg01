@@ -2,12 +2,15 @@ package francesco.giordano.fg01;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.util.HashMap;
 
 import fglib.MyController;
 import francesco.giordano.fg01.model.j02Software;
 import francesco.giordano.fg01.model.ModelHardware;
 import francesco.giordano.fg01.model.j02ModelSoftware;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -18,37 +21,37 @@ import javafx.scene.layout.HBox;
 
 public class j02ControllerSoftware extends MyController {
 
-    @FXML
-    private TextField _mnomesw;
+	@FXML
+	private TextField _mnomesw;
 
-    @FXML
-    private TableView<j02Software> TVSoftware;
+	@FXML
+	private TableView<j02Software> TVSoftware;
 
-    @FXML
-    private TextField _mtiposw;
+	@FXML
+	private TextField _mtiposw;
 
-    @FXML
-    private TableColumn<j02Software, String> col_tiposw;
+	@FXML
+	private TableColumn<j02Software, String> col_tiposw;
 
-    @FXML
-    private TableColumn<j02Software, String> col_versione;
+	@FXML
+	private TableColumn<j02Software, String> col_versione;
 
-    @FXML
-    private TextField _mversione;
+	@FXML
+	private TextField _mversione;
 
-    @FXML
-    private TableColumn<j02Software, String> col_nomesw;
+	@FXML
+	private TableColumn<j02Software, String> col_nomesw;
 
-    @FXML
-    private TextField _kcodice;
+	@FXML
+	private TextField _kcodice;
 
-    @FXML
-    private TableColumn<j02Software, String> col_codice;
+	@FXML
+	private TableColumn<j02Software, String> col_codice;
 
-    //--------------------------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------------------------
 	// Controlli per la selezione dei sw da aggiungere all'hardware
-    //--------------------------------------------------------------------------------------------------------------    
-  @FXML
+	//--------------------------------------------------------------------------------------------------------------    
+	@FXML
 	private Button btnSelezionaSw;
 	@FXML
 	private Button btnAnnullaSelezionaSw;
@@ -60,7 +63,11 @@ public class j02ControllerSoftware extends MyController {
 	//--------------------------------------------------------------------------------------------------------------
 	private j02ModelSoftware model;
 	private ObservableList<j02Software> obs;
+	private ObservableList<j02Software> obsNuoviSoftware= FXCollections.<j02Software>observableArrayList();
+	private ObservableList<j02Software> obsSoftwareAggiunti= FXCollections.<j02Software>observableArrayList();
+	private HashMap<String, ObservableList<j02Software>> MapSwAssegnati = new HashMap<>();
 
+	
 	@Override
 	protected void DeleteRecord() {
 		j02Software rec = TVSoftware.getSelectionModel().getSelectedItem();
@@ -96,11 +103,7 @@ public class j02ControllerSoftware extends MyController {
 			return false;
 		}
 	}
-	public void HideControls() {
-		myMenuBar.getMenuBar().setVisible(false);
-		mybutton.setVisible(false);
-	}
-	
+
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	public void setModel(j02ModelSoftware m) {
@@ -118,7 +121,7 @@ public class j02ControllerSoftware extends MyController {
 		col_tiposw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("tiposw"));
 		col_nomesw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("nomesw"));
 		col_versione.setCellValueFactory(new PropertyValueFactory<j02Software,String>("versione"));
-		
+
 		TVSoftware.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newVal) -> {
 			if (newVal != null) {
 				_kcodice.setText(newVal.getCodice());
@@ -129,16 +132,52 @@ public class j02ControllerSoftware extends MyController {
 				indexTableView=TVSoftware.getSelectionModel().getSelectedIndex();
 			}
 		});
-	
+
 		disabilitaControlli();  // super: setFormField Class
-		HBoxButtons.setVisible(false);
+		//HBoxButtons.setVisible(false);
 		indexTableView=-1;
 
 		allFields = this.getClass().getDeclaredFields();
 		Field[] allBean = j02Software.class.getDeclaredFields();
 		MapFieldValue=CreaHashMap(allFields, allBean);
-	//	System.out.println(MapFieldValue+"\n");
-
+		//	System.out.println(MapFieldValue+"\n");
 	}
 
+	//--------------------------------------------------------------------------------------------------------------
+	// Gestione selezione aggiunta nuovi software
+	//--------------------------------------------------------------------------------------------------------------	
+	@FXML
+	void handle_btnSelezionaSw(ActionEvent event) {
+		obsNuoviSoftware.add(TVSoftware.getSelectionModel().getSelectedItem());
+		// qui: aggiungi i record al db
+		System.out.println("Prima del sync");
+		obsSoftwareAggiunti.add(new j02Software());	// è il semaforo
+		this.stage.close();
+	}
+	public void HideControls() {
+		myMenuBar.getMenuBar().setVisible(false);
+		mybutton.setVisible(false);
+		HBoxDettaglio.setVisible(false);
+	}
+	public ObservableList<j02Software> getControlloRecordAggiunti() {
+		return obsSoftwareAggiunti;		// è la lista su cui è impostato il listener
+	}
+	
+	/**
+	 * @param obs: lista dei software già assegnati
+	 */
+	public void setElementiListaDaNascondere(ObservableList<j02Software> obs) {
+		for(j02Software o : obs) {
+			MapSwAssegnati.put(o.getCodice(), obs);
+		}
+}
+	public void popolaTableViewSoftwareDaSelezionare() {
+		obs=model.getRighe();
+		for(j02Software o : obs) {
+			if (MapSwAssegnati.get(o.getCodice()) != null)
+				obs.remove(o);
+		}		
+		this.TVSoftware.setItems(obs);
+	}
+	
 }
