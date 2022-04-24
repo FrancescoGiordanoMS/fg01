@@ -7,6 +7,8 @@ import francesco.giordano.fg01.db.j02SoftwareDAO;
 import javafx.collections.ObservableList;
 
 public class J03ModelHwSw {
+	
+	public J03ModelHwSw() {	}
 
 	public ObservableList<j02Software> getRighe(Hardware Hrec, HashMap MapHwSw) {
 		ObservableList<j02Software> obs = null;	
@@ -21,5 +23,11 @@ public class J03ModelHwSw {
 		return obs;
 	}
 
+	public void RegistraSuDB(String matricolaHardware, ObservableList<j02Software> obs) {
+		if (obs != null) {	
+			J03HwSwDAO dao=new J03HwSwDAO();
+			dao.RegistraSuDB(matricolaHardware,obs);
+		}
+	}
 
 }

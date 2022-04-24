@@ -61,16 +61,7 @@ public class Fg01ControllerPWD {
 		root = loader.load();
         Fg01ControllerHardware controller = loader.getController() ;
         ModelHardware model = new ModelHardware();
-   
-        
-//    	controller.setStage(stage);
-//    	controller.setModel(model);  
-//    	controller.popolaTableView();
-//    	controller.setParentScene(stage.getScene());
-//    	Scene scene = new Scene(root);
-//    	controller.init();
-//    	stage.show();	
-    	
+      	
     	currentScene=stage.getScene();
     	Scene scene = new Scene(root);
     	scene.getStylesheets().add("/styles/Styles.css");        
@@ -83,7 +74,6 @@ public class Fg01ControllerPWD {
     	controller.popolaTableView();
     	controller.init();
     	stage.show();
- 
     }
 
     @FXML

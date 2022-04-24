@@ -58,7 +58,7 @@
                       <RowConstraints vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="btnAnnullaSelezionaSw" alignment="TOP_RIGHT" mnemonicParsing="false" text="Annulla" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                        <Button fx:id="btnAnnullaSelezionaSw" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#handle_btnAnnullaSelezionaSw" text="Annulla" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>

@@ -13,7 +13,7 @@ import javafx.collections.ObservableList;
 
 public class J03HwSwDAO {
 
-	
+
 	public ObservableList<j02Software> getRigheSoftware(Hardware Hrec) {
 		ObservableList<j02Software> obs = FXCollections.observableArrayList();
 		j02Software rec;
@@ -21,9 +21,9 @@ public class J03HwSwDAO {
 		try {
 
 			String sql ="select s.codice, s.tiposw, s.nomesw, s.versione "+
-			"from hwsw as h join software as s "+
-			"where (h.codice = s.codice) and h.matricola = ?";
-			
+					"from hwsw as h join software as s "+
+					"where (h.codice = s.codice) and h.matricola = ?";
+
 			Connection conn = DBConnect.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);
 			st.setString(1, Hrec.getMatricola());
@@ -33,8 +33,8 @@ public class J03HwSwDAO {
 				ga = new GetAutomaticField();
 				rec=(j02Software)ga.caricaSingoloBean(new j02Software(), res);
 				obs.add(rec);
-				}
-			
+			}
+
 			st.close();
 			conn.close();
 		} catch(SQLException e) {
@@ -48,4 +48,27 @@ public class J03HwSwDAO {
 		}
 		return(obs);
 	}
+
+	public void RegistraSuDB(String matricolaHardware, ObservableList<j02Software> obs) {
+		String sql = "INSERT INTO HwSw (matricola, codice) VALUES (?,?)";
+		int ix = 0;
+		PreparedStatement st;
+		try {
+			Connection conn = DBConnect.getConnection();
+			st = conn.prepareStatement(sql);
+
+			while (ix < obs.size())	 {
+				st.setString(1, matricolaHardware);
+				st.setString(2, obs.get(ix).getCodice());
+				st.execute() ;
+				ix++;
+			}					
+			st.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
+
 }

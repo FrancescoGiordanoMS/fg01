@@ -151,6 +151,7 @@ public class Fg01ControllerHardware extends MyController{
 		controller.setModel(model);  
 		controller.setElementiListaDaNascondere(obsSw);
 		controller.popolaTableViewSoftwareDaSelezionare();
+		controller.setMatricolaHardware(TVHardware.getSelectionModel().getSelectedItem().getMatricola());
 		controller.init();
 		controller.HideControls();
 		// Questo listener controlla se la lista dei software legati all'hardware è stata variata

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import fglib.MyController;
 import francesco.giordano.fg01.model.j02Software;
+import francesco.giordano.fg01.model.J03ModelHwSw;
 import francesco.giordano.fg01.model.ModelHardware;
 import francesco.giordano.fg01.model.j02ModelSoftware;
 import javafx.collections.FXCollections;
@@ -66,8 +67,9 @@ public class j02ControllerSoftware extends MyController {
 	private ObservableList<j02Software> obsNuoviSoftware= FXCollections.<j02Software>observableArrayList();
 	private ObservableList<j02Software> obsSoftwareAggiunti= FXCollections.<j02Software>observableArrayList();
 	private HashMap<String, ObservableList<j02Software>> MapSwAssegnati = new HashMap<>();
+	private String matricolaHardware;
 
-	
+
 	@Override
 	protected void DeleteRecord() {
 		j02Software rec = TVSoftware.getSelectionModel().getSelectedItem();
@@ -149,11 +151,19 @@ public class j02ControllerSoftware extends MyController {
 	@FXML
 	void handle_btnSelezionaSw(ActionEvent event) {
 		obsNuoviSoftware.add(TVSoftware.getSelectionModel().getSelectedItem());
-		// qui: aggiungi i record al db
+		
+		J03ModelHwSw model = new J03ModelHwSw();	
+		model.RegistraSuDB(matricolaHardware, obsNuoviSoftware);
 		System.out.println("Prima del sync");
 		obsSoftwareAggiunti.add(new j02Software());	// è il semaforo
 		this.stage.close();
 	}
+	
+	 @FXML
+	    void handle_btnAnnullaSelezionaSw(ActionEvent event) {
+			this.stage.close();
+	    }
+
 	public void HideControls() {
 		myMenuBar.getMenuBar().setVisible(false);
 		mybutton.setVisible(false);
@@ -162,7 +172,10 @@ public class j02ControllerSoftware extends MyController {
 	public ObservableList<j02Software> getControlloRecordAggiunti() {
 		return obsSoftwareAggiunti;		// è la lista su cui è impostato il listener
 	}
-	
+	public void setMatricolaHardware(String matricola) {
+		this.matricolaHardware= matricola;
+	}
+
 	/**
 	 * @param obs: lista dei software già assegnati
 	 */
@@ -170,14 +183,17 @@ public class j02ControllerSoftware extends MyController {
 		for(j02Software o : obs) {
 			MapSwAssegnati.put(o.getCodice(), obs);
 		}
-}
+	}
 	public void popolaTableViewSoftwareDaSelezionare() {
 		obs=model.getRighe();
-		for(j02Software o : obs) {
-			if (MapSwAssegnati.get(o.getCodice()) != null)
-				obs.remove(o);
-		}		
+		int ix =0;
+		while (ix < obs.size()) {
+			if (MapSwAssegnati.get(obs.get(ix).getCodice()) != null)
+				obs.remove(ix);
+			else
+				ix++;
+		}
 		this.TVSoftware.setItems(obs);
 	}
-	
+
 }
