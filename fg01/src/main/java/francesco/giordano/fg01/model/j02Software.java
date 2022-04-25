@@ -2,16 +2,19 @@ package francesco.giordano.fg01.model;
 
 import java.util.Objects;
 
+import javafx.scene.control.CheckBox;
+
 public class j02Software {
 
 	private String codice;
 	private String tiposw;
 	private String nomesw;
 	private String versione;
+	private CheckBox selezione;
 	
 	
 	public j02Software() {
-		// TODO Auto-generated constructor stub
+		this.selezione= new CheckBox();
 	}
 
 
@@ -52,6 +55,17 @@ public class j02Software {
 
 	public void setVersione(String versione) {
 		this.versione = versione;
+	}
+
+	
+
+	public CheckBox getSelezione() {
+		return selezione;
+	}
+
+
+	public void setSelez(CheckBox selezione) {
+		this.selezione = selezione;
 	}
 
 

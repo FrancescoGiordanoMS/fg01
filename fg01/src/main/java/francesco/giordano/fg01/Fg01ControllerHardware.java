@@ -25,6 +25,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,22 +50,10 @@ public class Fg01ControllerHardware extends MyController{
 
 	@FXML
 	private TableView<Hardware> TVHardware;
-
 	@FXML
-	private TableColumn<Hardware, String> col_tipohw;
-
-	@FXML
-	private TableColumn<Hardware, String> col_modello;
-
-	@FXML
-	private TableColumn<Hardware, String> col_marca;
-
+	private TableColumn<Hardware, String> col_modello, col_marca, col_tipohw, col_matricola;
 	@FXML
 	private TableColumn<Hardware, LocalDate> col_dataacquisto;
-
-	@FXML
-	private TableColumn<Hardware, String> col_matricola;
-
 	@FXML
 	private TableColumn<Hardware, Float> col_prezzoacquisto;
 
@@ -72,28 +61,10 @@ public class Fg01ControllerHardware extends MyController{
 	private GridPane Grid;
 
 	@FXML
-	private TextField _mMarca;
-
-	@FXML
-	private TextField _mModello;
-
-	@FXML
-	private TextField _kMatricola;
-
-	@FXML
-	private TextField _mPrezzoacquisto;
-
-	@FXML
-	private TextField _mTipoHw;
+	private TextField _kMatricola, _mMarca, _mModello, _mPrezzoacquisto, _mTipoHw;
 
 	@FXML
 	private Label labelErrore;
-
-	//	@FXML
-	//	private Button btnSave;
-	//
-	//	@FXML
-	//	private Button btnCancel;
 
 	@FXML
 	private Button btnNuoviSoftware;
@@ -103,18 +74,8 @@ public class Fg01ControllerHardware extends MyController{
 
 	@FXML
 	private MenuBar MyMenuBar;
-
 	@FXML
-	private MenuItem MenuItem_Modifica;
-
-	@FXML
-	private MenuItem MenuItem_Inserisci;
-
-	@FXML
-	private MenuItem MenuItemDelete;
-
-	@FXML
-	private MenuItem MenuItem_Close;
+	private MenuItem MenuItem_Modifica,MenuItem_Inserisci,MenuItemDelete,MenuItem_Close;
 
 	//------------------------------------------------------------------------------------------------------
 	// Tabella software
@@ -122,17 +83,8 @@ public class Fg01ControllerHardware extends MyController{
 	@FXML
 	private TableView<j02Software> TabViewSoftware;
 	@FXML
-	private TableColumn<j02Software, String> col_tiposw;
-	@FXML
-	private TableColumn<j02Software, String> col_versione;
-	@FXML
-	private TableColumn<j02Software, String> col_codice;
-	@FXML
-	private TableColumn<j02Software, String> col_nomesw;
-
-
+	private TableColumn<j02Software, String> col_tiposw,col_versione,col_codice,col_nomesw;
 	
-
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private ModelHardware model;
@@ -291,7 +243,9 @@ public class Fg01ControllerHardware extends MyController{
 		controller.init();
 		controller.HideControls();
 		// Questo listener controlla se la lista dei software legati all'hardware è stata variata
-		controller.getControlloRecordAggiunti().addListener((Change<? extends j02Software> c) -> {
+		// .addListener vuole come param l'iterfaccia ListChangeListener<E> che ha al suo interno un solo
+		// metodo: void onChanged(ListChangeListener.Change<? extends E> c)
+		controller.getControlloRecordAggiunti().addListener((ListChangeListener.Change<? extends j02Software> c) -> {
 			AggiornaSoftware();
 		});	
 		stage.show();

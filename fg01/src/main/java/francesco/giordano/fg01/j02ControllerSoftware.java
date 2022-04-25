@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -25,13 +26,12 @@ import javafx.scene.layout.HBox;
 public class j02ControllerSoftware extends MyController {
 
 	@FXML
-	private TextField _mnomesw;
+	private TextField _mnomesw,_mtiposw;
 
 	@FXML
 	private TableView<j02Software> TVSoftware;
-
 	@FXML
-	private TextField _mtiposw;
+	private TableColumn<j02Software, CheckBox> col_selezione ;
 
 	@FXML
 	private TableColumn<j02Software, String> col_tiposw;
@@ -126,7 +126,8 @@ public class j02ControllerSoftware extends MyController {
 		col_tiposw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("tiposw"));
 		col_nomesw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("nomesw"));
 		col_versione.setCellValueFactory(new PropertyValueFactory<j02Software,String>("versione"));
-
+		col_selezione.setCellValueFactory(new PropertyValueFactory<j02Software,CheckBox>("selezione"));
+		
 		TVSoftware.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newVal) -> {
 			if (newVal != null) {
 				_kcodice.setText(newVal.getCodice());
@@ -139,7 +140,7 @@ public class j02ControllerSoftware extends MyController {
 		});
 
 		disabilitaControlli();  // super: setFormField Class
-		//HBoxButtons.setVisible(false);
+		col_selezione.setVisible(false);
 		indexTableView=-1;
 
 		allFields = this.getClass().getDeclaredFields();
@@ -161,12 +162,21 @@ public class j02ControllerSoftware extends MyController {
 	 */
 	@FXML
 	void handle_btnSelezionaSw(ActionEvent event) {
-		obsNuoviSoftware.add(TVSoftware.getSelectionModel().getSelectedItem());
+		obsNuoviSoftware.clear();
+		obsNuoviSoftware=FXCollections.observableArrayList(SelezionaSwDaAggiungere());
+		//obsNuoviSoftware.add(TVSoftware.getSelectionModel().getSelectedItem());
 		J03ModelHwSw model = new J03ModelHwSw();	
 		model.RegistraSuDB(matricolaHardware, obsNuoviSoftware);
 		System.out.println("Prima del sync");
 		obsSoftwareAggiunti.add(new j02Software());	// è il semaforo
 		this.stage.close();
+	}
+	private ObservableList<j02Software> SelezionaSwDaAggiungere() {
+		ObservableList<j02Software> obs = FXCollections.<j02Software>observableArrayList();
+		for(j02Software rec : TVSoftware.getItems()  ) {
+			if (rec.getSelezione().isSelected()) obs.add(rec);
+		}
+		return obs;
 	}
 
 	@FXML
@@ -182,6 +192,7 @@ public class j02ControllerSoftware extends MyController {
 		myMenuBar.getMenuBar().setVisible(false);
 		mybutton.setVisible(false);
 		HBoxDettaglio.setVisible(false);
+		col_selezione.setVisible(true);
 	}
 	
 	
