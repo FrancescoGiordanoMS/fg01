@@ -20,10 +20,6 @@ public class EntryPoint extends Application {
         Parent root = loader.load();
         
         Fg01ControllerPWD controller = loader.getController() ;
-        
-        
-        //Model model = new Model();
-        //controller.setModel(model);  
         controller.setStage(stage);
 
         Scene scene = new Scene(root);
@@ -32,7 +28,6 @@ public class EntryPoint extends Application {
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
         stage.show();
-        //controller.setTableView();
       
     }
 

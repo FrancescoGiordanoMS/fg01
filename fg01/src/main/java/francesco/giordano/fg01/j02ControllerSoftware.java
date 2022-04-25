@@ -55,14 +55,9 @@ public class j02ControllerSoftware extends MyController {
 	// Controlli per la selezione dei sw da aggiungere all'hardware
 	//--------------------------------------------------------------------------------------------------------------    
 	@FXML
-	private Button btnSelezionaSw;
+	private Button btnSelezionaSw,btnAnnullaSelezionaSw;
 	@FXML
-	private Button btnAnnullaSelezionaSw;
-	@FXML
-	private HBox HBoxButtons;
-
-	@FXML
-	private HBox HBoxDettaglio; 	
+	private HBox HBoxButtons,HBoxDettaglio;
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private j02ModelSoftware model;

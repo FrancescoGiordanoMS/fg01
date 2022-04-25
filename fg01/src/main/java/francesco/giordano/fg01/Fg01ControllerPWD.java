@@ -45,9 +45,7 @@ public class Fg01ControllerPWD {
 	private Button btnConferma;
 	
 	 @FXML
-	 private MenuItem MenuItem_hardware;
-	 @FXML
-	 private MenuItem MenuItem_software;
+	 private MenuItem MenuItem_hardware,MenuItem_software;
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private ModelHardware model=null;
@@ -110,8 +108,6 @@ public class Fg01ControllerPWD {
 		        Grid.setVisible(false);
 		        _mMenu.setDisable(false);
 		        stage.show();
-	        
-
 	}
 
 	@FXML

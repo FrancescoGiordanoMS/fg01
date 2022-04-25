@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -14,7 +18,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.Fg01ControllerPWD">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.Fg01ControllerPWD">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -34,9 +38,14 @@
                   <Label text="Password" GridPane.rowIndex="1" />
                   <TextField fx:id="_mUtente" GridPane.columnIndex="1" />
                   <PasswordField fx:id="_mPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#handleConferma" prefHeight="31.0" prefWidth="100.0" text="Conferma" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Button fx:id="btnConferma" mnemonicParsing="false" onAction="#handleConferma" prefHeight="31.0" prefWidth="100.0" text="Conferma" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
+            <Label fx:id="welcome" layoutX="200.0" layoutY="94.0" text="Benvenuto!">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </center>
