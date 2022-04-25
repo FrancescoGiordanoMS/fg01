@@ -95,6 +95,7 @@ public class Fg01ControllerPWD {
     	controller.setStage(stage);
     	controller.setModel(model);  
     	controller.popolaTableView();
+    	controller.getHBoxButtons().setVisible(false);
     	//controller.setRoot(root);	
     	controller.init();
 //    	scene.getStylesheets().add("/styles/Styles.css");        

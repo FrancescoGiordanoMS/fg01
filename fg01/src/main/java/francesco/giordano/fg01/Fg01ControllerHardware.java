@@ -131,37 +131,7 @@ public class Fg01ControllerHardware extends MyController{
 	private TableColumn<j02Software, String> col_nomesw;
 
 
-	@FXML
-	void handle_btnNuoviSoftware(ActionEvent event) throws IOException {
-
-		if (indexTableView ==-1) return;
-		BorderPane root;
-		Stage stage = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j02_software.fxml")) ;
-		root = loader.load();
-		j02ControllerSoftware controller = loader.getController() ;
-		j02ModelSoftware model = new j02ModelSoftware();
-
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add("/styles/Styles.css");        
-		stage.setTitle("Elenco dei software disponibili");
-		stage.setScene(scene);
-
-		controller.setStage(stage);
-		controller.setModel(model);  
-		controller.setElementiListaDaNascondere(obsSw);
-		controller.popolaTableViewSoftwareDaSelezionare();
-		controller.setMatricolaHardware(TVHardware.getSelectionModel().getSelectedItem().getMatricola());
-		controller.init();
-		controller.HideControls();
-		// Questo listener controlla se la lista dei software legati all'hardware è stata variata
-		controller.getControlloRecordAggiunti().addListener((Change<? extends j02Software> c) -> {
-			System.out.println("Element at position"  );
-		});	
-		stage.show();
-		//System.out.println("Dopo lo show");	
-	}
-
+	
 
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
@@ -291,11 +261,58 @@ public class Fg01ControllerHardware extends MyController{
 		//	});
 	}
 
+	/**************************************************************************************
+	 * Questo evento apre la form per la selezione dei nuovi sw da associare 
+	 * all'hw correntemente selezionato
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	void handle_btnNuoviSoftware(ActionEvent event) throws IOException {
+
+		if (indexTableView ==-1) return;
+		BorderPane root;
+		Stage stage = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j02_software.fxml")) ;
+		root = loader.load();
+		j02ControllerSoftware controller = loader.getController() ;
+		j02ModelSoftware model = new j02ModelSoftware();
+
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add("/styles/Styles.css");        
+		stage.setTitle("Elenco dei software disponibili");
+		stage.setScene(scene);
+
+		controller.setStage(stage);
+		controller.setModel(model);  
+		controller.setElementiListaDaNascondere(obsSw);
+		controller.popolaTableViewSoftwareDaSelezionare();
+		controller.setMatricolaHardware(TVHardware.getSelectionModel().getSelectedItem().getMatricola());
+		controller.init();
+		controller.HideControls();
+		// Questo listener controlla se la lista dei software legati all'hardware è stata variata
+		controller.getControlloRecordAggiunti().addListener((Change<? extends j02Software> c) -> {
+			AggiornaSoftware();
+		});	
+		stage.show();
+	}
+
+	
 	private void SelezionaRecordSoftware(Hardware selectedItem) {
 		//if (obsSw != null) obsSw.clear();
 		obsSw=modelHwSw.getRighe(selectedItem,MapHwSw);
 		this.TabViewSoftware.setItems(obsSw);
 		this.TabViewSoftware.refresh();
+	}
+	
+	/**
+	 *  Viene lanciato dal listener non appena sente che è stato aggiunto nuovo software all'hardware 
+	 *  correntemente selezionato
+	 */
+	private void AggiornaSoftware() {
+		MapHwSw.remove(TVHardware.getSelectionModel().getSelectedItem().getMatricola()); 	// 1 : cancello dalla mappa la vecchia lista dei sw associati
+		SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());			// 2 : forzo la rilettura dei sw associati
+
 	}
 
 }

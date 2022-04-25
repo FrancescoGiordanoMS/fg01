@@ -1,14 +1,12 @@
 package francesco.giordano.fg01;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
 import java.util.HashMap;
 
 import fglib.MyController;
-import francesco.giordano.fg01.model.j02Software;
 import francesco.giordano.fg01.model.J03ModelHwSw;
-import francesco.giordano.fg01.model.ModelHardware;
 import francesco.giordano.fg01.model.j02ModelSoftware;
+import francesco.giordano.fg01.model.j02Software;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +18,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 
+/**
+ * @author Francesco
+ *
+ */
 public class j02ControllerSoftware extends MyController {
 
 	@FXML
@@ -58,6 +60,7 @@ public class j02ControllerSoftware extends MyController {
 	private Button btnAnnullaSelezionaSw;
 	@FXML
 	private HBox HBoxButtons;
+
 	@FXML
 	private HBox HBoxDettaglio; 	
 	//--------------------------------------------------------------------------------------------------------------
@@ -148,35 +151,54 @@ public class j02ControllerSoftware extends MyController {
 	//--------------------------------------------------------------------------------------------------------------
 	// Gestione selezione aggiunta nuovi software
 	//--------------------------------------------------------------------------------------------------------------	
+	/**************************************************************************************
+	 *  Questo evento raccoglie la lista dei software selezionati,
+	 *  li aggiunge al DB ed infine segnala che la lista dei sw
+	 *  associati all'hardware è stata modifica per forzarne la
+	 *  rilettura e l'aggiornamento della tableview dei sw 
+	 *  associati all'hw selezionato
+	 * @param event
+	 */
 	@FXML
 	void handle_btnSelezionaSw(ActionEvent event) {
 		obsNuoviSoftware.add(TVSoftware.getSelectionModel().getSelectedItem());
-		
 		J03ModelHwSw model = new J03ModelHwSw();	
 		model.RegistraSuDB(matricolaHardware, obsNuoviSoftware);
 		System.out.println("Prima del sync");
 		obsSoftwareAggiunti.add(new j02Software());	// è il semaforo
 		this.stage.close();
 	}
-	
-	 @FXML
-	    void handle_btnAnnullaSelezionaSw(ActionEvent event) {
-			this.stage.close();
-	    }
 
+	@FXML
+	void handle_btnAnnullaSelezionaSw(ActionEvent event) {
+		this.stage.close();
+	}
+
+	/**************************************************************************************
+	 * Nasconde i controlli standard della form quando questa viene chiamata
+	 * come finestra per la sola scelta dei software da associare all'hardware
+	 */
 	public void HideControls() {
 		myMenuBar.getMenuBar().setVisible(false);
 		mybutton.setVisible(false);
 		HBoxDettaglio.setVisible(false);
 	}
+	
+	
+	/**************************************************************************************
+	 * A questa funzione è stato aggiunto il listener per determinare il momento in cui
+	 * qualcuno ha selezionato nuovo software da aggiungere all'hardware correntemente
+	 * selezionato
+	 * @return : ObservableList<j02Software> , la lista che serve solo da segnale per 
+	 * 					indicare che è stato associato nuovo software all'hardware 
+	 * 					correntemente selezionato
+	 */
 	public ObservableList<j02Software> getControlloRecordAggiunti() {
 		return obsSoftwareAggiunti;		// è la lista su cui è impostato il listener
 	}
-	public void setMatricolaHardware(String matricola) {
-		this.matricolaHardware= matricola;
-	}
-
-	/**
+	
+	
+	/**************************************************************************************
 	 * @param obs: lista dei software già assegnati
 	 */
 	public void setElementiListaDaNascondere(ObservableList<j02Software> obs) {
@@ -184,6 +206,12 @@ public class j02ControllerSoftware extends MyController {
 			MapSwAssegnati.put(o.getCodice(), obs);
 		}
 	}
+	
+	/**************************************************************************************
+	 * Seleziona i soli software disponibili non ancora associati all'hardware.
+	 * Toglie dall'elenco di tutti i sw disponibili quelli presenti nella mappa
+	 * che indica tutti quelli gia associati 
+	 */
 	public void popolaTableViewSoftwareDaSelezionare() {
 		obs=model.getRighe();
 		int ix =0;
@@ -194,6 +222,15 @@ public class j02ControllerSoftware extends MyController {
 				ix++;
 		}
 		this.TVSoftware.setItems(obs);
+	}
+	
+	
+	public void setMatricolaHardware(String matricola) {
+		this.matricolaHardware= matricola;
+	}
+	
+	public HBox getHBoxButtons() {
+		return HBoxButtons;
 	}
 
 }
