@@ -1,16 +1,17 @@
 .root {
-     -fx-background-image: url("background.jpg");
+	-fx-background-image: url("background.jpg");
 }
 
 .button {
-    -fx-text-fill: white;
-    -fx-font-family: "Arial Narrow";
-    -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+	-fx-text-fill: white;
+	-fx-font-family: "Arial Narrow";
+	-fx-font-weight: bold;
+	-fx-background-color: linear-gradient(#61a2b1, #2A5058);
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
+
 .button:hover {
-    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+	-fx-background-color: linear-gradient(#2A5058, #61a2b1);
 }
 
 /*
@@ -21,28 +22,117 @@
     -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
 }
 */
-
 #welcome {
-   -fx-font-size: 32px;
-   -fx-font-family: "Arial Black";
-   -fx-fill: #818181;
-   -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+	-fx-font-size: 32px;
+	-fx-font-family: "Arial Black";
+	-fx-fill: #818181;
+	-fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.7), 6, 0.0, 0, 2);
 }
+
 #actiontarget {
-  -fx-fill: FIREBRICK;
-  -fx-font-weight: bold;
-  -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );  
+	-fx-fill: FIREBRICK;
+	-fx-font-weight: bold;
+	-fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 0, 0, 0, 1);
 }
 
 #btnConferma {
-    -fx-background-color: linear-gradient(#f0ff35, #a9ff00),
-        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
-    -fx-background-radius: 6, 5;
-    -fx-background-insets: 0, 1;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: #395306;
+	-fx-background-color: linear-gradient(#f0ff35, #a9ff00),
+		radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+	-fx-background-radius: 6, 5;
+	-fx-background-insets: 0, 1;
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 5, 0.0, 0, 1);
+	-fx-text-fill: #395306;
 }
 
+.table-view .column-header, .table-view .column-header-background .filler
+	{
+	-fx-background-color: #cecece;
+}
+
+.table-view .column-header .label {
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-alignment: CENTER_LEFT;
+}
+/*
+.table-view .cell{
+   -fx-cell-size: 35;
+  -fx-alignment: center-left;
+  -fx-background-color: #29292D;
+  -fx-border-color: #29292D;
+  -fx-text-fill: lightgray;
+  -fx-alignment: CENTER_LEFT;
+  
+}
+*/
+.table-row-cell:odd {
+	/*
+   -fx-background-color: whitesmoke; 
+   -fx-text-background-color:  #6622CC; 
+   -fx-cell-size: 35; 
+     
+*/
+	-fx-alignment: center-left;
+	-fx-background-color: #dedede;
+	-fx-text-fill: lightgray;
+	-fx-alignment: CENTER_LEFT;
+
+}
+
+.table-row-cell:even {
+	-fx-background-color: #eaeaea;
+	-fx-text-background-color: #6622CC;
+	-fx-alignment: center-left;
+	-fx-text-fill: lightgray;
+}
+
+.table-row-cell:selected {
+	/*
+   -fx-background-color: whitesmoke; 
+   -fx-text-background-color:  #6622CC;   
+   */
+	-fx-background-color: #808040;
+	-fx-text-background-color: #f9f9f9;
+	-fx-text-fill: lightgray;
+	/*-fx-border-left-color: #ffffff;*/
+	
+	
+}
+
+/* scroll bar starts here */
+
+/* The increment and decrement button CSS class of scrollbar */
+.table-view .increment-button, .table-view .decrement-button {
+	-fx-background-color: transparent;
+	-fx-background-radius: 2em;
+}
+/* The main scrollbar **track** CSS class  */
+.table-view .scroll-bar:horizontal .track, .table-view .scroll-bar:vertical .track
+	{
+	-fx-background-color: transparent;
+	-fx-border-color: derive(#6622CC, 80%);  
+	-fx-background-radius: 2em;
+	-fx-border-radius: 2em;
+}
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) 
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color:derive( #6622CC,90%);
+	-fx-background-insets: 2, 0, 0;
+	-fx-background-radius: 2em;
+}
+*/
+
+/* chart properties */
+.chart {
+	-fx-padding: 10px;
+	-fx-background-color: transparent;
+	-fx-legend-visible: false;
+}
+
+.chart-plot-background {
+	-fx-background-color: transparent;
+}
 
 /*
 #round-red {<font></font>
