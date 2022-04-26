@@ -3,6 +3,8 @@ package francesco.giordano.fg01;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 
+import org.kordamp.bootstrapfx.BootstrapFX;
+
 import francesco.giordano.fg01.Fg01ControllerPWD;
 //import francesco.giordano.fg01.model.Model;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +26,10 @@ public class EntryPoint extends Application {
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
+  
+       // scene.getStylesheets().add("/styles/TestFX.css");       //(3)
+
+             
         
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);

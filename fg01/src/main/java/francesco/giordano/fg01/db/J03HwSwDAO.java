@@ -71,4 +71,25 @@ public class J03HwSwDAO {
 		}
 	}	
 
+
+	public void EliminaDaDB(String matricolaHw, String codiceSw) {
+		String sql = "Delete from HwSw where matricola = ? and codice= ?";
+		int ix = 0;
+		PreparedStatement st;
+		try {
+			Connection conn = DBConnect.getConnection();
+			st = conn.prepareStatement(sql);
+
+			st.setString(1, matricolaHw);
+			st.setString(2, codiceSw);
+			st.execute() ;
+			st.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
 }

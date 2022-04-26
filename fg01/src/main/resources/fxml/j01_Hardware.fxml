@@ -43,7 +43,8 @@
                                     <TableColumn fx:id="col_versione" prefWidth="89.0" text="Versione" />
                                 </columns>
                               </TableView>
-                              <Button fx:id="btnNuoviSoftware" layoutX="385.0" layoutY="308.0" mnemonicParsing="false" onAction="#handle_btnNuoviSoftware" text="Aggiungi nuovi sw" />
+                              <Button fx:id="btnNuoviSoftware" layoutX="282.0" layoutY="308.0" mnemonicParsing="false" onAction="#handle_btnNuoviSoftware" text="Aggiungi nuovi sw" />
+                              <Button fx:id="btnSganciaDaHw" layoutX="407.0" layoutY="308.0" mnemonicParsing="false" onAction="#handle_btnSganciaDaHw" text="Sgancia da hw" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -54,7 +55,7 @@
                            <children>
                               <Pane layoutX="14.0" layoutY="14.0" prefHeight="301.0" prefWidth="360.0" style="-fx-border-color: black;">
                                  <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="IMV" fitHeight="307.0" fitWidth="362.0" layoutY="-7.0" onDragDropped="#handle_DragDropped" onDragOver="#handle_DragOver" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </Pane>
                            </children>
@@ -92,6 +93,11 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
+                        <TextField fx:id="filterfield">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </TextField>
                      </children>
                   </HBox>
                   <HBox prefHeight="167.0">

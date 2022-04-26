@@ -1,5 +1,8 @@
 package francesco.giordano.fg01;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -28,6 +31,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,6 +46,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -60,22 +69,18 @@ public class Fg01ControllerHardware extends MyController{
 	@FXML
 	private GridPane Grid;
 
-	@FXML
-	private TextField _kMatricola, _mMarca, _mModello, _mPrezzoacquisto, _mTipoHw;
+	@FXML private TextField _kMatricola, _mMarca, _mModello, _mPrezzoacquisto, _mTipoHw, filterfield;
 
-	@FXML
-	private Label labelErrore;
+	@FXML private Label labelErrore;
 
-	@FXML
-	private Button btnNuoviSoftware;
+	@FXML private Button btnNuoviSoftware, btnSganciaDaHw;
 
-	@FXML
-	private DatePicker _mDataacquisto;
+	@FXML private DatePicker _mDataacquisto;
 
-	@FXML
-	private MenuBar MyMenuBar;
-	@FXML
-	private MenuItem MenuItem_Modifica,MenuItem_Inserisci,MenuItemDelete,MenuItem_Close;
+	@FXML private ImageView IMV;
+
+	@FXML private MenuBar MyMenuBar;
+	@FXML private MenuItem MenuItem_Modifica,MenuItem_Inserisci,MenuItemDelete,MenuItem_Close;
 
 	//------------------------------------------------------------------------------------------------------
 	// Tabella software
@@ -93,6 +98,32 @@ public class Fg01ControllerHardware extends MyController{
 	private ObservableList<j02Software> obsSw;
 	private HashMap<String, ObservableList<j02Software>> MapHwSw = new HashMap<>();
 
+	//-----------------------------------------------------------------------------------------
+	// Drag & Drop Immagini
+	//-----------------------------------------------------------------------------------------
+	@FXML
+    void handle_DragOver(DragEvent event) {
+		if (event.getDragboard().hasFiles()) {
+			event.acceptTransferModes(TransferMode.ANY);
+		}
+	}
+	@FXML
+	void handle_DragDropped(DragEvent event) {
+		List<File> files=event.getDragboard().getFiles();
+		Image img;
+		try {
+			img = new Image(new FileInputStream(files.get(0)));
+			IMV.setImage(img);
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+
+	//-----------------------------------------------------------------------------------------
+	// Azioni sul database
+	//-----------------------------------------------------------------------------------------	
 	@Override
 	protected void DeleteRecord() {
 		Hardware rec=TVHardware.getSelectionModel().getSelectedItem();
@@ -107,6 +138,7 @@ public class Fg01ControllerHardware extends MyController{
 		Hardware rec=null;
 		Field[] allFields = this.getClass().getDeclaredFields();
 		rec=(Hardware) ReadModifiedFields(TVHardware.getSelectionModel().getSelectedItem(), allFields);
+		rec.setImage(IMV.getImage());
 		model.DBModify(rec);
 		TVHardware.refresh();
 	}
@@ -169,7 +201,7 @@ public class Fg01ControllerHardware extends MyController{
 				_mModello.setText(newVal.getModello());
 				_mPrezzoacquisto.setText(String.valueOf(newVal.getPrezzoacquisto()));
 				_mDataacquisto.setValue(newVal.getDataacquisto());
-				//IMV.setImage(newVal.getImage());
+				IMV.setImage(newVal.getImage());
 				indexTableView=TVHardware.getSelectionModel().getSelectedIndex();
 				SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());
 			}
@@ -211,8 +243,50 @@ public class Fg01ControllerHardware extends MyController{
 		//			return str;
 		//		}
 		//	});
-	}
-
+		
+		
+	    // Wrap the ObservableList in a FilteredList (initially display all data).
+//	    FilteredList<Hardware> filteredData = new FilteredList<>(obs, b -> true);
+		
+//		// 2. Set the filter Predicate whenever the filter changes.
+//		filterfield.textProperty().addListener((observable, oldValue, newValue) -> {
+//			filteredData.setPredicate(hardware -> {
+//				// If filter text is empty, display all persons.
+//								
+//				if (newValue == null || newValue.isEmpty()) {
+//					return true;
+//				}
+//				
+//				// Compare first name and last name of every person with filter text.
+//				String lowerCaseFilter = newValue.toLowerCase();
+//				
+//				if (hardware.getMatricola().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
+//					return true; // Filter matches first name.
+//				} else if (hardware.getModello().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+//					return true; // Filter matches last name.
+//				}
+//				else if (String.valueOf(hardware.getPrezzoacquisto()).indexOf(lowerCaseFilter)!=-1)
+//				     return true;
+//				     else  
+//				    	 return false; // Does not match.
+//			});
+//		});
+//		
+//		// 3. Wrap the FilteredList in a SortedList. 
+//		SortedList<Hardware> sortedData = new SortedList<>(filteredData);
+//		
+//		// 4. Bind the SortedList comparator to the TableView comparator.
+//		// 	  Otherwise, sorting the TableView would have no effect.
+//		sortedData.comparatorProperty().bind(TVHardware.comparatorProperty());
+//		
+//		// 5. Add sorted (and filtered) data to the table.
+//		TVHardware.setItems(sortedData);
+//	           
+	    
+	}    
+		
+	
+	//public Class j03sw() {
 	/**************************************************************************************
 	 * Questo evento apre la form per la selezione dei nuovi sw da associare 
 	 * all'hw correntemente selezionato
@@ -251,6 +325,21 @@ public class Fg01ControllerHardware extends MyController{
 		stage.show();
 	}
 
+	/**
+	 * Evento che elimina l'associazione del sw all'hardware
+	 */
+	public void handle_btnSganciaDaHw() {
+		int index = TabViewSoftware.getSelectionModel().getSelectedIndex();
+		if (index >= 0) {
+			String matricola = TVHardware.getSelectionModel().getSelectedItem().getMatricola();
+			String codiceSw = obsSw.get(index).getCodice();
+			//j02Software rec = new j02Software();
+			modelHwSw.EliminaDaDB(matricola,codiceSw);
+			// cancello il record dalla mappa
+			MapHwSw.remove(matricola);
+			SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());			// 2 : forzo la rilettura dei sw associati
+		}
+	}
 	
 	private void SelezionaRecordSoftware(Hardware selectedItem) {
 		//if (obsSw != null) obsSw.clear();
@@ -266,7 +355,11 @@ public class Fg01ControllerHardware extends MyController{
 	private void AggiornaSoftware() {
 		MapHwSw.remove(TVHardware.getSelectionModel().getSelectedItem().getMatricola()); 	// 1 : cancello dalla mappa la vecchia lista dei sw associati
 		SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());			// 2 : forzo la rilettura dei sw associati
-
 	}
+	
+	
+	
+
 
 }
+//}

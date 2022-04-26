@@ -57,7 +57,7 @@ public class HardwareDAO {
 
 			String sql = "update hardware set "+
 						"tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
-						"prezzoacquisto = ? where matricola = ?";
+						"prezzoacquisto = ?, immagine = ? where matricola = ?";
 
 			PreparedStatement st2 = conn.prepareStatement(sql);
 			st2.setString(1, Record.getTipohw());
@@ -67,7 +67,8 @@ public class HardwareDAO {
 			if (Record.getDataacquisto() == null) st2.setNull(4, java.sql.Types.DATE);
 			else st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
 			st2.setFloat(5, Record.getPrezzoacquisto());
-			st2.setString(6, Record.getMatricola());
+			st2.setBlob(6, Record.getImmagine());
+			st2.setString(7, Record.getMatricola());
 			ret = st2.execute() ;
 
 			st2.close();

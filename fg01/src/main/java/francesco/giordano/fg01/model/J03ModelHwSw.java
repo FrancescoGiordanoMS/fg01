@@ -10,7 +10,7 @@ public class J03ModelHwSw {
 	
 	public J03ModelHwSw() {	}
 
-	public ObservableList<j02Software> getRighe(Hardware Hrec, HashMap MapHwSw) {
+	public ObservableList<j02Software> getRighe(Hardware Hrec, HashMap<String, ObservableList<j02Software>> MapHwSw) {
 		ObservableList<j02Software> obs = null;	
 		String matricola = Hrec.getMatricola();
 
@@ -30,4 +30,9 @@ public class J03ModelHwSw {
 		}
 	}
 
+	public void EliminaDaDB(String matricolaHardware, String codiceSw) {
+		J03HwSwDAO dao=new J03HwSwDAO();
+		dao.EliminaDaDB(matricolaHardware,codiceSw);		
+	}
+	
 }
