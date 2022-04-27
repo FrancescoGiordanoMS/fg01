@@ -134,13 +134,13 @@ public class Fg01ControllerHardware extends MyController{
 
 	@Override
 	protected void SalvaModifiche() {
+		boolean ret;
 		Hardware rec=null;
 		Field[] allFields = this.getClass().getDeclaredFields();
 		rec=(Hardware) ReadModifiedFields(TVHardware.getSelectionModel().getSelectedItem(), allFields);
-		//rec.setOldHashCode(rec.hashCode());
 		rec.setImage(IMV.getImage());
-		model.DBModify(rec);
-		obs.get(indexTableView).setSavedhashcode(rec.hashCode());  // salvo hashcode dopo la modifica
+		ret=model.DBModify(rec);
+		if (ret) obs.get(indexTableView).setSavedhashcode(rec.hashCode());  // salvo hashcode dopo la modifica
 		TVHardware.refresh();
 	}
 
