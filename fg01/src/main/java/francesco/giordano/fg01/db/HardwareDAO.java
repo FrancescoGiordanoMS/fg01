@@ -16,6 +16,8 @@ import francesco.giordano.fg01.db.GetAutomaticField;
 import francesco.giordano.fg01.model.Hardware;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class HardwareDAO {
 
@@ -49,18 +51,52 @@ public class HardwareDAO {
 		return(obs);
 	}
 
+	
+	
+	/*************************************************************************************
+	 * L'update viene eseguito solo se lo hashcode salvato nel record del db è uguale a
+	 * quello salvato nel record bean al momento del caricamento in tableview. Se sono 
+	 * uguali significa che nessun altro utente ha nel frattempo modificato il record. 
+	 * Se sono diversi significa che nel frattempo un altro utente ha modificato, quindi
+	 * genero un msg di errore per impedire la modifica dei dati 
+	 * @param Hardware Record - E' il record da salvare
+	 * @return
+	 */
 	public boolean DBModify(Hardware Record) {
 		boolean ret=true;
+	
 		//Date dataAcq  = java.sql.Date.valueOf(Record.getDataacquisto()); 
 		try {
 			Connection conn = DBConnect.getConnection();
 
-			String sql = "update hardware set "+
+			// Prima di tutto controllo che hasCode() del record sia valido, cioè verifico che nel frattempo
+			// nessun altro abbia modificato il record nel db
+			String sql = "SELECT * FROM Hardware where matricola = ?";
+			
+			PreparedStatement st2 = conn.prepareStatement(sql);
+			st2.setString(1, Record.getMatricola());
+			ResultSet res=st2.executeQuery();
+			res.next();
+			if (res != null) {
+				if (res.getInt("savedhashcode") != Record.getSavedhashcode() && res.getInt("savedhashCode")!=0) {
+				// il record è stato nel frattempo modificato da altro utente...
+				// sarebbe utile qui rileggere il record da db e visualizzarlo
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("SQL Error");
+				alert.setHeaderText("Si è verificato un errore durante update");
+				alert.setContentText("Il record è stato modificato da un altro utente");
+				alert.showAndWait();
+				st2.close();
+				conn.close();
+				return(false);
+			}
+			}
+			// il record nel db non è stato modificato... posso proseguire 
+			sql = "update hardware set "+
 						"tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
 						"prezzoacquisto = ?, immagine = ?, "+
-						"hashcode = ? where matricola = ?";
-
-			PreparedStatement st2 = conn.prepareStatement(sql);
+						"savedhashcode = ? where matricola = ?";
+			st2 = conn.prepareStatement(sql);
 			st2.setString(1, Record.getTipohw());
 			st2.setString(2,Record.getMarca());
 			st2.setString(3,Record.getModello());
@@ -72,14 +108,19 @@ public class HardwareDAO {
 			st2.setInt(7, Record.hashCode());
 			st2.setString(8, Record.getMatricola());
 			ret = st2.execute() ;
-
 			st2.close();
 			conn.close();
 			return(ret);
 
 		} catch(SQLException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("SQL Error");
+			alert.setHeaderText("Si è verificato un errore durante update");
+			alert.setContentText(e.getMessage());
+			alert.showAndWait();		
 			throw new RuntimeException("Database Error updating Hardware table", e);
 			//return(false);
+			
 		}
 		//return(false);
 	}
@@ -92,7 +133,7 @@ public class HardwareDAO {
 
 			String sql = "INSERT INTO hardware "+
 					"(	 matricola,		tipohw,			marca,			modello, "+
-						"dataacquisto, 	prezzoacquisto,	hashcodehw ) "+
+						"dataacquisto, 	prezzoacquisto,	savedhashcode ) "+
 						"VALUES (?,?,?,?,?,?,?)";
 					
 			PreparedStatement st = conn.prepareStatement(sql);

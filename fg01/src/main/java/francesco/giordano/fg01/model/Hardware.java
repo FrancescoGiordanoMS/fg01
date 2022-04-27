@@ -25,6 +25,7 @@ public class Hardware {
 	private float prezzoacquisto;
 	private Blob immagine;
 	private Image image;
+	private int savedhashcode;	// contiene hashcode letto dal record del db
 
 
 	//public Hardware(String matricola, String tipohw, String marca, String modello, LocalDate dataacquisto,
@@ -171,7 +172,13 @@ public class Hardware {
 		}
 	}
 
+	public int getSavedhashcode() {
+		return savedhashcode;
+	}
 
+	public void setSavedhashcode(int savedhashcode) {
+		this.savedhashcode = savedhashcode;
+	}
 
 	@Override
 	public int hashCode() {

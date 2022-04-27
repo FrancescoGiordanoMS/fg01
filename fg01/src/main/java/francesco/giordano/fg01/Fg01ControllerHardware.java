@@ -57,14 +57,13 @@ import javafx.util.Callback;
 
 public class Fg01ControllerHardware extends MyController{
 
-	@FXML
-	private TableView<Hardware> TVHardware;
-	@FXML
-	private TableColumn<Hardware, String> col_modello, col_marca, col_tipohw, col_matricola;
-	@FXML
-	private TableColumn<Hardware, LocalDate> col_dataacquisto;
-	@FXML
-	private TableColumn<Hardware, Float> col_prezzoacquisto;
+	@FXML private TableView<Hardware> TVHardware;
+	@FXML private TableColumn<Hardware, String> col_modello, col_marca, col_tipohw, col_matricola;
+	@FXML private TableColumn<Hardware, LocalDate> col_dataacquisto;
+	@FXML private TableColumn<Hardware, Float> col_prezzoacquisto;
+	@FXML private TableColumn<Hardware, Integer> col_savedhashcode;
+	
+	
 
 	@FXML
 	private GridPane Grid;
@@ -138,8 +137,10 @@ public class Fg01ControllerHardware extends MyController{
 		Hardware rec=null;
 		Field[] allFields = this.getClass().getDeclaredFields();
 		rec=(Hardware) ReadModifiedFields(TVHardware.getSelectionModel().getSelectedItem(), allFields);
+		//rec.setOldHashCode(rec.hashCode());
 		rec.setImage(IMV.getImage());
 		model.DBModify(rec);
+		obs.get(indexTableView).setSavedhashcode(rec.hashCode());  // salvo hashcode dopo la modifica
 		TVHardware.refresh();
 	}
 
@@ -188,6 +189,7 @@ public class Fg01ControllerHardware extends MyController{
 		col_modello.setCellValueFactory(new PropertyValueFactory<Hardware,String>("modello"));
 		col_dataacquisto.setCellValueFactory(new PropertyValueFactory<Hardware,LocalDate>("dataacquisto"));
 		col_prezzoacquisto.setCellValueFactory(new PropertyValueFactory<Hardware,Float>("prezzoacquisto"));
+		col_savedhashcode.setCellValueFactory(new PropertyValueFactory<Hardware,Integer>("savedhashcode"));
 
 		col_codice.setCellValueFactory(new PropertyValueFactory<j02Software,String>("codice"));
 		col_tiposw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("tiposw"));

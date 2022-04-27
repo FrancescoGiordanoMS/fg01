@@ -4,8 +4,7 @@
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.TextArea?>
 
-
-<DialogPane prefHeight="93.0" prefWidth="220.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.FXMLController">
+<DialogPane prefHeight="93.0" prefWidth="220.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.FXMLMessagebox">
    <buttonTypes>
       <ButtonType fx:constant="FINISH" />
    </buttonTypes>
