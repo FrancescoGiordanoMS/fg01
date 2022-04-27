@@ -86,14 +86,14 @@
                         </TableView>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0">
+                  <HBox prefHeight="35.0" prefWidth="400.0">
                      <children>
                         <Label fx:id="labelErrore" text="Casella di ricerca">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="8.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="filterfield" prefHeight="31.0" prefWidth="274.0">
+                        <TextField fx:id="filterfield" prefHeight="31.0" prefWidth="274.0" promptText="keyword : matricola/modello">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>

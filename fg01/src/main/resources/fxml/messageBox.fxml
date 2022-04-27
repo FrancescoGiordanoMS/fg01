@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.TextArea?>
+
+
+<DialogPane prefHeight="93.0" prefWidth="220.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.FXMLController">
+   <buttonTypes>
+      <ButtonType fx:constant="FINISH" />
+   </buttonTypes>
+   <content>
+      <TextArea fx:id="Mssaggio" editable="false" prefHeight="200.0" prefWidth="200.0" />
+   </content>
+</DialogPane>

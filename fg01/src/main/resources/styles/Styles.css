@@ -73,7 +73,8 @@
      
 */
 	-fx-alignment: center-left;
-	-fx-background-color: #dedede;
+	/*-fx-background-color: #dedede;*/
+	-fx-background-color: rgb(255, 255, 198);
 	-fx-text-fill: lightgray;
 	-fx-alignment: CENTER_LEFT;
 
@@ -81,7 +82,8 @@
 
 .table-row-cell:even {
 	-fx-background-color: #eaeaea;
-	-fx-text-background-color: #6622CC;
+	/*-fx-text-background-color: #6622CC;*/
+	-fx-background-color: rgb(255, 255, 183);
 	-fx-alignment: center-left;
 	-fx-text-fill: lightgray;
 }
