@@ -250,6 +250,36 @@ public class Fg01ControllerHardware extends MyController{
 	    
 	}    
 		
+	/*************************************************************************************************
+	 * Metodo per implementazione ricerca in tableview
+	 */
+	private void setSearch() {
+    // Wrap the ObservableList in a FilteredList (initially display all data).
+    FilteredList<Hardware> filteredData = new FilteredList<>(obs, b -> true);
+	
+	// 2. Set the filter Predicate whenever the filter changes.
+	filterfield.textProperty().addListener((observable, oldValue, newValue) -> {
+		filteredData.setPredicate(hardware -> {
+			// If filter text is empty, display all records						
+			if (newValue == null || newValue.isEmpty()) return true;
+			String lowerCaseFilter = newValue.toLowerCase();
+			
+			if (hardware.getMatricola().toLowerCase().indexOf(lowerCaseFilter) != -1 ) return true; // Filter matches first name.
+			else if (hardware.getModello().toLowerCase().indexOf(lowerCaseFilter) != -1) return true; // Filter matches last name.
+			else if (String.valueOf(hardware.getPrezzoacquisto()).indexOf(lowerCaseFilter)!=-1) return true;
+			else return false; // Does not match.
+		});
+	});
+	// 3. Wrap the FilteredList in a SortedList. 
+	SortedList<Hardware> sortedData = new SortedList<>(filteredData);
+	// 4. Bind the SortedList comparator to the TableView comparator.
+	// 	  Otherwise, sorting the TableView would have no effect.
+	sortedData.comparatorProperty().bind(TVHardware.comparatorProperty());	
+	// 5. Add sorted (and filtered) data to the table.
+	TVHardware.setItems(sortedData);
+	}
+
+	
 	
 	//public Class j03sw() {
 	/**************************************************************************************
@@ -324,35 +354,7 @@ public class Fg01ControllerHardware extends MyController{
 		SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());			// 2 : forzo la rilettura dei sw associati
 	}
 	
-	/*************************************************************************************************
-	 * Metodo per implementazione ricerca in tableview
-	 */
-	private void setSearch() {
-    // Wrap the ObservableList in a FilteredList (initially display all data).
-    FilteredList<Hardware> filteredData = new FilteredList<>(obs, b -> true);
 	
-	// 2. Set the filter Predicate whenever the filter changes.
-	filterfield.textProperty().addListener((observable, oldValue, newValue) -> {
-		filteredData.setPredicate(hardware -> {
-			// If filter text is empty, display all records						
-			if (newValue == null || newValue.isEmpty()) return true;
-			String lowerCaseFilter = newValue.toLowerCase();
-			
-			if (hardware.getMatricola().toLowerCase().indexOf(lowerCaseFilter) != -1 ) return true; // Filter matches first name.
-			else if (hardware.getModello().toLowerCase().indexOf(lowerCaseFilter) != -1) return true; // Filter matches last name.
-			else if (String.valueOf(hardware.getPrezzoacquisto()).indexOf(lowerCaseFilter)!=-1) return true;
-			else return false; // Does not match.
-		});
-	});
-	// 3. Wrap the FilteredList in a SortedList. 
-	SortedList<Hardware> sortedData = new SortedList<>(filteredData);
-	// 4. Bind the SortedList comparator to the TableView comparator.
-	// 	  Otherwise, sorting the TableView would have no effect.
-	sortedData.comparatorProperty().bind(TVHardware.comparatorProperty());	
-	// 5. Add sorted (and filtered) data to the table.
-	TVHardware.setItems(sortedData);
-	}
-
 	
 
 
