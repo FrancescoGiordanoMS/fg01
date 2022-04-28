@@ -76,6 +76,7 @@ public class HardwareDAO {
 				PreparedStatement st = conn.prepareStatement(sqlSelect);
 				PreparedStatement st2 = conn.prepareStatement(sqlUpdate))
 		{
+			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			conn.setAutoCommit(false);
 			// Prima di tutto controllo che hasCode() del record sia valido, cioè verifico che nel frattempo
 			// nessun altro abbia modificato il record nel db		
