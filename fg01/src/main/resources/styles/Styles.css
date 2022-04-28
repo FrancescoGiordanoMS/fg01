@@ -47,6 +47,7 @@
 .table-view .column-header, .table-view .column-header-background .filler
 	{
 	-fx-background-color: #cecece;
+	/*-fx-border-color: #808080;*/
 }
 
 .table-view .column-header .label {

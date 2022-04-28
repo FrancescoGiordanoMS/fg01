@@ -35,8 +35,8 @@ public class HardwareDAO {
 				ga = new GetAutomaticField();
 				sig=(Hardware)ga.caricaSingoloBean(new Hardware(), res);
 				obs.add(sig);
-				}
-			
+			}
+
 			st2.close();
 			conn.close();
 		} catch(SQLException e) {
@@ -51,8 +51,8 @@ public class HardwareDAO {
 		return(obs);
 	}
 
-	
-	
+
+
 	/*************************************************************************************
 	 * L'update viene eseguito solo se lo hashcode salvato nel record del db è uguale a
 	 * quello salvato nel record bean al momento del caricamento in tableview. Se sono 
@@ -64,67 +64,67 @@ public class HardwareDAO {
 	 */
 	public boolean DBModify(Hardware Record) {
 		boolean ret=true;
-	
-		//Date dataAcq  = java.sql.Date.valueOf(Record.getDataacquisto()); 
-		try {
-			Connection conn = DBConnect.getConnection();
+		String sqlSelect = "SELECT * FROM Hardware where matricola = ?";
+		String sqlUpdate = "update hardware set "+
+				"tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
+				"prezzoacquisto = ?, immagine = ?, "+
+				"savedhashcode = ? where matricola = ?";
 
+		//Date dataAcq  = java.sql.Date.valueOf(Record.getDataacquisto()); 
+		try (
+				Connection conn = DBConnect.getConnection();
+				PreparedStatement st = conn.prepareStatement(sqlSelect);
+				PreparedStatement st2 = conn.prepareStatement(sqlUpdate))
+		{
+			conn.setAutoCommit(false);
 			// Prima di tutto controllo che hasCode() del record sia valido, cioè verifico che nel frattempo
-			// nessun altro abbia modificato il record nel db
-			String sql = "SELECT * FROM Hardware where matricola = ?";
-			
-			PreparedStatement st2 = conn.prepareStatement(sql);
-			st2.setString(1, Record.getMatricola());
-			ResultSet res=st2.executeQuery();
+			// nessun altro abbia modificato il record nel db		
+			st.setString(1, Record.getMatricola());
+			ResultSet res=st.executeQuery();
 			res.next();
 			if (res != null) {
 				if (res.getInt("savedhashcode") != Record.getSavedhashcode() && res.getInt("savedhashCode")!=0) {
-				// il record è stato nel frattempo modificato da altro utente...
-				// sarebbe utile qui rileggere il record da db e visualizzarlo
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("SQL Error");
-				alert.setHeaderText("Si è verificato un errore durante update");
-				alert.setContentText("Il record è stato modificato da un altro utente");
-				alert.showAndWait();
-				st2.close();
-				conn.close();
-				return(false);
+					// il record è stato nel frattempo modificato da altro utente...
+					// sarebbe utile qui rileggere il record da db e visualizzarlo
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("SQL Error");
+					alert.setHeaderText("Si è verificato un errore durante update");
+					alert.setContentText("Il record è stato modificato da un altro utente");
+					alert.showAndWait();
+					ret=false;
+				}
 			}
+			if (ret) {
+				// il record nel db non è stato modificato da nessuno... posso proseguire 
+				st2.setString(1, Record.getTipohw());
+				st2.setString(2,Record.getMarca());
+				st2.setString(3,Record.getModello());
+				//st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
+				if (Record.getDataacquisto() == null) st2.setNull(4, java.sql.Types.DATE);
+				else st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
+				st2.setFloat(5, Record.getPrezzoacquisto());
+				st2.setBlob(6, Record.getImmagine());
+				st2.setInt(7, Record.hashCode());
+				st2.setString(8, Record.getMatricola());
+				st2.execute() ;
+				conn.commit();
 			}
-			// il record nel db non è stato modificato... posso proseguire 
-			sql = "update hardware set "+
-						"tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
-						"prezzoacquisto = ?, immagine = ?, "+
-						"savedhashcode = ? where matricola = ?";
-			st2 = conn.prepareStatement(sql);
-			st2.setString(1, Record.getTipohw());
-			st2.setString(2,Record.getMarca());
-			st2.setString(3,Record.getModello());
-			//st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
-			if (Record.getDataacquisto() == null) st2.setNull(4, java.sql.Types.DATE);
-			else st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
-			st2.setFloat(5, Record.getPrezzoacquisto());
-			st2.setBlob(6, Record.getImmagine());
-			st2.setInt(7, Record.hashCode());
-			st2.setString(8, Record.getMatricola());
-			ret = st2.execute() ;
-			st2.close();
-			conn.close();
-			return(ret);
-
+			
 		} catch(SQLException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("SQL Error");
 			alert.setHeaderText("Si è verificato un errore durante update");
 			alert.setContentText(e.getMessage());
 			alert.showAndWait();		
-			throw new RuntimeException("Database Error updating Hardware table", e);
-			//return(false);
-			
-		}
-		//return(false);
+			//throw new RuntimeException("Database Error updating Hardware table", e);
+			ret=false;
+		} 
+	return(ret);
 	}
 
+	
+	
+	
 	public String DBInsert(Hardware Record) {
 		boolean ret=true;
 		String msgErrore = null;
@@ -133,9 +133,9 @@ public class HardwareDAO {
 
 			String sql = "INSERT INTO hardware "+
 					"(	 matricola,		tipohw,			marca,			modello, "+
-						"dataacquisto, 	prezzoacquisto,	savedhashcode ) "+
-						"VALUES (?,?,?,?,?,?,?)";
-					
+					"dataacquisto, 	prezzoacquisto,	savedhashcode ) "+
+					"VALUES (?,?,?,?,?,?,?)";
+
 			PreparedStatement st = conn.prepareStatement(sql);
 			st.setString(1, Record.getMatricola());
 			st.setString(2, Record.getTipohw());
@@ -157,7 +157,7 @@ public class HardwareDAO {
 		}
 		//return(false);
 	}
-	
+
 	public boolean DBDelete(Hardware Record) {
 		//boolean ret=false;
 		String sql = "DELETE FROM Hardware WHERE matricola = ?";
@@ -175,30 +175,30 @@ public class HardwareDAO {
 		}
 		//return(false);
 	}
-	
-	
-//	public boolean DBModifyNew(Hardware Record) {
-//		boolean ret=true;
-//		String TableName=Record.getClass().getName();
-//		String sql="update "+TableName+" set ";
-//		Field[] allFields = Record.getClass().getDeclaredFields();
-//		for (Field field : allFields) {
-//			if (Modifier.isPrivate(field.getModifiers()) && 
-//					(field.getName().substring(0,2).equals("_m") ) ||
-//					(field.getName().substring(0,2).equals("_k") )
-//					){
-//				
-//				sql += "tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
-//						"prezzoacquisto = ? where matricola = ?";
-//
-//			}
-//			}
-//	
-//		
-//		return ret;
-//	}
-	
-	
+
+
+	//	public boolean DBModifyNew(Hardware Record) {
+	//		boolean ret=true;
+	//		String TableName=Record.getClass().getName();
+	//		String sql="update "+TableName+" set ";
+	//		Field[] allFields = Record.getClass().getDeclaredFields();
+	//		for (Field field : allFields) {
+	//			if (Modifier.isPrivate(field.getModifiers()) && 
+	//					(field.getName().substring(0,2).equals("_m") ) ||
+	//					(field.getName().substring(0,2).equals("_k") )
+	//					){
+	//				
+	//				sql += "tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
+	//						"prezzoacquisto = ? where matricola = ?";
+	//
+	//			}
+	//			}
+	//	
+	//		
+	//		return ret;
+	//	}
+
+
 }
 
 
