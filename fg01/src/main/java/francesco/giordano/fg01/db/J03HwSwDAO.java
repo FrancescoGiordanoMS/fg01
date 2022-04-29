@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import fglib.ConfigFile;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.J03HwSw;
 import francesco.giordano.fg01.model.j02Software;
@@ -12,6 +13,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class J03HwSwDAO {
+	
+	private static String connString=ConfigFile.getMySqlConnString();
 
 
 	public ObservableList<j02Software> getRigheSoftware(Hardware Hrec) {
@@ -24,7 +27,7 @@ public class J03HwSwDAO {
 					"from hwsw as h join software as s "+
 					"where (h.codice = s.codice) and h.matricola = ?";
 
-			Connection conn = DBConnect.getConnection();
+			Connection conn = DBConnect.getConnection(connString);
 			PreparedStatement st = conn.prepareStatement(sql);
 			st.setString(1, Hrec.getMatricola());
 			ResultSet res = st.executeQuery() ;
@@ -54,7 +57,7 @@ public class J03HwSwDAO {
 		int ix = 0;
 		PreparedStatement st;
 		try {
-			Connection conn = DBConnect.getConnection();
+			Connection conn = DBConnect.getConnection(connString);
 			st = conn.prepareStatement(sql);
 
 			while (ix < obs.size())	 {
@@ -77,7 +80,7 @@ public class J03HwSwDAO {
 		int ix = 0;
 		PreparedStatement st;
 		try {
-			Connection conn = DBConnect.getConnection();
+			Connection conn = DBConnect.getConnection(connString);
 			st = conn.prepareStatement(sql);
 
 			st.setString(1, matricolaHw);

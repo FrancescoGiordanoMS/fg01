@@ -11,33 +11,18 @@ import javafx.scene.control.Alert.AlertType;
 public class DBConnect {
 
 	private static Connection conn = null;
-	private String file=null;
-	private static String database_ip = null;
-	private static String database_nome = null;
-	private static String database_user = null;
-	private static String database_password = null;
+//	private String file=null;
+//	private static String database_ip = null;
+//	private static String database_nome = null;
+//	private static String database_user = null;
+//	private static String database_password = null;
 
-	public static Connection getConnection()  {
+	public static Connection getConnection(String jdbcURL)  {
 		
-		ConfigFile rtf = new ConfigFile("config.txt");
-		try {
-			rtf.read();
-			database_ip = rtf.getDatabase_ip();
-			database_nome= rtf.getDatabase_nome();
-			database_user=rtf.getDatabase_user();
-			database_password=rtf.getDatabase_password();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		//String jdbcURL = "jdbc:mysql://localhost/giordano?user=root&password=pwdMySql60@";
-		String jdbcURL = "jdbc:mysql://"+database_ip+"/"+database_nome+
-				"?user="+database_user+"&password="+database_password;
-		boolean ret=false;
+		//boolean ret=false;
 		try {
 			conn=DriverManager.getConnection(jdbcURL) ;
-			ret=true;
+			//ret=true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			String sqlState=e.getSQLState().toString();

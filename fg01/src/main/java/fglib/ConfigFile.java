@@ -8,35 +8,36 @@ import java.io.IOException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * @author francesco
+ *
+ */
 public class ConfigFile {
-	private String file=null;
-	private String database_ip = null;
-	private String database_nome = null;
-	private String database_user = null;
-	private String database_password = null;
+	private static String configfile="config.txt";
+	
+	private static String database_ip = null;
+	private static String database_nome = null;
+	private static String database_user = null;
+	private static String database_password = null;
+	private static String connString = null;
 
-	public ConfigFile(String txtfile) {
-		this.file = txtfile;
-	}
-
-	public void read() {
+	public static void read(String file) {
 		BufferedReader reader;
 		try {
 			reader = new BufferedReader(new FileReader(file));
 			String line; // = reader.readLine();
 			while ((line= reader.readLine())!=null) {
 				int index = line.indexOf('=');
-				if (line.substring(0, 12).equals("#Database-IP")) {
-					this.database_ip=line.substring(index+1);
-				}
-				if (line.substring(0, 14).equals("#Database-Name")) {
-					this.database_nome=line.substring(index+1);					
-				}
+				if (line.substring(0, 12).equals("#Database-IP")) 
+					database_ip=line.substring(index+1);
+				if (line.substring(0, 14).equals("#Database-Name"))
+					database_nome=line.substring(index+1);					
 				if (line.substring(0, 14).equals("#Database-User"))
-					this.database_user=line.substring(index+1);									
+					database_user=line.substring(index+1);									
 				if (line.substring(0, 18).equals("#Database-Password"))
-					this.database_password=line.substring(index+1);					
+					database_password=line.substring(index+1);					
 			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -49,46 +50,43 @@ public class ConfigFile {
 		}
 	}
 
-	public String getDatabase_ip() {
+	/***************************************************************************************
+	 * Legge il file di configurazione config.txt e genera la stringa di connessione
+	 * al db MySql componendo i parametri contenuti all'interno
+	 * @return la stringa di connessione al db MySql
+	 */
+	public static String getMySqlConnString() {
+		read(configfile);
+		connString = "jdbc:mysql://"+ConfigFile.getDatabase_ip()+"/"+
+				ConfigFile.getDatabase_nome()+
+				"?user="+ConfigFile.getDatabase_user()+
+				"&password="+ConfigFile.getDatabase_password();
+		return connString;
+	}
+	
+	public static String getDatabase_ip() {
 		return database_ip;
 	}
-
 	public void setDatabase_ip(String database_ip) {
 		this.database_ip = database_ip;
 	}
-
-	public String getDatabase_nome() {
+	public static String getDatabase_nome() {
 		return database_nome;
 	}
-
 	public void setDatabase_nome(String database_nome) {
 		this.database_nome = database_nome;
 	}
-
-	public String getDatabase_user() {
+	public static String getDatabase_user() {
 		return database_user;
 	}
-
 	public void setDatabase_user(String database_user) {
 		this.database_user = database_user;
 	}
-
-	public String getDatabase_password() {
+	public static String getDatabase_password() {
 		return database_password;
 	}
-
 	public void setDatabase_password(String database_password) {
 		this.database_password = database_password;
 	}
-
-	public String getFile() {
-		return file;
-	}
-
-
-	public void setFile(String file) {
-		this.file = file;
-	}
-
-
+	
 }

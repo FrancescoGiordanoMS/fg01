@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import fglib.ConfigFile;
 import fglib.RiferimentoCampi;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.j02Software;
@@ -14,6 +15,8 @@ import javafx.collections.ObservableList;
 
 public class j02SoftwareDAO {
 
+	private static String connString=ConfigFile.getMySqlConnString();
+
 	//public ObservableList<j02Software> getRighe(HashMap<String, RiferimentoCampi> MapFieldValue) {
 	public ObservableList<j02Software> getRighe() {
 		ObservableList<j02Software> obs = FXCollections.observableArrayList();
@@ -21,7 +24,7 @@ public class j02SoftwareDAO {
 		GetAutomaticField ga; //= new GetAutomaticField();
 		try {
 			String sql2 = "SELECT * FROM Software";
-			Connection conn = DBConnect.getConnection();
+			Connection conn = DBConnect.getConnection(connString);
 			PreparedStatement st2 = conn.prepareStatement(sql2);
 			ResultSet res = st2.executeQuery() ;
 
@@ -48,7 +51,7 @@ public class j02SoftwareDAO {
 	public boolean DBModify(j02Software Record) {
 		boolean ret=true;
 		try {
-			Connection conn = DBConnect.getConnection();
+			Connection conn = DBConnect.getConnection(connString);
 
 			String sql = "update software set "+
 						"tiposw = ?, nomesw = ?, versione = ? where codice = ?";
@@ -75,7 +78,7 @@ public class j02SoftwareDAO {
 		boolean ret=true;
 		String msgErrore = null;
 		try {
-			Connection conn = DBConnect.getConnection();
+			Connection conn = DBConnect.getConnection(connString);
 
 			String sql = "INSERT INTO software "+
 					"(	 codice,		tiposw,			nomesw,			versione) "+
@@ -104,7 +107,7 @@ public class j02SoftwareDAO {
 		//boolean ret=false;
 		String sql = "DELETE FROM SOFTWARE WHERE CODICE = ?";
 		try {
-			Connection conn = DBConnect.getConnection();
+			Connection conn = DBConnect.getConnection(connString);
 			PreparedStatement st = conn.prepareStatement(sql);
 			st.setString(1, Record.getCodice());
 			st.execute() ;

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import fglib.ConfigFile;
 import fglib.RiferimentoCampi;
 import francesco.giordano.fg01.db.DBConnect;
 import francesco.giordano.fg01.db.GetAutomaticField;
@@ -20,14 +21,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class HardwareDAO {
+	
+	private static String connString=ConfigFile.getMySqlConnString();
 
-	public ObservableList<Hardware> getRighe(HashMap<String, RiferimentoCampi> MapFieldValue) {
+	public static ObservableList<Hardware> getRighe(HashMap<String, RiferimentoCampi> MapFieldValue) {
 		ObservableList<Hardware> obs = FXCollections.observableArrayList();
 		Hardware sig;
 		GetAutomaticField ga; //= new GetAutomaticField();
 		try {
 			String sql2 = "SELECT * FROM Hardware";
-			Connection conn = DBConnect.getConnection();
+			Connection conn = DBConnect.getConnection(connString);
 			PreparedStatement st2 = conn.prepareStatement(sql2);
 			ResultSet res = st2.executeQuery() ;
 
@@ -62,7 +65,7 @@ public class HardwareDAO {
 	 * @param Hardware Record - E' il record da salvare
 	 * @return
 	 */
-	public boolean DBModify(Hardware Record) {
+	public static boolean DBModify(Hardware Record) {
 		boolean ret=true;
 		int rowModified=0;
 		//String sqlSelect = "SELECT * FROM Hardware where matricola = ?";
@@ -73,7 +76,7 @@ public class HardwareDAO {
 
 		//Date dataAcq  = java.sql.Date.valueOf(Record.getDataacquisto()); 
 		try (
-				Connection conn = DBConnect.getConnection();
+				Connection conn = DBConnect.getConnection(connString);
 				//PreparedStatement st = conn.prepareStatement(sqlSelect);
 				PreparedStatement st2 = conn.prepareStatement(sqlUpdate))
 		{
@@ -131,11 +134,11 @@ public class HardwareDAO {
 	
 	
 	
-	public String DBInsert(Hardware Record) {
+	public static String DBInsert(Hardware Record) {
 		boolean ret=true;
 		String msgErrore = null;
 		try {
-			Connection conn = DBConnect.getConnection();
+			Connection conn = DBConnect.getConnection(connString);
 
 			String sql = "INSERT INTO hardware "+
 					"(	 matricola,		tipohw,			marca,			modello, "+
@@ -164,11 +167,11 @@ public class HardwareDAO {
 		//return(false);
 	}
 
-	public boolean DBDelete(Hardware Record) {
+	public static boolean DBDelete(Hardware Record) {
 		//boolean ret=false;
 		String sql = "DELETE FROM Hardware WHERE matricola = ?";
 		try {
-			Connection conn = DBConnect.getConnection();
+			Connection conn = DBConnect.getConnection(connString);
 			PreparedStatement st = conn.prepareStatement(sql);
 			st.setString(1, Record.getMatricola());
 			st.execute() ;
