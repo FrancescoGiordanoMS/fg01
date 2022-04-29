@@ -57,11 +57,12 @@ public class ConfigFile {
 	 */
 	public static String getMySqlConnString() {
 		read(configfile);
-		connString = "jdbc:mysql://"+ConfigFile.getDatabase_ip()+"/"+
+		connString = "jdbc:mysql://"+ConfigFile.getDatabase_ip()+":3306/"+
 				ConfigFile.getDatabase_nome()+
 				"?user="+ConfigFile.getDatabase_user()+
-				"&password="+ConfigFile.getDatabase_password();
-		return connString;
+				"&password="+ConfigFile.getDatabase_password()+
+				"&useSSL=false&allowPublicKeyRetrieval=true";
+		return connString;		
 	}
 	
 	public static String getDatabase_ip() {
