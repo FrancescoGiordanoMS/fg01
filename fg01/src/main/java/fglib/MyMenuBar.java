@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 
 public class MyMenuBar  extends MenuBar {
 
@@ -12,14 +13,16 @@ public class MyMenuBar  extends MenuBar {
 	private MenuItem MenuItem_Inserisci;
 	private MenuItem MenuItem_Modifica;
 	private MenuItem MenuItem_Delete;
-	private MenuItem MenuItem_Close;
+	private MenuItem MenuItem_Close,MenuItem_Refresh;
 
 	public MyMenuBar() {
 		menuBar = new MenuBar();
 		Menu file = new Menu("File");
 		//Creating file menu items
+		MenuItem_Refresh = new MenuItem("Refresh");
+		SeparatorMenuItem sm = new SeparatorMenuItem();
 		MenuItem_Close = new MenuItem("Chiudi");
-		file.getItems().addAll(MenuItem_Close);
+		file.getItems().addAll(MenuItem_Refresh, sm, MenuItem_Close);
 		
 		Menu Edit = new Menu("Edit");
 		MenuItem_Inserisci = new MenuItem("Inserisci");
@@ -59,6 +62,14 @@ public class MyMenuBar  extends MenuBar {
 	}
 	public void setMenuItem_Inserisci(MenuItem menuItem_Inserisci) {
 		MenuItem_Inserisci = menuItem_Inserisci;
+	}
+
+
+	public MenuItem getMenuItem_Refresh() {
+		return MenuItem_Refresh;
+	}
+	public void setMenuItem_Refresh(MenuItem menuItem_Refresh) {
+		MenuItem_Refresh = menuItem_Refresh;
 	}
 	
 }

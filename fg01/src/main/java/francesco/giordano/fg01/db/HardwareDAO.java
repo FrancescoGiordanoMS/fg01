@@ -64,38 +64,39 @@ public class HardwareDAO {
 	 */
 	public boolean DBModify(Hardware Record) {
 		boolean ret=true;
-		String sqlSelect = "SELECT * FROM Hardware where matricola = ?";
+		int rowModified=0;
+		//String sqlSelect = "SELECT * FROM Hardware where matricola = ?";
 		String sqlUpdate = "update hardware set "+
 				"tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
 				"prezzoacquisto = ?, immagine = ?, "+
-				"savedhashcode = ? where matricola = ?";
+				"savedhashcode = ? where matricola = ? and savedhashcode = ?";
 
 		//Date dataAcq  = java.sql.Date.valueOf(Record.getDataacquisto()); 
 		try (
 				Connection conn = DBConnect.getConnection();
-				PreparedStatement st = conn.prepareStatement(sqlSelect);
+				//PreparedStatement st = conn.prepareStatement(sqlSelect);
 				PreparedStatement st2 = conn.prepareStatement(sqlUpdate))
 		{
-			conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-			conn.setAutoCommit(false);
+			//conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+			//conn.setAutoCommit(false);
 			// Prima di tutto controllo che hasCode() del record sia valido, cioè verifico che nel frattempo
 			// nessun altro abbia modificato il record nel db		
-			st.setString(1, Record.getMatricola());
-			ResultSet res=st.executeQuery();
-			res.next();
-			if (res != null) {
-				if (res.getInt("savedhashcode") != Record.getSavedhashcode() && res.getInt("savedhashCode")!=0) {
-					// il record è stato nel frattempo modificato da altro utente...
-					// sarebbe utile qui rileggere il record da db e visualizzarlo
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("SQL Error");
-					alert.setHeaderText("Si è verificato un errore durante update");
-					alert.setContentText("Il record è stato modificato da un altro utente");
-					alert.showAndWait();
-					ret=false;
-				}
-			}
-			if (ret) {
+//			st.setString(1, Record.getMatricola());
+//			ResultSet res=st.executeQuery();
+//			res.next();
+//			if (res != null) {
+//				if (res.getInt("savedhashcode") != Record.getSavedhashcode() && res.getInt("savedhashCode")!=0) {
+//					// il record è stato nel frattempo modificato da altro utente...
+//					// sarebbe utile qui rileggere il record da db e visualizzarlo
+//					Alert alert = new Alert(AlertType.ERROR);
+//					alert.setTitle("SQL Error");
+//					alert.setHeaderText("Si è verificato un errore durante update");
+//					alert.setContentText("Il record è stato modificato da un altro utente");
+//					alert.showAndWait();
+//					ret=false;
+//				}
+//			}
+//			if (ret) {
 				// il record nel db non è stato modificato da nessuno... posso proseguire 
 				st2.setString(1, Record.getTipohw());
 				st2.setString(2,Record.getMarca());
@@ -107,9 +108,13 @@ public class HardwareDAO {
 				st2.setBlob(6, Record.getImmagine());
 				st2.setInt(7, Record.hashCode());
 				st2.setString(8, Record.getMatricola());
-				st2.execute() ;
-				conn.commit();
-			}
+				st2.setInt(9, Record.getSavedhashcode());
+				rowModified=st2.executeUpdate() ;
+				if (rowModified > 0) {
+				//conn.commit();
+				Record.setSavedhashcode(Record.hashCode());
+				}
+//			}
 			
 		} catch(SQLException e) {
 			Alert alert = new Alert(AlertType.ERROR);

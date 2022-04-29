@@ -130,6 +130,11 @@ public class MyController {
 		((BorderPane) root).setTop(myMenuBar.getMenuBar());
 		}
 		
+		myMenuBar.getMenuItem_Refresh().setOnAction((event) -> {
+			ButtonSave=StatoButtonSave.INDEFINITO;
+			RefreshTableView();
+		});	
+		
 		myMenuBar.getMenuItem_Inserisci().setOnAction((event) -> {
 			abilitaControlli();
 			ClearFields(allFields);
@@ -174,6 +179,7 @@ public class MyController {
 	//------------------------------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------------------------------
 
+	protected void RefreshTableView() {}
 	protected void DeleteRecord() {}
 	protected void SalvaModifiche() {}
 	protected boolean SalvaInserimento() {return true;}

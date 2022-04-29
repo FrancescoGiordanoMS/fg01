@@ -124,6 +124,14 @@ public class Fg01ControllerHardware extends MyController{
 	// Azioni sul database
 	//-----------------------------------------------------------------------------------------	
 	@Override
+	protected void RefreshTableView() {
+		obs.clear();
+		obsSw.clear();
+		popolaTableView();
+		TVHardware.refresh();
+	}	
+	
+	@Override
 	protected void DeleteRecord() {
 		Hardware rec=TVHardware.getSelectionModel().getSelectedItem();
 		if (model.DBDelete(rec)) {
@@ -139,8 +147,7 @@ public class Fg01ControllerHardware extends MyController{
 		rec=(Hardware) ReadModifiedFields(TVHardware.getSelectionModel().getSelectedItem(), allFields);
 		//rec.setOldHashCode(rec.hashCode());
 		rec.setImage(IMV.getImage());
-		if (model.DBModify(rec))
-			obs.get(indexTableView).setSavedhashcode(rec.hashCode());  // salvo hashcode dopo la modifica
+		model.DBModify(rec);
 		TVHardware.refresh();
 	}
 
