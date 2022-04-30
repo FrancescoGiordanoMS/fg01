@@ -1,7 +1,5 @@
 package francesco.giordano.fg01.db;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -12,8 +10,6 @@ import java.util.HashMap;
 
 import fglib.ConfigFile;
 import fglib.RiferimentoCampi;
-import francesco.giordano.fg01.db.DBConnect;
-import francesco.giordano.fg01.db.GetAutomaticField;
 import francesco.giordano.fg01.model.Hardware;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

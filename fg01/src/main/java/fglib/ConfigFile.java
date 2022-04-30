@@ -62,6 +62,7 @@ public class ConfigFile {
 				"?user="+ConfigFile.getDatabase_user()+
 				"&password="+ConfigFile.getDatabase_password()+
 				"&useSSL=false&allowPublicKeyRetrieval=true";
+		System.out.println("Lettura stringa connection da config.txt (classe ConfigFile)");
 		return connString;		
 	}
 	
