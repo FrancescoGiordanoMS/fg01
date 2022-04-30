@@ -63,10 +63,7 @@ public class Fg01ControllerHardware extends MyController{
 	@FXML private TableColumn<Hardware, Float> col_prezzoacquisto;
 	@FXML private TableColumn<Hardware, Integer> col_savedhashcode;
 
-
-
-	@FXML
-	private GridPane Grid;
+	@FXML private GridPane Grid;
 
 	@FXML private TextField _kMatricola, _mMarca, _mModello, _mPrezzoacquisto, _mTipoHw, filterfield;
 
@@ -84,20 +81,15 @@ public class Fg01ControllerHardware extends MyController{
 	//------------------------------------------------------------------------------------------------------
 	// Tabella software
 	//------------------------------------------------------------------------------------------------------
-	@FXML
-	private TableView<j02Software> TabViewSoftware;
-	@FXML
-	private TableColumn<j02Software, String> col_tiposw,col_versione,col_codice,col_nomesw;
+	@FXML private TableView<j02Software> TabViewSoftware;
+	@FXML private TableColumn<j02Software, String> col_tiposw,col_versione,col_codice,col_nomesw;
 
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private ModelHardware model;
 	private J03ModelHwSw modelHwSw=new J03ModelHwSw();
 	private ObservableList<Hardware> obs;
-	//private ObservableList<j02Software> obsSw;
-	private HashMap<String, ObservableList<j02Software>> MapHwSw = new HashMap<>();
 	private J03Sw j03Sw = new J03Sw();
-
 
 	//-----------------------------------------------------------------------------------------
 	// Drag & Drop Immagini
@@ -128,12 +120,10 @@ public class Fg01ControllerHardware extends MyController{
 	@Override
 	protected void RefreshTableView() {
 		obs.clear();
-		//obsSw.clear();
 		j03Sw.clear();		// pulisco la lista dei sw collegati
 		popolaTableView();
 		TVHardware.refresh();
 	}	
-
 	@Override
 	protected void DeleteRecord() {
 		Hardware rec=TVHardware.getSelectionModel().getSelectedItem();
@@ -142,18 +132,15 @@ public class Fg01ControllerHardware extends MyController{
 			TVHardware.refresh();
 		}
 	}
-
 	@Override
 	protected void SalvaModifiche() {
 		Hardware rec=null;
 		Field[] allFields = this.getClass().getDeclaredFields();
 		rec=(Hardware) ReadModifiedFields(TVHardware.getSelectionModel().getSelectedItem(), allFields);
-		//rec.setOldHashCode(rec.hashCode());
 		rec.setImage(IMV.getImage());
 		model.DBModify(rec);
 		TVHardware.refresh();
 	}
-
 	@Override
 	protected boolean SalvaInserimento() {
 		Hardware rec=null;
@@ -182,17 +169,26 @@ public class Fg01ControllerHardware extends MyController{
 	public void popolaTableView() {
 		obs=model.getRighe(MapFieldValue);
 		this.TVHardware.setItems(obs);
-
 		setSearch();
-		//		obs.addListener((Change<? extends Hardware> c) -> {
-		//			System.out.println("Element at position"  );
-		//		});	
 	}
 
+	@FXML
+	void handle_btnNuoviSoftware(ActionEvent event) throws IOException {
+		if (indexTableView ==-1) return;
+		j03Sw.setBeanHardware(TVHardware.getSelectionModel().getSelectedItem());
+		j03Sw.btnNuoviSoftware();
+	}
 
+	/***************************************************************************************************
+	 * Evento che elimina l'associazione del sw all'hardware
+	 */
+	public void handle_btnSganciaDaHw() {
+		j03Sw.setBeanHardware(TVHardware.getSelectionModel().getSelectedItem());
+		j03Sw.btnSganciaDaHw();
+	}
+	
 	@FXML
 	void initialize() {
-
 		col_matricola.setCellValueFactory(new PropertyValueFactory<Hardware,String>("matricola"));
 		col_tipohw.setCellValueFactory(new PropertyValueFactory<Hardware,String>("tipohw"));
 		col_marca.setCellValueFactory(new PropertyValueFactory<Hardware,String>("marca"));
@@ -219,9 +215,6 @@ public class Fg01ControllerHardware extends MyController{
 				j03Sw.SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());
 			}
 		});
-
-
-
 		//------------------------------------------------------------------------------
 		// addListener ha come parametro una interfaccia ChangeListener che ha
 		// al suo interno un solo abstract method: 
@@ -235,6 +228,8 @@ public class Fg01ControllerHardware extends MyController{
 		disabilitaControlli();  // super: setFormField Class
 		indexTableView=-1;
 
+		j03Sw.setTabViewSoftware(TabViewSoftware);
+		j03Sw.setModelHwSw(modelHwSw);
 
 		allFields = this.getClass().getDeclaredFields();
 		Field[] allBean = Hardware.class.getDeclaredFields();
@@ -256,11 +251,6 @@ public class Fg01ControllerHardware extends MyController{
 		//			return str;
 		//		}
 		//	});
-
-		j03Sw.setTabViewSoftware(TabViewSoftware);
-		j03Sw.setMapHwSw(MapHwSw);
-		j03Sw.setModelHwSw(modelHwSw);
-
 
 	}    
 
@@ -291,100 +281,5 @@ public class Fg01ControllerHardware extends MyController{
 		sortedData.comparatorProperty().bind(TVHardware.comparatorProperty());	
 		// 5. Add sorted (and filtered) data to the table.
 		TVHardware.setItems(sortedData);
-	}
-
-	@FXML
-	void handle_btnNuoviSoftware(ActionEvent event) throws IOException {
-		if (indexTableView ==-1) return;
-		j03Sw.setMatricola(TVHardware.getSelectionModel().getSelectedItem().getMatricola());
-		j03Sw.setBeanHardware(TVHardware.getSelectionModel().getSelectedItem());
-		j03Sw.btnNuoviSoftware();
-
-	}
-
-	/***************************************************************************************************
-	 * Evento che elimina l'associazione del sw all'hardware
-	 */
-	public void handle_btnSganciaDaHw() {
-		j03Sw.btnSganciaDaHw();
-	}
-		
-	//	//public Class j03sw() {
-	//	/**************************************************************************************
-	//	 * Questo evento apre la form per la selezione dei nuovi sw da associare 
-	//	 * all'hw correntemente selezionato
-	//	 * @param event
-	//	 * @throws IOException
-	//	 */
-	//	@FXML
-	//	void handle_btnNuoviSoftware(ActionEvent event) throws IOException {
-	//
-	//		if (indexTableView ==-1) return;
-	//		BorderPane root;
-	//		Stage stage = new Stage();
-	//		stage.setWidth(560);
-	//		stage.setHeight(430);
-	//		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j02_software.fxml")) ;
-	//		root = loader.load();
-	//		j02ControllerSoftware controller = loader.getController() ;
-	//		j02ModelSoftware model = new j02ModelSoftware();
-	//
-	//		Scene scene = new Scene(root);
-	//		scene.getStylesheets().add("/styles/Styles.css");        
-	//		stage.setTitle("Elenco dei software disponibili");
-	//		stage.setScene(scene);
-	//
-	//		controller.setStage(stage);
-	//		controller.setModel(model);  
-	//		controller.setElementiListaDaNascondere(obsSw);
-	//		controller.popolaTableViewSoftwareDaSelezionare();
-	//		controller.setMatricolaHardware(TVHardware.getSelectionModel().getSelectedItem().getMatricola());
-	//		controller.init();
-	//		controller.HideControls();
-	//		// Questo listener controlla se la lista dei software legati all'hardware è stata variata
-	//		// .addListener vuole come param l'iterfaccia ListChangeListener<E> che ha al suo interno un solo
-	//		// metodo: void onChanged(ListChangeListener.Change<? extends E> c)
-	//		controller.getControlloRecordAggiunti().addListener((ListChangeListener.Change<? extends j02Software> c) -> {
-	//			AggiornaSoftware();
-	//		});	
-	//		stage.show();
-	//	}
-	//
-	//	/***************************************************************************************************
-	//	 * Evento che elimina l'associazione del sw all'hardware
-	//	 */
-	//	public void handle_btnSganciaDaHw() {
-	//		int index = TabViewSoftware.getSelectionModel().getSelectedIndex();
-	//		if (index >= 0) {
-	//			String matricola = TVHardware.getSelectionModel().getSelectedItem().getMatricola();
-	//			String codiceSw = obsSw.get(index).getCodice();
-	//			//j02Software rec = new j02Software();
-	//			modelHwSw.EliminaDaDB(matricola,codiceSw);
-	//			// cancello il record dalla mappa
-	//			MapHwSw.remove(matricola);
-	//			SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());			// 2 : forzo la rilettura dei sw associati
-	//		}
-	//	}
-	//	
-	//	private void SelezionaRecordSoftware(Hardware selectedItem) {
-	//		//if (obsSw != null) obsSw.clear();
-	//		obsSw=modelHwSw.getRighe(selectedItem,MapHwSw);
-	//		this.TabViewSoftware.setItems(obsSw);
-	//		this.TabViewSoftware.refresh();
-	//	}
-	//	
-	//	/**
-	//	 *  Viene lanciato dal listener non appena sente che è stato aggiunto nuovo software all'hardware 
-	//	 *  correntemente selezionato
-	//	 */
-	//	private void AggiornaSoftware() {
-	//		MapHwSw.remove(TVHardware.getSelectionModel().getSelectedItem().getMatricola()); 	// 1 : cancello dalla mappa la vecchia lista dei sw associati
-	//		SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());			// 2 : forzo la rilettura dei sw associati
-	//	}
-	//	
-	//	
-
-
-
+	}		
 }
-//}

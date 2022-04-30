@@ -44,7 +44,7 @@ public class ConfigFile {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("File not found");
 			alert.setHeaderText("config.txt (Impossibile trovare il file specificato)");
-			alert.setContentText("Il file config.txt contiene i dati di configurazione e deve trovarsi nella cartella dell'eseguibile");
+			alert.setContentText("Il file config.txt deve trovarsi nella cartella dell'eseguibile");
 			alert.showAndWait();	
 			Runtime.getRuntime().exit(0); 
 		}
