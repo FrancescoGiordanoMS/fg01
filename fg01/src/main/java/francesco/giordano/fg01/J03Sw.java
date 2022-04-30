@@ -1,18 +1,36 @@
-package francesco.giordano.fg01.db;
+package francesco.giordano.fg01;
 
-import francesco.giordano.fg01.j02ControllerSoftware;
+import java.io.IOException;
+import java.util.HashMap;
+
 import francesco.giordano.fg01.model.Hardware;
+import francesco.giordano.fg01.model.J03ModelHwSw;
 import francesco.giordano.fg01.model.j02ModelSoftware;
 import francesco.giordano.fg01.model.j02Software;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class J03Sw {
+	
+	private ObservableList<j02Software> obsSw;
+	private String matricola;
+	private J03ModelHwSw modelHwSw=new J03ModelHwSw();
+	private HashMap<String, ObservableList<j02Software>> MapHwSw = new HashMap<>();
+	private TableView<j02Software> tabViewSoftware;
+	private Hardware beanHardware;
+
+
+	
 
 	public J03Sw() {
+	}
+	
+		public void btnNuoviSoftware() throws IOException {
 		// TODO Auto-generated constructor stub
 		BorderPane root;
 		Stage stage = new Stage();
@@ -32,7 +50,7 @@ public class J03Sw {
 		controller.setModel(model);  
 		controller.setElementiListaDaNascondere(obsSw);
 		controller.popolaTableViewSoftwareDaSelezionare();
-		controller.setMatricolaHardware(TVHardware.getSelectionModel().getSelectedItem().getMatricola());
+		controller.setMatricolaHardware(matricola);
 		controller.init();
 		controller.HideControls();
 		// Questo listener controlla se la lista dei software legati all'hardware è stata variata
@@ -44,28 +62,31 @@ public class J03Sw {
 		stage.show();
 	}
 
+		
+		public void clear() {
+			obsSw.clear();
+		}
 	
 	/***************************************************************************************************
 	 * Evento che elimina l'associazione del sw all'hardware
 	 */
-	public void handle_btnSganciaDaHw() {
-		int index = TabViewSoftware.getSelectionModel().getSelectedIndex();
+	public void btnSganciaDaHw() {
+		int index = tabViewSoftware.getSelectionModel().getSelectedIndex();
 		if (index >= 0) {
-			String matricola = TVHardware.getSelectionModel().getSelectedItem().getMatricola();
+			//String matricola = TVHardware.getSelectionModel().getSelectedItem().getMatricola();
 			String codiceSw = obsSw.get(index).getCodice();
 			//j02Software rec = new j02Software();
 			modelHwSw.EliminaDaDB(matricola,codiceSw);
 			// cancello il record dalla mappa
 			MapHwSw.remove(matricola);
-			SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());			// 2 : forzo la rilettura dei sw associati
+			SelezionaRecordSoftware(beanHardware);			// 2 : forzo la rilettura dei sw associati
 		}
 	}
 	
-	private void SelezionaRecordSoftware(Hardware selectedItem) {
-		//if (obsSw != null) obsSw.clear();
+	public void SelezionaRecordSoftware(Hardware selectedItem) {
 		obsSw=modelHwSw.getRighe(selectedItem,MapHwSw);
-		this.TabViewSoftware.setItems(obsSw);
-		this.TabViewSoftware.refresh();
+		this.tabViewSoftware.setItems(obsSw);
+		this.tabViewSoftware.refresh();
 	}
 	
 	/**
@@ -73,11 +94,49 @@ public class J03Sw {
 	 *  correntemente selezionato
 	 */
 	private void AggiornaSoftware() {
-		MapHwSw.remove(TVHardware.getSelectionModel().getSelectedItem().getMatricola()); 	// 1 : cancello dalla mappa la vecchia lista dei sw associati
-		SelezionaRecordSoftware(TVHardware.getSelectionModel().getSelectedItem());			// 2 : forzo la rilettura dei sw associati
+		MapHwSw.remove(matricola); 	// 1 : cancello dalla mappa la vecchia lista dei sw associati
+		SelezionaRecordSoftware(beanHardware);			// 2 : forzo la rilettura dei sw associati
+	}
+
+	public String getMatricola() {
+		return matricola;
+	}
+
+	public void setMatricola(String matricola) {
+		this.matricola = matricola;
+	}
+
+	public J03ModelHwSw getModelHwSw() {
+		return modelHwSw;
+	}
+
+	public void setModelHwSw(J03ModelHwSw modelHwSw) {
+		this.modelHwSw = modelHwSw;
+	}
+
+	public HashMap<String, ObservableList<j02Software>> getMapHwSw() {
+		return MapHwSw;
+	}
+
+	public void setMapHwSw(HashMap<String, ObservableList<j02Software>> mapHwSw) {
+		MapHwSw = mapHwSw;
 	}
 	
-	
+	public TableView<j02Software> getTabViewSoftware() {
+		return tabViewSoftware;
+	}
+
+	public void setTabViewSoftware(TableView<j02Software> tabViewSoftware) {
+		this.tabViewSoftware = tabViewSoftware;
+	}
+
+	public Hardware getBeanHardware() {
+		return beanHardware;
+	}
+
+	public void setBeanHardware(Hardware beanHardware) {
+		this.beanHardware = beanHardware;
+	}
 	
 	
 	
