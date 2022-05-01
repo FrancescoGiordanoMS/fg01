@@ -1,4 +1,4 @@
 #Database-IP=localhost
 #Database-Name=giordano
-#Database-User=francesco
+#Database-User=root
 #Database-Password=pwdMySql60@

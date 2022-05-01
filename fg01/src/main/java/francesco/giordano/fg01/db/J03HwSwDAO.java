@@ -17,7 +17,7 @@ public class J03HwSwDAO {
 	private static String connString=ConfigFile.getMySqlConnString();
 
 
-	public ObservableList<j02Software> getRigheSoftware(Hardware Hrec) {
+	public ObservableList<j02Software> getRigheSoftware(String matricolaHw) {
 		ObservableList<j02Software> obs = FXCollections.observableArrayList();
 		j02Software rec;
 		GetAutomaticField ga; //= new GetAutomaticField();
@@ -29,7 +29,7 @@ public class J03HwSwDAO {
 
 			Connection conn = DBConnect.getConnection(connString);
 			PreparedStatement st = conn.prepareStatement(sql);
-			st.setString(1, Hrec.getMatricola());
+			st.setString(1, matricolaHw);
 			ResultSet res = st.executeQuery() ;
 
 			while(res.next()) {

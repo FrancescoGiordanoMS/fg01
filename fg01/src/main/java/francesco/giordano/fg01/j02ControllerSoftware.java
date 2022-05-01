@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import fglib.MyController;
+import francesco.giordano.fg01.Fg01ControllerHardware.Azione;
+import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.J03ModelHwSw;
 import francesco.giordano.fg01.model.j02ModelSoftware;
 import francesco.giordano.fg01.model.j02Software;
@@ -65,6 +67,7 @@ public class j02ControllerSoftware extends MyController {
 	private ObservableList<j02Software> obsNuoviSoftware= FXCollections.<j02Software>observableArrayList();
 	private ObservableList<j02Software> obsSoftwareAggiunti= FXCollections.<j02Software>observableArrayList();
 	private HashMap<String, ObservableList<j02Software>> MapSwAssegnati = new HashMap<>();
+	private Hardware hardwareBean;
 	private String matricolaHardware;
 
 
@@ -122,7 +125,7 @@ public class j02ControllerSoftware extends MyController {
 		col_nomesw.setCellValueFactory(new PropertyValueFactory<j02Software,String>("nomesw"));
 		col_versione.setCellValueFactory(new PropertyValueFactory<j02Software,String>("versione"));
 		col_selezione.setCellValueFactory(new PropertyValueFactory<j02Software,CheckBox>("selezione"));
-		
+
 		TVSoftware.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newVal) -> {
 			if (newVal != null) {
 				_kcodice.setText(newVal.getCodice());
@@ -159,10 +162,10 @@ public class j02ControllerSoftware extends MyController {
 	void handle_btnSelezionaSw(ActionEvent event) {
 		obsNuoviSoftware.clear();
 		obsNuoviSoftware=FXCollections.observableArrayList(SelezionaSwDaAggiungere());
-		//obsNuoviSoftware.add(TVSoftware.getSelectionModel().getSelectedItem());
-		J03ModelHwSw model = new J03ModelHwSw();	
-		model.RegistraSuDB(matricolaHardware, obsNuoviSoftware);
-		System.out.println("Prima del sync");
+		J03ModelHwSw modelJ03 = new J03ModelHwSw();	
+		modelJ03.RegistraSuDB(matricolaHardware, obsNuoviSoftware);
+		//modelJ03.AggiornaSoftwareAssociato(matricolaHardware);
+		System.out.println("Prima del sync (classe j02ControllerSoftware)");
 		obsSoftwareAggiunti.add(new j02Software());	// è il semaforo
 		this.stage.close();
 	}
@@ -189,8 +192,8 @@ public class j02ControllerSoftware extends MyController {
 		HBoxDettaglio.setVisible(false);
 		col_selezione.setVisible(true);
 	}
-	
-	
+
+
 	/**************************************************************************************
 	 * A questa funzione è stato aggiunto il listener per determinare il momento in cui
 	 * qualcuno ha selezionato nuovo software da aggiungere all'hardware correntemente
@@ -202,23 +205,25 @@ public class j02ControllerSoftware extends MyController {
 	public ObservableList<j02Software> getControlloRecordAggiunti() {
 		return obsSoftwareAggiunti;		// è la lista su cui è impostato il listener
 	}
-	
-	
+
+
 	/**************************************************************************************
 	 * @param obs: lista dei software già assegnati
 	 */
-	public void setElementiListaDaNascondere(ObservableList<j02Software> obs) {
+	public void setElementiListaGiaAssociati(Azione tipoAzione, ObservableList<j02Software> obs) {
 		for(j02Software o : obs) {
 			MapSwAssegnati.put(o.getCodice(), obs);
 		}
+		if (tipoAzione==Azione.DISSOCIA) this.TVSoftware.setItems(obs);
 	}
-	
+
 	/**************************************************************************************
 	 * Seleziona i soli software disponibili non ancora associati all'hardware.
 	 * Toglie dall'elenco di tutti i sw disponibili quelli presenti nella mappa
 	 * che indica tutti quelli gia associati 
 	 */
-	public void popolaTableViewSoftwareDaSelezionare() {
+	public void popolaTableViewSoftwareDaSelezionare(Azione tipoAzione) {
+		if (tipoAzione==Azione.DISSOCIA) return;		// se si tratta di togliare associazione sw/hw, non devo fare niente
 		obs=model.getRighe();
 		int ix =0;
 		while (ix < obs.size()) {
@@ -229,14 +234,17 @@ public class j02ControllerSoftware extends MyController {
 		}
 		this.TVSoftware.setItems(obs);
 	}
-	
-	
-	public void setMatricolaHardware(String matricola) {
-		this.matricolaHardware= matricola;
-	}
-	
+
 	public HBox getHBoxButtons() {
 		return HBoxButtons;
+	}
+
+	public Hardware getHardwareBean() {
+		return hardwareBean;
+	}
+	public void setHardwareBean(Hardware hardwareBean) {
+		this.matricolaHardware= hardwareBean.getMatricola();
+		this.hardwareBean = hardwareBean;
 	}
 
 }
