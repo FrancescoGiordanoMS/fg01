@@ -60,6 +60,21 @@ public class J03Sw {
 		stage.show();
 	}
 
+	/************************************************************************************************
+	 *  Viene lanciato dal listener non appena sente che è stato aggiunto nuovo software all'hardware 
+	 *  correntemente selezionato
+	 */
+	private void AggiornaSoftware() {
+		MapHwSw.remove(matricola); 				// 1 : cancello dalla mappa la vecchia lista dei sw associati
+		SelezionaRecordSoftware(beanHardware);	// 2 : forzo la rilettura dei sw associati
+	}
+	
+	public void SelezionaRecordSoftware(Hardware selectedItem) {
+		obsSw=modelHwSw.getRighe(selectedItem,MapHwSw);
+		this.tabViewSoftware.setItems(obsSw);
+		this.tabViewSoftware.refresh();
+	}
+
 	/***************************************************************************************************
 	 * Lanciato dall' evento che elimina l'associazione del sw all'hardware
 	 */
@@ -72,21 +87,7 @@ public class J03Sw {
 			SelezionaRecordSoftware(beanHardware);		// 3 : forzo la rilettura dei sw associati
 		}
 	}
-
-	public void SelezionaRecordSoftware(Hardware selectedItem) {
-		obsSw=modelHwSw.getRighe(selectedItem,MapHwSw);
-		this.tabViewSoftware.setItems(obsSw);
-		this.tabViewSoftware.refresh();
-	}
-
-	/************************************************************************************************
-	 *  Viene lanciato dal listener non appena sente che è stato aggiunto nuovo software all'hardware 
-	 *  correntemente selezionato
-	 */
-	private void AggiornaSoftware() {
-		MapHwSw.remove(matricola); 	// 1 : cancello dalla mappa la vecchia lista dei sw associati
-		SelezionaRecordSoftware(beanHardware);			// 2 : forzo la rilettura dei sw associati
-	}
+	
 
 	public void clear() {
 		MapHwSw.clear();
