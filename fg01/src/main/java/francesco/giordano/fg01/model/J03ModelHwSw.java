@@ -4,13 +4,14 @@ import java.util.HashMap;
 
 import francesco.giordano.fg01.db.J03HwSwDAO;
 import francesco.giordano.fg01.db.j02SoftwareDAO;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import francesco.giordano.fg01.Fg01ControllerHardware.Azione;
+
 
 public class J03ModelHwSw {
 
-	private HashMap<String, ObservableList<j02Software>> MapHwSw = new HashMap<>();
-
-	public J03ModelHwSw() {	}
+	private static HashMap<String, ObservableList<j02Software>> MapHwSw = new HashMap<>();
 
 	/*********************************************************************************************
 	 * Restituisce le righe di software associate all'hardware corrente.
@@ -20,9 +21,8 @@ public class J03ModelHwSw {
 	 * @param MapHwSw
 	 * @return ObservableList di tipo j02Software, la lista dei sw associati all'hw
 	 */
-	public ObservableList<j02Software> getRighe(String matricolaHw, HashMap<String, ObservableList<j02Software>> MapHwSw) {
+	public static ObservableList<j02Software> getRighe(String matricolaHw) { //, HashMap<String, ObservableList<j02Software>> MapHwSw) {
 		ObservableList<j02Software> obs = null;	
-		//String matricola = hrec.getMatricola();
 		obs=(ObservableList<j02Software>) MapHwSw.get(matricolaHw);
 		if (obs == null) {	
 			J03HwSwDAO dao=new J03HwSwDAO();
@@ -32,33 +32,78 @@ public class J03ModelHwSw {
 		return obs;
 	}
 
-	public ObservableList<j02Software> AggiornaSoftwareAssociato(String matricola) {
+	/*************************************************************************************************
+	 * @param matricolaHw	E' la matricola hw cui deve essere associato il sw 
+	 * @param obsAssociato	E' la lista dei sw selezionati per l'associazione/dissociazione
+	 * @param tipoAzione	E' il tipo di azione: ASSOCIA / DISSOCIA
+	 */
+	public static void GestisciSwSelezionato(String matricolaHw, ObservableList<j02Software> obsAssociato, Azione tipoAzione) {
+		if (tipoAzione==Azione.ASSOCIA) {
+			RegistraSuDB(matricolaHw, obsAssociato);
+			System.out.println("Prima del sync (classe j02ControllerSoftware)");
+		} else if (tipoAzione==Azione.DISSOCIA) {
+			EliminaDaDB(matricolaHw,obsAssociato);	// 1 : cancello il record dal db
+		}
+	}
+
+	/**************************************************************************************************
+	 * Il metodo restituisce la lista dei sw stessa se si tratta di dissociare sw, 
+	 * altrimenti restituisce la lista di tutti i sw non ancora associati con la matricola hw
+	 * @param matricola		Matricola cui sono associati i sw
+	 * @param tipoAzione	ASSOCIA / DISSOCIA
+	 * @param obs			Elenco dei sw già associati
+	 * @return
+	 */
+	public static ObservableList<j02Software> popolaTableViewSoftwareDaSelezionare
+													(String matricola, ObservableList<j02Software> obs, Azione tipoAzione) {
+		if (tipoAzione==Azione.DISSOCIA) return obs;		// se si tratta di togliare associazione sw/hw, non devo fare niente
+		
+		HashMap<String,String> mapCodiciSw=new HashMap<String,String>();
+		String codiceSw;		
+		int ix =0;
+		while (ix < MapHwSw.get(matricola).size()) {
+			codiceSw=MapHwSw.get(matricola).get(ix).getCodice();
+			mapCodiciSw.put(codiceSw, codiceSw);
+			ix++;
+		}		
+		ix =0;
+		while (ix < obs.size()) {
+			if (mapCodiciSw.get(obs.get(ix).getCodice()) != null)
+				obs.remove(ix);
+			else
+				ix++;
+		}
+		return obs;
+	}
+
+	public static ObservableList<j02Software> AggiornaSoftwareAssociato(String matricola) {
 		MapHwSw.remove(matricola); 											// 1 : cancello dalla mappa la vecchia lista dei sw associati
 		ObservableList<j02Software> obs=SelezionaRecordSoftware(matricola);	// 2 : forzo la rilettura dei sw associati
 		return obs;
 	}
 
-	public ObservableList<j02Software> SelezionaRecordSoftware(String matricolaHw) {
-		ObservableList<j02Software> obs=getRighe(matricolaHw,MapHwSw);
+	public static ObservableList<j02Software> SelezionaRecordSoftware(String matricolaHw) {
+		ObservableList<j02Software> obs=getRighe(matricolaHw); //,MapHwSw);
 		return obs;
 	}
 
-	
-	public void RegistraSuDB(String matricolaHardware, ObservableList<j02Software> obs) {
+	public static void RegistraSuDB(String matricolaHardware, ObservableList<j02Software> obs) {
 		if (obs != null) {	
 			J03HwSwDAO dao=new J03HwSwDAO();
 			dao.RegistraSuDB(matricolaHardware,obs);	// 1: Registro su db tutti i sw selezionati dall'utente
 		}
 	}
 
-	public void EliminaDaDB(String matricolaHardware, String codiceSw) {
-		J03HwSwDAO dao=new J03HwSwDAO();
-		dao.EliminaDaDB(matricolaHardware,codiceSw);		
+	public static void EliminaDaDB(String matricolaHardware, ObservableList<j02Software> obs) {
+		for(j02Software o : obs) {
+			J03HwSwDAO dao=new J03HwSwDAO();
+			dao.EliminaDaDB(matricolaHardware,o.getCodice());
+		}
+		MapHwSw.remove(matricolaHardware);
 	}
-	
-	public void Refresh() {
+
+	public static void Refresh() {
 		MapHwSw.clear();
-		//obsSw.clear();
 	}
 
 }

@@ -91,7 +91,7 @@ public class Fg01ControllerHardware extends MyController{
 	private ObservableList<Hardware> obs;
 	private ObservableList<j02Software> obsSw;
 	private Azione tipoAzione;
-	protected enum Azione {
+	public enum Azione {
 		ASSOCIA,
 		DISSOCIA
 	}
@@ -126,7 +126,7 @@ public class Fg01ControllerHardware extends MyController{
 	protected void RefreshTableView() {
 		obs.clear();
 		obsSw.clear();		// pulisco la lista dei sw collegati attualmente visualizzati
-		modelHwSw.Refresh();	
+		J03ModelHwSw.Refresh();	
 		popolaTableView();
 		TVHardware.refresh();
 	}	
@@ -182,20 +182,15 @@ public class Fg01ControllerHardware extends MyController{
 	@FXML
 	void handle_btnNuoviSoftware(ActionEvent event) throws IOException {
 		if (indexTableView ==-1) return;
-		J03GestisciSoftwareAssociati(tipoAzione.ASSOCIA);
-//		j03Sw.setBeanHardware(TVHardware.getSelectionModel().getSelectedItem());
-//		j03Sw.btnNuoviSoftware();
+		GestisciSoftwareAssociati(Azione.ASSOCIA);
 	}
-
 	/***************************************************************************************************
 	 * Evento che elimina l'associazione del sw all'hardware
 	 * @throws IOException 
 	 */
 	public void handle_btnSganciaDaHw() throws IOException {
 		if (indexTableView ==-1) return;
-		J03GestisciSoftwareAssociati(tipoAzione.DISSOCIA);
-		//j03Sw.setBeanHardware(TVHardware.getSelectionModel().getSelectedItem());
-		//j03Sw.btnSganciaDaHw();
+		GestisciSoftwareAssociati(Azione.DISSOCIA);
 	}
 	
 	@FXML
@@ -239,14 +234,9 @@ public class Fg01ControllerHardware extends MyController{
 		disabilitaControlli();  // super: setFormField Class
 		indexTableView=-1;
 
-		//j03Sw.setTabViewSoftware(TabViewSoftware);
-		//j03Sw.setModelHwSw(modelHwSw);
-
 		allFields = this.getClass().getDeclaredFields();
 		Field[] allBean = Hardware.class.getDeclaredFields();
 		MapFieldValue=CreaHashMap(allFields, allBean);
-		//	System.out.println(MapFieldValue+"\n");
-
 
 		//------------------------------------------------------------------------------
 
@@ -265,22 +255,28 @@ public class Fg01ControllerHardware extends MyController{
 
 	}    
 
+	/**
+	 * Il metodo è richiamato dal listener ad ogni aggiornamento della lista dei sw associati all'hw. 
+	 * Permette di tenere aggiornato per ogni hw l'elenco dei sw che gli sono associati
+	 */
 	private void AggiornaSoftware() {
-		obsSw=modelHwSw.AggiornaSoftwareAssociato(obs.get(indexTableView).getMatricola());
+		obsSw=J03ModelHwSw.AggiornaSoftwareAssociato(obs.get(indexTableView).getMatricola());
 		this.TabViewSoftware.setItems(obsSw);
 		this.TabViewSoftware.refresh();
-//		MapHwSw.remove(matricola); 			// 1 : cancello dalla mappa la vecchia lista dei sw associati
-//		SelezionaRecordSoftware();			// 2 : forzo la rilettura dei sw associati
 	}
-	
+	/**
+	 * Il metodo è richiamato dal listener ad ogni cambio di riga nella tabella dell'hw. 
+	 * Permette di visualizzare per ogni hw l'elenco dei sw che gli sono associati
+	 */	
 	private void SelezionaRecordSoftware() {
-		obsSw=modelHwSw.SelezionaRecordSoftware(obs.get(indexTableView).getMatricola());
+		obsSw=J03ModelHwSw.SelezionaRecordSoftware(obs.get(indexTableView).getMatricola());
 		this.TabViewSoftware.setItems(obsSw);
 		this.TabViewSoftware.refresh();
 	}
 
-	private void J03GestisciSoftwareAssociati(Azione tipoAzione) throws IOException {
+	private void GestisciSoftwareAssociati(Azione tipoAzione) throws IOException {
 		// TODO Auto-generated constructor stub
+		String matricola = obs.get(indexTableView).getMatricola();
 		BorderPane root;
 		Stage stage = new Stage();
 		stage.setWidth(560); stage.setHeight(430);
@@ -296,8 +292,7 @@ public class Fg01ControllerHardware extends MyController{
 
 		controllerJ02.setStage(stage);
 		controllerJ02.setModel(model);  
-		controllerJ02.setElementiListaGiaAssociati(tipoAzione,obsSw);		// sono i sw già associati all'hw
-		controllerJ02.popolaTableViewSoftwareDaSelezionare(tipoAzione);	// in caso di aggiunta di nuovi sw
+		controllerJ02.popolaTableViewSoftwareDaSelezionare(matricola,obsSw,tipoAzione);	// in caso di aggiunta di nuovi sw
 		controllerJ02.setHardwareBean(obs.get(indexTableView));
 		controllerJ02.init();
 		controllerJ02.HideControls();

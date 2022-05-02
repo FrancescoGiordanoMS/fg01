@@ -17,7 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class HardwareDAO {
-	
+
 	private static String connString=ConfigFile.getMySqlConnString();
 
 	public static ObservableList<Hardware> getRighe(HashMap<String, RiferimentoCampi> MapFieldValue) {
@@ -80,41 +80,41 @@ public class HardwareDAO {
 			//conn.setAutoCommit(false);
 			// Prima di tutto controllo che hasCode() del record sia valido, cioè verifico che nel frattempo
 			// nessun altro abbia modificato il record nel db		
-//			st.setString(1, Record.getMatricola());
-//			ResultSet res=st.executeQuery();
-//			res.next();
-//			if (res != null) {
-//				if (res.getInt("savedhashcode") != Record.getSavedhashcode() && res.getInt("savedhashCode")!=0) {
-//					// il record è stato nel frattempo modificato da altro utente...
-//					// sarebbe utile qui rileggere il record da db e visualizzarlo
-//					Alert alert = new Alert(AlertType.ERROR);
-//					alert.setTitle("SQL Error");
-//					alert.setHeaderText("Si è verificato un errore durante update");
-//					alert.setContentText("Il record è stato modificato da un altro utente");
-//					alert.showAndWait();
-//					ret=false;
-//				}
-//			}
-//			if (ret) {
-				// il record nel db non è stato modificato da nessuno... posso proseguire 
-				st2.setString(1, Record.getTipohw());
-				st2.setString(2,Record.getMarca());
-				st2.setString(3,Record.getModello());
-				//st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
-				if (Record.getDataacquisto() == null) st2.setNull(4, java.sql.Types.DATE);
-				else st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
-				st2.setFloat(5, Record.getPrezzoacquisto());
-				st2.setBlob(6, Record.getImmagine());
-				st2.setInt(7, Record.hashCode());
-				st2.setString(8, Record.getMatricola());
-				st2.setInt(9, Record.getSavedhashcode());
-				rowModified=st2.executeUpdate() ;
-				if (rowModified > 0) {
+			//			st.setString(1, Record.getMatricola());
+			//			ResultSet res=st.executeQuery();
+			//			res.next();
+			//			if (res != null) {
+			//				if (res.getInt("savedhashcode") != Record.getSavedhashcode() && res.getInt("savedhashCode")!=0) {
+			//					// il record è stato nel frattempo modificato da altro utente...
+			//					// sarebbe utile qui rileggere il record da db e visualizzarlo
+			//					Alert alert = new Alert(AlertType.ERROR);
+			//					alert.setTitle("SQL Error");
+			//					alert.setHeaderText("Si è verificato un errore durante update");
+			//					alert.setContentText("Il record è stato modificato da un altro utente");
+			//					alert.showAndWait();
+			//					ret=false;
+			//				}
+			//			}
+			//			if (ret) {
+			// il record nel db non è stato modificato da nessuno... posso proseguire 
+			st2.setString(1, Record.getTipohw());
+			st2.setString(2,Record.getMarca());
+			st2.setString(3,Record.getModello());
+			//st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
+			if (Record.getDataacquisto() == null) st2.setNull(4, java.sql.Types.DATE);
+			else st2.setDate(4, java.sql.Date.valueOf(Record.getDataacquisto()));
+			st2.setFloat(5, Record.getPrezzoacquisto());
+			st2.setBlob(6, Record.getImmagine());
+			st2.setInt(7, Record.hashCode());
+			st2.setString(8, Record.getMatricola());
+			st2.setInt(9, Record.getSavedhashcode());
+			rowModified=st2.executeUpdate() ;
+			if (rowModified > 0) {
 				//conn.commit();
 				Record.setSavedhashcode(Record.hashCode());
-				}
-//			}
-			
+			}
+			//			}
+
 		} catch(SQLException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("SQL Error");
@@ -124,12 +124,12 @@ public class HardwareDAO {
 			//throw new RuntimeException("Database Error updating Hardware table", e);
 			ret=false;
 		} 
-	return(ret);
+		return(ret);
 	}
 
-	
-	
-	
+
+
+
 	public static String DBInsert(Hardware Record) {
 		boolean ret=true;
 		String msgErrore = null;
@@ -164,46 +164,26 @@ public class HardwareDAO {
 	}
 
 	public static boolean DBDelete(Hardware Record) {
-		//boolean ret=false;
+		boolean ret=false;
 		String sql = "DELETE FROM Hardware WHERE matricola = ?";
-		try {
-			Connection conn = DBConnect.getConnection(connString);
-			PreparedStatement st = conn.prepareStatement(sql);
+		try (Connection conn = DBConnect.getConnection(connString);
+				PreparedStatement st = conn.prepareStatement(sql))
+		{
+			conn.setAutoCommit(false);
 			st.setString(1, Record.getMatricola());
 			st.execute() ;
 			st.close();
 			conn.close();
-			return(true);
+			conn.setAutoCommit(true);
+			return(ret);
 		} catch(SQLException e) {
-			throw new RuntimeException("Database Error deleting record Hardware table", e);
+			ret = false;
+			//throw new RuntimeException("Database Error deleting record Hardware table", e);
 			//return(false);
-		}
-		//return(false);
+		} 
+		return(ret);
 	}
-
-
-	//	public boolean DBModifyNew(Hardware Record) {
-	//		boolean ret=true;
-	//		String TableName=Record.getClass().getName();
-	//		String sql="update "+TableName+" set ";
-	//		Field[] allFields = Record.getClass().getDeclaredFields();
-	//		for (Field field : allFields) {
-	//			if (Modifier.isPrivate(field.getModifiers()) && 
-	//					(field.getName().substring(0,2).equals("_m") ) ||
-	//					(field.getName().substring(0,2).equals("_k") )
-	//					){
-	//				
-	//				sql += "tipohw = ?, marca = ?, modello = ?, dataacquisto = ?, "+
-	//						"prezzoacquisto = ? where matricola = ?";
-	//
-	//			}
-	//			}
-	//	
-	//		
-	//		return ret;
-	//	}
-
-
+	
 }
 
 

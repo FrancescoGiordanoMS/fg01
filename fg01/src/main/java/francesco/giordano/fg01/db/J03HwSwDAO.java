@@ -74,9 +74,21 @@ public class J03HwSwDAO {
 		}
 	}	
 
-
-	public void EliminaDaDB(String matricolaHw, String codiceSw) {
-		String sql = "Delete from HwSw where matricola = ? and codice= ?";
+	/****************************************************************************
+	 * Il metodo elimina tutti i record relativi ad un singolo hw se il codice sw
+	 * passato come parametro è null, altrimenti elimina solo il record, relativo
+	 * all'hw, il cui codice viene passato come parametro.
+	 * @param matricolaHw
+	 * @param codiceSw
+	 * @return
+	 */
+	public boolean EliminaDaDB(String matricolaHw, String codiceSw) {
+		String sql=null;
+		boolean ret = false;
+		if (codiceSw==null)
+			sql = "Delete from HwSw where matricola = ?";
+		else
+			sql = "Delete from HwSw where matricola = ? and codice= ?";
 		int ix = 0;
 		PreparedStatement st;
 		try {
@@ -84,15 +96,16 @@ public class J03HwSwDAO {
 			st = conn.prepareStatement(sql);
 
 			st.setString(1, matricolaHw);
-			st.setString(2, codiceSw);
+			if(codiceSw != null) st.setString(2, codiceSw);
 			st.execute() ;
 			st.close();
 			conn.close();
+			ret=true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return ret;
 	}
-
 	
 }
