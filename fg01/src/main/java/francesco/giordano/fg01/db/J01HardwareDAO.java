@@ -17,7 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class HardwareDAO {
+public class J01HardwareDAO {
 
 	private static String connString=ConfigFile.getMySqlConnString();
 
@@ -167,6 +167,7 @@ public class HardwareDAO {
 	public static boolean DBDelete(Hardware Record) {
 		boolean ret=false;
 		String sql = "DELETE FROM Hardware WHERE matricola = ?";
+		String sqlHwSw = "Delete from HwSw where codice = ?";
 		try (Connection conn = DBConnect.getConnection(connString);
 				PreparedStatement st = conn.prepareStatement(sql))
 		{

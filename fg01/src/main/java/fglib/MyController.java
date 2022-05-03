@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import fglib.MyController.StatoButtonSave;
-//import francesco.giordano.fg01.Fg01ControllerHardware.StatoButtonSave;
+//import francesco.giordano.fg01.J01ControllerHardware.StatoButtonSave;
 import francesco.giordano.fg01.model.Hardware;
-import francesco.giordano.fg01.model.ModelHardware;
+import francesco.giordano.fg01.model.J01ModelHardware;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

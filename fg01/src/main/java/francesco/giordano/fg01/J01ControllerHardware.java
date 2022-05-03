@@ -20,7 +20,7 @@ import fglib.RiferimentoCampi;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.J03HwSw;
 import francesco.giordano.fg01.model.J03ModelHwSw;
-import francesco.giordano.fg01.model.ModelHardware;
+import francesco.giordano.fg01.model.J01ModelHardware;
 import francesco.giordano.fg01.model.j02ModelSoftware;
 import francesco.giordano.fg01.model.j02Software;
 import javafx.beans.binding.Bindings;
@@ -55,7 +55,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class Fg01ControllerHardware extends MyController{
+public class J01ControllerHardware extends MyController{
 
 	@FXML private TableView<Hardware> TVHardware;
 	@FXML private TableColumn<Hardware, String> col_modello, col_marca, col_tipohw, col_matricola;
@@ -86,7 +86,7 @@ public class Fg01ControllerHardware extends MyController{
 
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
-	private ModelHardware model;
+	private J01ModelHardware model;
 	private J03ModelHwSw modelHwSw=new J03ModelHwSw();
 	private ObservableList<Hardware> obs;
 	private ObservableList<j02Software> obsSw;
@@ -173,7 +173,7 @@ public class Fg01ControllerHardware extends MyController{
 
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
-	public void setModel(ModelHardware m) {
+	public void setModel(J01ModelHardware m) {
 		this.model=m;
 	}
 

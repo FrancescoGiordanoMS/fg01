@@ -5,9 +5,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fglib.MyMenuBar;
-import francesco.giordano.fg01.model.ModelHardware;
+import francesco.giordano.fg01.model.J01ModelHardware;
 import francesco.giordano.fg01.model.j02ModelSoftware;
-//import francesco.giordano.fg01.model.ModelHardware;
+//import francesco.giordano.fg01.model.J01ModelHardware;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,7 +48,7 @@ public class Fg01ControllerPWD {
 	 private MenuItem MenuItem_hardware,MenuItem_software;
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
-	private ModelHardware model=null;
+	private J01ModelHardware model=null;
 	private Stage stage = null;
 	
     @FXML
@@ -57,8 +57,8 @@ public class Fg01ControllerPWD {
     	Scene currentScene;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/j01_Hardware.fxml")) ;
 		root = loader.load();
-        Fg01ControllerHardware controller = loader.getController() ;
-        ModelHardware model = new ModelHardware();
+        J01ControllerHardware controller = loader.getController() ;
+        J01ModelHardware model = new J01ModelHardware();
       	
     	currentScene=stage.getScene();
     	Scene scene = new Scene(root);
@@ -116,7 +116,7 @@ public class Fg01ControllerPWD {
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
-	public void setModel(ModelHardware m) {
+	public void setModel(J01ModelHardware m) {
 		this.model = m;
 	}
 

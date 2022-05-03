@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fglib.MyController;
-import francesco.giordano.fg01.Fg01ControllerHardware.Azione;
+import francesco.giordano.fg01.J01ControllerHardware.Azione;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.J03ModelHwSw;
 import francesco.giordano.fg01.model.j02ModelSoftware;

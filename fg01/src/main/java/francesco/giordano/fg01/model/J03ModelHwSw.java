@@ -7,7 +7,7 @@ import francesco.giordano.fg01.db.J03HwSwDAO;
 import francesco.giordano.fg01.db.j02SoftwareDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import francesco.giordano.fg01.Fg01ControllerHardware.Azione;
+import francesco.giordano.fg01.J01ControllerHardware.Azione;
 
 
 public class J03ModelHwSw {
