@@ -24,11 +24,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -180,7 +183,16 @@ public class MyController {
 	//------------------------------------------------------------------------------------------------------------
 
 	protected void RefreshTableView() {}
-	protected void DeleteRecord() {}
+	protected boolean DeleteRecord() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Eliminazione Record");
+		alert.setHeaderText("Eliminazione Record da Database");
+		alert.setContentText("Sei sicuro di voler eliminare il record corrente?");
+		alert.showAndWait();
+		if (alert.getResult() == ButtonType.OK) return(true);
+			else return false;
+	}
+	
 	protected void SalvaModifiche() {}
 	protected boolean SalvaInserimento() {return true;}
 

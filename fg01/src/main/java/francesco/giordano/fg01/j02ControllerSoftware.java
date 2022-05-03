@@ -51,12 +51,17 @@ public class j02ControllerSoftware extends MyController {
 
 
 	@Override
-	protected void DeleteRecord() {
-		j02Software rec = TVSoftware.getSelectionModel().getSelectedItem();
-		if (model.DBDelete(rec)) {
-			obs.remove(rec);
-			TVSoftware.refresh();
+	protected boolean DeleteRecord() {
+		boolean ret = false;
+		if (super.DeleteRecord()) {
+			j02Software rec = TVSoftware.getSelectionModel().getSelectedItem();
+			if (model.DBDelete(rec)) {
+				obs.remove(rec);
+				TVSoftware.refresh();
+				ret = true;
+			}
 		}
+		return ret;
 	}
 
 	@Override
@@ -142,7 +147,7 @@ public class j02ControllerSoftware extends MyController {
 	 *  da eseguire
 	 * @param event
 	 */
-	//@FXML
+	@FXML
 	void handle_btnSelezionaSw(ActionEvent event) {
 		obsNuoviSoftware.clear();
 		obsNuoviSoftware=FXCollections.observableArrayList(SelezionaSwDaGestire());	

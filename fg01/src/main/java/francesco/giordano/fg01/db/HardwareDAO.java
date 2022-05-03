@@ -11,6 +11,7 @@ import java.util.HashMap;
 import fglib.ConfigFile;
 import fglib.RiferimentoCampi;
 import francesco.giordano.fg01.model.Hardware;
+import francesco.giordano.fg01.model.J03ModelHwSw;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -172,10 +173,12 @@ public class HardwareDAO {
 			conn.setAutoCommit(false);
 			st.setString(1, Record.getMatricola());
 			st.execute() ;
+			J03ModelHwSw.EliminaDaDB(Record.getMatricola(), null);	// elimino anche tutti i record 1 a molti di tabella HwSw
+			conn.commit();
+			conn.setAutoCommit(true);
 			st.close();
 			conn.close();
-			conn.setAutoCommit(true);
-			return(ret);
+			ret=true;
 		} catch(SQLException e) {
 			ret = false;
 			//throw new RuntimeException("Database Error deleting record Hardware table", e);

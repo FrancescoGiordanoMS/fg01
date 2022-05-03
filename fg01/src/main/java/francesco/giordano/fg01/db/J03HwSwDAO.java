@@ -17,7 +17,7 @@ public class J03HwSwDAO {
 	private static String connString=ConfigFile.getMySqlConnString();
 
 
-	public ObservableList<j02Software> getRigheSoftware(String matricolaHw) {
+	public static ObservableList<j02Software> getRigheSoftware(String matricolaHw) {
 		ObservableList<j02Software> obs = FXCollections.observableArrayList();
 		j02Software rec;
 		GetAutomaticField ga; //= new GetAutomaticField();
@@ -52,7 +52,7 @@ public class J03HwSwDAO {
 		return(obs);
 	}
 
-	public void RegistraSuDB(String matricolaHardware, ObservableList<j02Software> obs) {
+	public static void RegistraSuDB(String matricolaHardware, ObservableList<j02Software> obs) {
 		String sql = "INSERT INTO HwSw (matricola, codice) VALUES (?,?)";
 		int ix = 0;
 		PreparedStatement st;
@@ -82,27 +82,33 @@ public class J03HwSwDAO {
 	 * @param codiceSw
 	 * @return
 	 */
-	public boolean EliminaDaDB(String matricolaHw, String codiceSw) {
+	public static boolean EliminaDaDB(String matricolaHw, String codiceSw) {
 		String sql=null;
-		boolean ret = false;
-		if (codiceSw==null)
-			sql = "Delete from HwSw where matricola = ?";
-		else
-			sql = "Delete from HwSw where matricola = ? and codice= ?";
-		int ix = 0;
+		boolean ret = false;		
 		PreparedStatement st;
 		try {
 			Connection conn = DBConnect.getConnection(connString);
-			st = conn.prepareStatement(sql);
-
-			st.setString(1, matricolaHw);
-			if(codiceSw != null) st.setString(2, codiceSw);
+			if (codiceSw==null) {
+				sql = "Delete from HwSw where matricola = ?";
+				st = conn.prepareStatement(sql);
+				st.setString(1, matricolaHw);
+			}
+			else if (matricolaHw==null) {
+				sql = "Delete from HwSw where codice = ?";
+				st = conn.prepareStatement(sql);
+				st.setString(1, codiceSw);
+			}
+			else {
+				sql = "Delete from HwSw where matricola = ? and codice= ?";
+				st = conn.prepareStatement(sql);
+				st.setString(1, matricolaHw);
+				st.setString(2, codiceSw);
+			}
 			st.execute() ;
 			st.close();
 			conn.close();
 			ret=true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return ret;

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import fglib.ConfigFile;
 import fglib.RiferimentoCampi;
 import francesco.giordano.fg01.model.Hardware;
+import francesco.giordano.fg01.model.J03ModelHwSw;
 import francesco.giordano.fg01.model.j02Software;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -108,11 +109,15 @@ public class j02SoftwareDAO {
 		String sql = "DELETE FROM SOFTWARE WHERE CODICE = ?";
 		try {
 			Connection conn = DBConnect.getConnection(connString);
+			conn.setAutoCommit(false);
 			PreparedStatement st = conn.prepareStatement(sql);
 			st.setString(1, Record.getCodice());
 			st.execute() ;
+			J03HwSwDAO.EliminaDaDB(null, Record.getCodice());	// elimino anche tutti i record 1 a molti di tabella HwSw
+			conn.commit();
 			st.close();
 			conn.close();
+			conn.setAutoCommit(true);
 			return(true);
 		} catch(SQLException e) {
 			throw new RuntimeException("Database Error deleting record Hardware table", e);

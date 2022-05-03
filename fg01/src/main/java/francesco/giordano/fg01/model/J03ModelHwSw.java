@@ -25,8 +25,8 @@ public class J03ModelHwSw {
 		ObservableList<j02Software> obs = null;	
 		obs=(ObservableList<j02Software>) MapHwSw.get(matricolaHw);
 		if (obs == null) {	
-			J03HwSwDAO dao=new J03HwSwDAO();
-			obs=dao.getRigheSoftware(matricolaHw);
+			//J03HwSwDAO dao=new J03HwSwDAO();
+			obs=J03HwSwDAO.getRigheSoftware(matricolaHw);
 			MapHwSw.put(matricolaHw, obs);
 		}
 		return obs;
@@ -55,9 +55,9 @@ public class J03ModelHwSw {
 	 * @return
 	 */
 	public static ObservableList<j02Software> popolaTableViewSoftwareDaSelezionare
-													(String matricola, ObservableList<j02Software> obs, Azione tipoAzione) {
+	(String matricola, ObservableList<j02Software> obs, Azione tipoAzione) {
 		if (tipoAzione==Azione.DISSOCIA) return obs;		// se si tratta di togliare associazione sw/hw, non devo fare niente
-		
+
 		HashMap<String,String> mapCodiciSw=new HashMap<String,String>();
 		String codiceSw;		
 		int ix =0;
@@ -77,7 +77,7 @@ public class J03ModelHwSw {
 	}
 
 	public static ObservableList<j02Software> AggiornaSoftwareAssociato(String matricola) {
-		MapHwSw.remove(matricola); 											// 1 : cancello dalla mappa la vecchia lista dei sw associati
+		MapHwSw.reremove(matricola); 											// 1 : cancello dalla mappa la vecchia lista dei sw associati
 		ObservableList<j02Software> obs=SelezionaRecordSoftware(matricola);	// 2 : forzo la rilettura dei sw associati
 		return obs;
 	}
@@ -89,15 +89,19 @@ public class J03ModelHwSw {
 
 	public static void RegistraSuDB(String matricolaHardware, ObservableList<j02Software> obs) {
 		if (obs != null) {	
-			J03HwSwDAO dao=new J03HwSwDAO();
-			dao.RegistraSuDB(matricolaHardware,obs);	// 1: Registro su db tutti i sw selezionati dall'utente
+			//J03HwSwDAO dao=new J03HwSwDAO();
+			J03HwSwDAO.RegistraSuDB(matricolaHardware,obs);	// 1: Registro su db tutti i sw selezionati dall'utente
 		}
 	}
 
 	public static void EliminaDaDB(String matricolaHardware, ObservableList<j02Software> obs) {
-		for(j02Software o : obs) {
-			J03HwSwDAO dao=new J03HwSwDAO();
-			dao.EliminaDaDB(matricolaHardware,o.getCodice());
+
+		if (obs == null)
+			J03HwSwDAO.EliminaDaDB(matricolaHardware,null);		// cancello tutti i record relativi a matricola di HwSw
+		else {
+			for(j02Software o : obs) {
+				J03HwSwDAO.EliminaDaDB(matricolaHardware,o.getCodice());
+			}
 		}
 		MapHwSw.remove(matricolaHardware);
 	}

@@ -131,12 +131,17 @@ public class Fg01ControllerHardware extends MyController{
 		TVHardware.refresh();
 	}	
 	@Override
-	protected void DeleteRecord() {
+	protected boolean DeleteRecord() {
+		boolean ret = false;
+		if (super.DeleteRecord()) {
 		Hardware rec=TVHardware.getSelectionModel().getSelectedItem();
 		if (model.DBDelete(rec)) {
 			obs.remove(rec);
 			TVHardware.refresh();
+			ret=true;
 		}
+		}
+		return ret;
 	}
 	@Override
 	protected void SalvaModifiche() {
@@ -275,7 +280,6 @@ public class Fg01ControllerHardware extends MyController{
 	}
 
 	private void GestisciSoftwareAssociati(Azione tipoAzione) throws IOException {
-		// TODO Auto-generated constructor stub
 		String matricola = obs.get(indexTableView).getMatricola();
 		BorderPane root;
 		Stage stage = new Stage();
