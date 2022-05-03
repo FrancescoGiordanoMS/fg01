@@ -1,6 +1,7 @@
 package francesco.giordano.fg01.model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import francesco.giordano.fg01.db.J03HwSwDAO;
 import francesco.giordano.fg01.db.j02SoftwareDAO;
@@ -77,7 +78,7 @@ public class J03ModelHwSw {
 	}
 
 	public static ObservableList<j02Software> AggiornaSoftwareAssociato(String matricola) {
-		MapHwSw.reremove(matricola); 											// 1 : cancello dalla mappa la vecchia lista dei sw associati
+		MapHwSw.remove(matricola); 											// 1 : cancello dalla mappa la vecchia lista dei sw associati
 		ObservableList<j02Software> obs=SelezionaRecordSoftware(matricola);	// 2 : forzo la rilettura dei sw associati
 		return obs;
 	}
@@ -95,7 +96,6 @@ public class J03ModelHwSw {
 	}
 
 	public static void EliminaDaDB(String matricolaHardware, ObservableList<j02Software> obs) {
-
 		if (obs == null)
 			J03HwSwDAO.EliminaDaDB(matricolaHardware,null);		// cancello tutti i record relativi a matricola di HwSw
 		else {

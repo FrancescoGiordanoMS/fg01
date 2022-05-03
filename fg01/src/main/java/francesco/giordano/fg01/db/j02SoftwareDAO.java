@@ -107,20 +107,25 @@ public class j02SoftwareDAO {
 	public boolean DBDelete(j02Software Record) {
 		//boolean ret=false;
 		String sql = "DELETE FROM SOFTWARE WHERE CODICE = ?";
+		String sqlHwSw = "Delete from HwSw where codice = ?";
 		try {
 			Connection conn = DBConnect.getConnection(connString);
 			conn.setAutoCommit(false);
 			PreparedStatement st = conn.prepareStatement(sql);
+			PreparedStatement stHwSw = conn.prepareStatement(sqlHwSw);
 			st.setString(1, Record.getCodice());
+			stHwSw.setString(1, Record.getCodice());
 			st.execute() ;
-			J03HwSwDAO.EliminaDaDB(null, Record.getCodice());	// elimino anche tutti i record 1 a molti di tabella HwSw
+			stHwSw.execute();
 			conn.commit();
 			st.close();
-			conn.close();
+			stHwSw.close();
 			conn.setAutoCommit(true);
+			conn.close();
+			J03ModelHwSw.Refresh();
 			return(true);
 		} catch(SQLException e) {
-			throw new RuntimeException("Database Error deleting record Hardware table", e);
+			throw new RuntimeException("Database Error deleting record Software table", e);
 			//return(false);
 		}
 		//return(false);
