@@ -19,7 +19,6 @@ public class TextFieldLimited extends TextField {
 	    
 	    @Override
 	    public void replaceText(int start, int end, String text) {
-	        // Delete or backspace user input.
 	        if (text.equals("")) {
 	            super.replaceText(start, end, text);
 	        } else if (getText().length() < maxlength) {
@@ -28,6 +27,7 @@ public class TextFieldLimited extends TextField {
 	        }
 	    }
 
+	    
 	    @Override
 	    public void replaceSelection(String text) {
 	        // Delete or backspace user input.
@@ -35,15 +35,19 @@ public class TextFieldLimited extends TextField {
 	    	IndexRange ir = getSelection();
 	    	int inizio = ir.getStart();
 	    	int fine = ir.getEnd();
-	    	//String nuovoText = "";
-	    	String vecchioText = getText();
-	    	//String selectedText = getText().substring(inizio, fine);
-	    	
+	    	String vecchioText = getText();	    	
 	    	super.clear();
 	    	text=vecchioText.substring(0,inizio)+text+vecchioText.substring(fine);
 	    	text=text.substring(0,text.length() < maxlength? text.length(): maxlength);
         	if (this.uppercase) text = text.toUpperCase();
 	    	super.replaceSelection(text);
+
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
 	    	
 //	        if (text.equals("")) {
 //	            super.replaceSelection(text);

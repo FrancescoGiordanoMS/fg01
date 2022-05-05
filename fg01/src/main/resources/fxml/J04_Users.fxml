@@ -11,24 +11,23 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.J04ControllerUsers">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="264.0" prefWidth="600.0">
                <children>
-                  <TableView prefHeight="100.0" prefWidth="301.0">
+                  <TableView fx:id="TVUsers" prefHeight="242.0" prefWidth="476.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="col_codiceUser" />
-                      <TableColumn prefWidth="75.0" text="col_username" />
-                        <TableColumn prefWidth="75.0" text="col_email" />
-                        <TableColumn prefWidth="75.0" text="col_password" />
+                      <TableColumn fx:id="col_codiceUser" prefWidth="98.39996337890625" text="Codice Utente" />
+                      <TableColumn fx:id="col_username" prefWidth="166.4000244140625" text="Nominativo" />
+                        <TableColumn fx:id="col_email" prefWidth="102.39996337890625" text="Email" />
+                        <TableColumn fx:id="col_password" prefWidth="105.5999755859375" text="Password" />
                     </columns>
                   </TableView>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" />
+            <HBox prefHeight="9.0" prefWidth="600.0" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <GridPane>

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import fglib.MyMenuBar;
 import francesco.giordano.fg01.model.J01ModelHardware;
+import francesco.giordano.fg01.model.J04ModelUsers;
 import francesco.giordano.fg01.model.j02ModelSoftware;
 //import francesco.giordano.fg01.model.J01ModelHardware;
 import javafx.event.ActionEvent;
@@ -35,17 +36,13 @@ public class Fg01ControllerPWD {
 	@FXML
 	private TextField _mUtente;
 	
-    @FXML
-    private GridPane Grid;
+    @FXML private GridPane Grid;
     
-    @FXML
-    private MenuBar _mMenu;
+    @FXML private MenuBar _mMenu;
 
-	@FXML
-	private Button btnConferma;
+	@FXML private Button btnConferma;
 	
-	 @FXML
-	 private MenuItem MenuItem_hardware,MenuItem_software;
+	 @FXML private MenuItem MenuItem_hardware,MenuItem_software;
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	private J01ModelHardware model=null;
@@ -102,6 +99,32 @@ public class Fg01ControllerPWD {
 //    	//controller.setMenu();
     	stage.show();
     }
+ 
+    @FXML
+    void handleMenuItem_users(ActionEvent event) throws IOException {
+    	BorderPane root;
+    	Scene currentScene;
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/J04_Users.fxml")) ;
+    	root = loader.load();
+    	J04ControllerUsers controller = loader.getController() ;
+    	J04ModelUsers model = new J04ModelUsers();
+
+    	currentScene=stage.getScene();
+    	Scene scene = new Scene(root);
+    	scene.getStylesheets().add("/styles/Styles.css");        
+    	stage.setTitle("JavaFX and Maven");
+    	stage.setScene(scene);
+ 	   	
+    	controller.setParentScene(currentScene);
+    	controller.setStage(stage);
+    	controller.setModel(model);  
+    	controller.popolaTableView();
+    	//controller.getHBoxButtons().setVisible(false);
+    	controller.init();
+    	stage.show();
+    }
+    
+    
     
 	@FXML
 	void handleConferma(ActionEvent event) throws IOException {

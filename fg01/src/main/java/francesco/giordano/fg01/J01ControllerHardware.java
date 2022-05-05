@@ -17,10 +17,10 @@ import java.util.List;
 
 import fglib.MyController;
 import fglib.RiferimentoCampi;
-import francesco.giordano.fg01.model.Hardware;
-import francesco.giordano.fg01.model.J03HwSw;
 import francesco.giordano.fg01.model.J03ModelHwSw;
+import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.J01ModelHardware;
+import francesco.giordano.fg01.model.J03HwSw;
 import francesco.giordano.fg01.model.j02ModelSoftware;
 import francesco.giordano.fg01.model.j02Software;
 import javafx.beans.binding.Bindings;

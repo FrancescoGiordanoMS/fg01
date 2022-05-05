@@ -3,6 +3,7 @@ package francesco.giordano.fg01.model;
 import java.util.HashMap;
 
 import fglib.RiferimentoCampi;
+import francesco.giordano.fg01.db.J04DAOUsers;
 import francesco.giordano.fg01.db.j02SoftwareDAO;
 import javafx.collections.ObservableList;
 
