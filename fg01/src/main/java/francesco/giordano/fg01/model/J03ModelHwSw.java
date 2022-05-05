@@ -110,4 +110,7 @@ public class J03ModelHwSw {
 		MapHwSw.clear();
 	}
 
+	public static void EliminaHwSW(String matricolaHardware) {
+		MapHwSw.remove(matricolaHardware);
+	}
 }
