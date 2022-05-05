@@ -34,11 +34,13 @@ public String DBInsert(Hardware Record) {
 	return msgErrore;
 }
 
-public boolean DBDelete(Hardware Record) {
-	boolean ret = true;
-	ret = J01HardwareDAO.DBDelete(Record);
-	return ret;
-}
+//public boolean DBDelete(Hardware Record) {
+//	boolean ret = true;
+//	ret = J01HardwareDAO.DBDelete(Record);
+//	//ret=J03ModelHwSw.DBDeleteHwSw(Record);
+//	return ret;
+//	
+//}
 
 public J01ModelHardware() {
 //	ConfigFile.read("config.txt");

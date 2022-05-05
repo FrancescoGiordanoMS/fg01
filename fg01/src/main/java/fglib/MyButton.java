@@ -23,11 +23,11 @@ public class MyButton {
 		btnCancel.setMaxHeight(52);
 		btnCancel.setDisable(true);
 
-		anchorpane.setRightAnchor(btnCancel, 10d);
-		anchorpane.setBottomAnchor(btnCancel, 5d);
+		AnchorPane.setRightAnchor(btnCancel, 10d);
+		AnchorPane.setBottomAnchor(btnCancel, 5d);
 
-		anchorpane.setRightAnchor(btnSave, 85d);
-		anchorpane.setBottomAnchor(btnSave, 5d);
+		AnchorPane.setRightAnchor(btnSave, 85d);
+		AnchorPane.setBottomAnchor(btnSave, 5d);
 		anchorpane.getChildren().addAll(btnSave, btnCancel);
 
 	}

@@ -10,7 +10,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import fglib.TextFieldLimited?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -79,26 +79,26 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField fx:id="_kcodice" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <TextFieldLimited fx:id="_kcodice" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
-                              </TextField>
-                              <TextField fx:id="_mtiposw" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              </TextFieldLimited>
+                              <TextFieldLimited fx:id="_mtiposw" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
-                              </TextField>
-                              <TextField fx:id="_mnomesw" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              </TextFieldLimited>
+                              <TextFieldLimited fx:id="_mnomesw" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
-                              </TextField>
-                              <TextField fx:id="_mversione" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              </TextFieldLimited>
+                              <TextFieldLimited fx:id="_mversione" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
-                              </TextField>
+                              </TextFieldLimited>
                               <Label text="Codice sw" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="14.0" />

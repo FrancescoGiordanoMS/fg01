@@ -164,36 +164,36 @@ public class J01HardwareDAO {
 		//return(false);
 	}
 
-	public static boolean DBDelete(Hardware Record) {
-		boolean ret=false;
-		String sql = "DELETE FROM Hardware WHERE matricola = ?";
-		String sqlHwSw = "Delete from HwSw where matricola = ?";
-		try (Connection conn = DBConnect.getConnection(connString);
-				PreparedStatement st = conn.prepareStatement(sql);
-				PreparedStatement stHwSw = conn.prepareStatement(sqlHwSw))
-		{
-			conn.setAutoCommit(false);
-			st.setString(1, Record.getMatricola());
-			stHwSw.setString(1, Record.getMatricola());
-			st.execute() ;
-			stHwSw.execute();
-			conn.commit();
-			conn.setAutoCommit(true);
-			st.close();
-			stHwSw.close();
-			conn.close();
-			J03ModelHwSw.EliminaHwSW(Record.getMatricola());
-			ret=true;
-		} catch(SQLException e) {
-			ret = false;
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Eliminazione Record");
-			alert.setHeaderText("Transazione non completata");
-			alert.setContentText("L'hardware selezionato non è stato eliminato");
-			alert.showAndWait();	
-		} 
-		return(ret);
-	}
+//	public static boolean DBDelete(Hardware Record) {
+//		boolean ret=false;
+//		String sql = "DELETE FROM Hardware WHERE matricola = ?";
+//		String sqlHwSw = "Delete from HwSw where matricola = ?";
+//		try (Connection conn = DBConnect.getConnection(connString);
+//				PreparedStatement st = conn.prepareStatement(sql);
+//				PreparedStatement stHwSw = conn.prepareStatement(sqlHwSw))
+//		{
+//			conn.setAutoCommit(false);
+//			st.setString(1, Record.getMatricola());
+//			stHwSw.setString(1, Record.getMatricola());
+//			st.execute() ;
+//			stHwSw.execute();
+//			conn.commit();
+//			conn.setAutoCommit(true);
+//			st.close();
+//			stHwSw.close();
+//			conn.close();
+//			J03ModelHwSw.EliminaHwSW(Record.getMatricola());
+//			ret=true;
+//		} catch(SQLException e) {
+//			ret = false;
+//			Alert alert = new Alert(AlertType.ERROR);
+//			alert.setTitle("Eliminazione Record");
+//			alert.setHeaderText("Transazione non completata");
+//			alert.setContentText("L'hardware selezionato non è stato eliminato");
+//			alert.showAndWait();	
+//		} 
+//		return(ret);
+//	}
 	
 }
 

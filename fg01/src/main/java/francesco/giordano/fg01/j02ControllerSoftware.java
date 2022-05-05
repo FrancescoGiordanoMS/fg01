@@ -18,7 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import fglib.TextFieldLimited;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 
@@ -31,7 +31,7 @@ public class j02ControllerSoftware extends MyController {
 	@FXML private TableView<j02Software> TVSoftware;
 	@FXML private TableColumn<j02Software, CheckBox> col_selezione ;
 	@FXML private TableColumn<j02Software, String> col_nomesw, col_codice,col_versione, col_tiposw;
-	@FXML private TextField _kcodice,_mversione,_mnomesw,_mtiposw;
+	@FXML private TextFieldLimited _kcodice,_mversione,_mnomesw,_mtiposw;
 
 	//--------------------------------------------------------------------------------------------------------------
 	// Controlli per la selezione dei sw da aggiungere all'hardware
@@ -121,6 +121,11 @@ public class j02ControllerSoftware extends MyController {
 			}
 		});
 
+		_mversione.setMaxlength(10); _mversione.UpperCase(true);
+		_kcodice.setMaxlength(10); _kcodice.UpperCase(true);
+		_mtiposw.setMaxlength(45); _mtiposw.UpperCase(true);
+		_mnomesw.setMaxlength(45); _mnomesw.UpperCase(true);
+		
 		disabilitaControlli();  // super: setFormField Class
 		col_selezione.setVisible(false);
 		indexTableView=-1;
@@ -128,7 +133,7 @@ public class j02ControllerSoftware extends MyController {
 		allFields = this.getClass().getDeclaredFields();
 		Field[] allBean = j02Software.class.getDeclaredFields();
 		MapFieldValue=CreaHashMap(allFields, allBean);
-		//	System.out.println(MapFieldValue+"\n");
+		//	System.out.println(MapFieldValue+"\n"); 
 	}
 
 

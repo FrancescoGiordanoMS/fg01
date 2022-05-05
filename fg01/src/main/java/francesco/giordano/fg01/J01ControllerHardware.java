@@ -130,16 +130,21 @@ public class J01ControllerHardware extends MyController{
 		popolaTableView();
 		TVHardware.refresh();
 	}	
+	/****************************************************************************************
+	 * La cancellazione è eseguita dal metodo del modello J03ModelHwSw perchè è quello che
+	 * gestisce l'integrità referenziale
+	 */
 	@Override
 	protected boolean DeleteRecord() {
 		boolean ret = false;
-		if (super.DeleteRecord()) {
-		Hardware rec=TVHardware.getSelectionModel().getSelectedItem();
-		if (model.DBDelete(rec)) {
-			obs.remove(rec);
-			TVHardware.refresh();
-			ret=true;
-		}
+		if (super.DeleteRecord()) {		// chiedo se proseguire con la cancellazione
+			Hardware rec=TVHardware.getSelectionModel().getSelectedItem();
+//			if (model.DBDelete(rec)) {
+			if (J03ModelHwSw.DBDeleteHwSw(rec)) {
+				obs.remove(rec);
+				TVHardware.refresh();
+				ret=true;
+			}
 		}
 		return ret;
 	}
@@ -197,7 +202,7 @@ public class J01ControllerHardware extends MyController{
 		if (indexTableView ==-1) return;
 		GestisciSoftwareAssociati(Azione.DISSOCIA);
 	}
-	
+
 	@FXML
 	void initialize() {
 		col_matricola.setCellValueFactory(new PropertyValueFactory<Hardware,String>("matricola"));
@@ -226,6 +231,15 @@ public class J01ControllerHardware extends MyController{
 				SelezionaRecordSoftware();		// seleziono i sw da visualizzare relativi all'hw corrente
 			}
 		});
+		
+//		_kMatricola.setMaxlength(10);
+//		
+//		_mTipoHw.setText(newVal.getTipohw());
+//		_mMarca.setText(newVal.getMarca());
+//		_mModello.setText(newVal.getModello());
+//		_mPrezzoacquisto.setText(String.valueOf(newVal.getPrezzoacquisto()));
+//		_mDataacquisto.setValue(newVal.getDataacquisto());
+
 		//------------------------------------------------------------------------------
 		// addListener ha come parametro una interfaccia ChangeListener che ha
 		// al suo interno un solo abstract method: 
@@ -309,7 +323,7 @@ public class J01ControllerHardware extends MyController{
 		stage.show();
 	}
 
-	
+
 	/*************************************************************************************************
 	 * Metodo per implementazione ricerca in tableview
 	 */
@@ -338,5 +352,5 @@ public class J01ControllerHardware extends MyController{
 		// 5. Add sorted (and filtered) data to the table.
 		TVHardware.setItems(sortedData);
 	}	
-	
+
 }

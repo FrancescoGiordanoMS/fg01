@@ -61,7 +61,7 @@ public class j02SoftwareDAO {
 			st.setString(1, Record.getTiposw());
 			st.setString(2,Record.getNomesw());
 			st.setString(3,Record.getVersione());
-			st.setString(6, Record.getCodice());
+			st.setString(4, Record.getCodice());
 			ret = st.execute() ;
 
 			st.close();

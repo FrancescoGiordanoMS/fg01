@@ -8,14 +8,17 @@ import java.sql.SQLException;
 import fglib.ConfigFile;
 import francesco.giordano.fg01.model.Hardware;
 import francesco.giordano.fg01.model.J03HwSw;
+import francesco.giordano.fg01.model.J03ModelHwSw;
 import francesco.giordano.fg01.model.j02Software;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class J03HwSwDAO {
 	
 	private static String connString=ConfigFile.getMySqlConnString();
-
+	
 
 	public static ObservableList<j02Software> getRigheSoftware(String matricolaHw) {
 		ObservableList<j02Software> obs = FXCollections.observableArrayList();
@@ -74,7 +77,7 @@ public class J03HwSwDAO {
 		}
 	}	
 
-	/****************************************************************************
+	/********************************************************************************************
 	 * Il metodo elimina tutti i record relativi ad un singolo hw se il codice sw
 	 * passato come parametro è null, altrimenti elimina solo il record, relativo
 	 * all'hw, il cui codice viene passato come parametro.
@@ -112,6 +115,44 @@ public class J03HwSwDAO {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+	
+	
+	/*******************************************************************************************
+	 * Questo metodo si occupa di gestire l'integrità referenziale delle varie tabelle del db
+	 * a partire dalla cancellazione di un record della tabella Hardware
+	 * @param Record E' il record della tabella hardware che cancelliamo
+	 * @return
+	 */
+	public static boolean DBDeleteHwSw(Hardware Record) {
+		boolean ret=false;
+		String sql = "DELETE FROM Hardware WHERE matricola = ?";
+		String sqlHwSw = "Delete from HwSw where matricola = ?";
+		try (Connection conn = DBConnect.getConnection(connString);
+				PreparedStatement st = conn.prepareStatement(sql);
+				PreparedStatement stHwSw = conn.prepareStatement(sqlHwSw))
+		{
+			conn.setAutoCommit(false);
+			st.setString(1, Record.getMatricola());
+			stHwSw.setString(1, Record.getMatricola());
+			st.execute() ;
+			stHwSw.execute();
+			conn.commit();
+			conn.setAutoCommit(true);
+			st.close();
+			stHwSw.close();
+			conn.close();
+//			J03ModelHwSw.EliminaHwSW(Record.getMatricola());
+			ret=true;
+		} catch(SQLException e) {
+			ret = false;
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Eliminazione Record");
+			alert.setHeaderText("Transazione non completata");
+			alert.setContentText("L'hardware selezionato non è stato eliminato");
+			alert.showAndWait();	
+		} 
+		return(ret);
 	}
 	
 }

@@ -13,10 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import fglib.MyController.StatoButtonSave;
-//import francesco.giordano.fg01.J01ControllerHardware.StatoButtonSave;
-import francesco.giordano.fg01.model.Hardware;
-import francesco.giordano.fg01.model.J01ModelHardware;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,7 +24,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -54,13 +49,6 @@ public class MyController {
 		MODIFY,
 		INDEFINITO
 	}
-
-//	public void setRoot(Node rt) {
-//		root=rt;
-//	}
-
-
-
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------		
 	public void setParentScene(Scene scene) {
@@ -69,55 +57,7 @@ public class MyController {
 	public void setStage(Stage s) {
 		this.stage=s;
 	}
-	//--------------------------------------------------------------------------------------------------------------
-	//--------------------------------------------------------------------------------------------------------------	
-//	@FXML
-//	void handleClose(ActionEvent event) {
-//		this.stage.setScene(parentScene);
-//		this.stage.show();
-//	}
-//	@FXML
-//	void handleModifica(ActionEvent event) {
-//		//int index = TVHardware.getSelectionModel().getSelectedIndex(); // indice di riga tableView correntemente selezionata
-//		if (indexTableView > -1) {
-//			abilitaControlli();
-//			ButtonSave=StatoButtonSave.MODIFY;			
-//		}
-//	}
-//	@FXML
-//	void handleMenuItemInserisci(ActionEvent event) {
-//		abilitaControlli();
-//		ButtonSave=StatoButtonSave.INSERT;	
-//		ClearFields(allFields);
-//	}
-//
-//	@FXML
-//	void handleMenuItemDelete(ActionEvent event) {
-//		if (indexTableView > -1) {
-//			DeleteRecord();
-//		}
-//	}
 
-//	@FXML
-//	void handlebtnCancel(ActionEvent event) {
-//		disabilitaControlli();
-//		ButtonSave=StatoButtonSave.INDEFINITO;  
-//	}	
-//
-//	@FXML
-//	void handlebtnSave(ActionEvent event) {
-//		if (ButtonSave==StatoButtonSave.MODIFY) {
-//			SalvaModifiche();
-//			disabilitaControlli();
-//			ButtonSave=StatoButtonSave.INDEFINITO;	 
-//		}
-//		if (ButtonSave==StatoButtonSave.INSERT) {
-//			if (SalvaInserimento()) {
-//				disabilitaControlli();
-//				ButtonSave=StatoButtonSave.INDEFINITO;	 
-//			}
-//		}
-//	}
 	//------------------------------------------------------------------------------------------------------------
 	// Eventi inserimento - Modifica - Cancellazione
 	//------------------------------------------------------------------------------------------------------------
