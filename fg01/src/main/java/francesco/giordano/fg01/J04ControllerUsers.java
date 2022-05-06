@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import TestLib.TextFieldLimited;
 import fglib.MyController;
 import francesco.giordano.fg01.J01ControllerHardware.Azione;
 import francesco.giordano.fg01.model.Hardware;
@@ -20,7 +21,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import fglib.TextFieldLimited;
+//import fglib.TextFieldLimited;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 
@@ -31,8 +32,10 @@ import javafx.scene.layout.HBox;
 public class J04ControllerUsers extends MyController {
 
 	@FXML private TableView<J04Users> TVUsers;
-    @FXML private TextField _kcodiceUser,_memail,_mpassword,_musername;
+    @FXML private TextField _kcodiceUser,_memail,_mpassword;
+    @FXML private TextFieldLimited _musername;
     @FXML private TableColumn<J04Users, String> col_codiceUser,col_email,col_password,col_username;
+    //@FXML private TextFieldLimited _mTFL;
 
 	//--------------------------------------------------------------------------------------------------------------
 	// Controlli per la selezione dei sw da aggiungere all'hardware
@@ -90,7 +93,7 @@ public class J04ControllerUsers extends MyController {
 			return false;
 		}
 	}
-
+	
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
 	public void setModel(J04ModelUsers m) {
@@ -120,6 +123,8 @@ public class J04ControllerUsers extends MyController {
 			}
 		});
 
+		_musername.setMaxlength(45);
+		
 //		_mversione.setMaxlength(10); _mversione.UpperCase(true);
 //		_kcodice.setMaxlength(10); _kcodice.UpperCase(true);
 //		_mtiposw.setMaxlength(45); _mtiposw.UpperCase(true);
@@ -129,6 +134,8 @@ public class J04ControllerUsers extends MyController {
 //		col_selezione.setVisible(false);
 		indexTableView=-1;
 
+		//_mTFL.setMaxlength(2);
+		
 //		allFields = this.getClass().getDeclaredFields();
 //		Field[] allBean = J04Users.class.getDeclaredFields();
 //		MapFieldValue=CreaHashMap(allFields, allBean);

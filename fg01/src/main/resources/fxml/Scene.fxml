@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import TestLib.TextFieldLimited?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <center>
@@ -48,9 +48,9 @@
                         <Label text="Email" GridPane.rowIndex="2" />
                         <Label text="Password" GridPane.rowIndex="3" />
                         <TextField fx:id="_kcodiceUser" text="Codice Utente" GridPane.columnIndex="1" />
-                        <TextField fx:id="_musername" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="_memail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="_mpassword" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextFieldLimited fx:id="_musername" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </children>
