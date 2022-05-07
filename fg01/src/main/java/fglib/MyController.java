@@ -215,6 +215,7 @@ public class MyController {
 				try {
 					switch (clazz.getName()) {
 					case "javafx.scene.control.TextField":
+					case "FGLib.TextFieldLimited":
 						TextField tf = (TextField)field.get(this);
 						tf.setDisable(false);
 						tf.setStyle("-fx-opacity: 1.0;");
@@ -301,6 +302,14 @@ public class MyController {
 						}
 						newValue=Float.parseFloat(tf.getText());
 						break;
+					case "int":
+						cArg[0] = int.class;
+						tf = (TextField)field.get(this);
+						if (tf.getText().equals("") || tf.getText().equals(null)) {
+							tf.setText("0.0");
+						}
+						newValue=Integer.parseInt(tf.getText());
+						break;
 					case "java.time.LocalDate":
 						cArg[0] = LocalDate.class;
 						dp = (DatePicker)field.get(this);
@@ -348,7 +357,7 @@ public class MyController {
 				typeField = field.getType().getName();
 				try {			
 					switch(typeField) {
-					case "javafx.scene.control.TextField":
+					case "javafx.scene.control.TextField": case "FGLib.TextFieldLimited":
 						tf = (TextField)field.get(this);
 						tf.clear();
 						if(field.getName().substring(0,2).equals("_k")) {

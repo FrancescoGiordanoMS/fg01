@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import TestLib.TextFieldLimited;
 import fglib.MyController;
 import francesco.giordano.fg01.J01ControllerHardware.Azione;
 import francesco.giordano.fg01.model.Hardware;
@@ -24,6 +23,7 @@ import javafx.scene.control.TextField;
 //import fglib.TextFieldLimited;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import visualLib.TextFieldLimited;
 
 /**
  * @author Francesco
@@ -107,14 +107,14 @@ public class J04ControllerUsers extends MyController {
 
 	@FXML
 	void initialize() {		
-		col_codiceUser.setCellValueFactory(new PropertyValueFactory<J04Users,String>("codiceUser"));
+		col_codiceUser.setCellValueFactory(new PropertyValueFactory<J04Users,String>("codiceuser"));
 		col_username.setCellValueFactory(new PropertyValueFactory<J04Users,String>("username"));
 		col_email.setCellValueFactory(new PropertyValueFactory<J04Users,String>("email"));
 		col_password.setCellValueFactory(new PropertyValueFactory<J04Users,String>("password"));
 
 		TVUsers.getSelectionModel().selectedItemProperty().addListener((ob, oldval, newVal) -> {
 			if (newVal != null) {
-				_kcodiceUser.setText(String.valueOf(newVal.getCodiceUser()));
+				_kcodiceUser.setText(String.valueOf(newVal.getCodiceuser()));
 				_musername.setText(newVal.getUsername());
 				_memail.setText(newVal.getEmail());
 				_mpassword.setText(newVal.getPassword());
@@ -136,10 +136,10 @@ public class J04ControllerUsers extends MyController {
 
 		//_mTFL.setMaxlength(2);
 		
-//		allFields = this.getClass().getDeclaredFields();
-//		Field[] allBean = J04Users.class.getDeclaredFields();
-//		MapFieldValue=CreaHashMap(allFields, allBean);
-		//	System.out.println(MapFieldValue+"\n"); 
+		allFields = this.getClass().getDeclaredFields();
+		Field[] allBean = J04Users.class.getDeclaredFields();
+		MapFieldValue=CreaHashMap(allFields, allBean);
+			System.out.println(MapFieldValue+"\n"); 
 	}
 
 

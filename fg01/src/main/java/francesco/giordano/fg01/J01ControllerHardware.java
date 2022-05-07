@@ -44,7 +44,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import fglib.TextFieldLimited;
+import javafx.scene.control.TextField;
+import visualLib.TextFieldLimited;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -65,7 +66,7 @@ public class J01ControllerHardware extends MyController{
 
 	@FXML private GridPane Grid;
 
-	@FXML private TextFieldLimited _kMatricola, _mMarca, _mModello, _mPrezzoacquisto, _mTipoHw, filterfield;
+	@FXML private TextField _kMatricola, _mMarca, _mModello, _mPrezzoacquisto, _mTipoHw, filterfield;
 
 	@FXML private Label labelErrore;
 
@@ -232,10 +233,10 @@ public class J01ControllerHardware extends MyController{
 			}
 		});
 		
-		_kMatricola.setMaxlength(10); _kMatricola.UpperCase(true);		
-		_mTipoHw.setMaxlength(4); _mTipoHw.UpperCase(true);
-		_mMarca.setMaxlength(45); _mMarca.UpperCase(true);
-		_mModello.setMaxlength(45);
+//		_kMatricola.setMaxlength(10); _kMatricola.UpperCase(true);		
+//		_mTipoHw.setMaxlength(4); _mTipoHw.UpperCase(true);
+//		_mMarca.setMaxlength(45); _mMarca.UpperCase(true);
+//		_mModello.setMaxlength(45);
 
 		//------------------------------------------------------------------------------
 		// addListener ha come parametro una interfaccia ChangeListener che ha

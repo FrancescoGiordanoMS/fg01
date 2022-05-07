@@ -18,9 +18,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import fglib.TextFieldLimited;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import visualLib.TextFieldLimited;
 
 /**
  * @author Francesco

@@ -1,15 +1,15 @@
 package francesco.giordano.fg01.model;
 
 public class J04Users {
-	private int codiceUser;
+	private int codiceuser;
 	private String username;
 	private String email;
 	private String password;
 	private int hash;
 	
 	
-	public int getCodiceUser() {
-		return codiceUser;
+	public int getCodiceuser() {
+		return codiceuser;
 	}
 	public String getUsername() {
 		return username;
@@ -23,8 +23,8 @@ public class J04Users {
 	public int getHash() {
 		return hash;
 	}
-	public void setCodiceUser(int codiceUser) {
-		this.codiceUser = codiceUser;
+	public void setCodiceuser(int codiceUser) {
+		this.codiceuser = codiceUser;
 	}
 	public void setUsername(String username) {
 		this.username = username;
