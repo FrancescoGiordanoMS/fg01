@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import visualLib.TextFieldLimited?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import visualLib.TextFieldLimited?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="francesco.giordano.fg01.J04ControllerUsers">
    <center>
@@ -50,8 +50,8 @@
                         <Label text="Nominativo" GridPane.rowIndex="1" />
                         <Label text="Email" GridPane.rowIndex="2" />
                         <Label text="Password" GridPane.rowIndex="3" />
-                        <TextFieldLimited fx:id="_musername" prefHeight="25.0" prefWidth="109.0" promptText="Nominativo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextFieldLimited fx:id="_kcodiceUser" promptText="Codice Utente" GridPane.columnIndex="1" />
+                        <TextFieldLimited fx:id="_musername" prefHeight="25.0" prefWidth="109.0" promptText="Nominativo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextFieldLimited fx:id="_memail" promptText="Email" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextFieldLimited fx:id="_mpassword" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
